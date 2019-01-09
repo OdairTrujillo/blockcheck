@@ -1,0 +1,7 @@
+#include "dictumdialog.h"
+
+DictumDialog::DictumDialog(QDialog *parent) :
+    QDialog(parent)
+{
+    setupUi(this);
+}

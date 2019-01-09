@@ -1,0 +1,367 @@
+--Script para la creación de tablas de la DB UltraRetie
+
+--Se deben eliminar las tablas existentes
+drop table tblTHIRDPARTIES cascade;
+drop table tblSTATES cascade;
+drop table tblCITIES cascade;
+drop table tblPROCESSES cascade;
+drop table tblUSES cascade;
+drop table tblSUBPROCESSES cascade;
+drop table tblQUOTATIONS cascade;
+drop table tblPROPOSALS cascade;
+drop table tblSERVICEORDERS cascade;
+drop table tblINSPECTORS cascade;
+drop table tblUSERS cascade;
+drop table tblINSPECTIONS cascade;
+drop table tblDOCUMENTS cascade;
+drop table tblRECORDS cascade;
+
+--Elimino secuencias
+drop sequence seq_city_id cascade;
+drop sequence seq_document_id cascade;
+drop sequence seq_inspection_id cascade;
+drop sequence seq_inspector_id cascade;
+drop sequence seq_so_id cascade;
+drop sequence seq_process_id cascade;
+drop sequence seq_prop_id cascade;
+drop sequence seq_quot_id cascade;
+drop sequence seq_record_id cascade;
+drop sequence seq_state_id cascade;
+drop sequence seq_subproc_id cascade;
+drop sequence seq_thrd_id cascade;
+drop sequence seq_user_id cascade;
+drop sequence seq_uses_id cascade;
+
+-- Creación de secuencias que generan los consecutivos
+create sequence seq_thrd_id
+  start with 1
+  increment by 1
+  maxvalue 99999999
+  minvalue 1;
+
+create sequence seq_state_id
+  start with 1
+  increment by 1
+  maxvalue 99
+  minvalue 1;
+
+create sequence seq_city_id
+  start with 1
+  increment by 1
+  maxvalue 999
+  minvalue 1;
+
+create sequence seq_uses_id
+  start with 1
+  increment by 1
+  maxvalue 10
+  minvalue 1;
+
+create sequence seq_process_id
+  start with 1
+  increment by 1
+  maxvalue 10
+  minvalue 1;
+
+create sequence seq_subproc_id
+  start with 1
+  increment by 1
+  maxvalue 50
+  minvalue 1;
+
+create sequence seq_document_id
+  start with 1
+  increment by 1
+  maxvalue 100
+  minvalue 1;
+
+create sequence seq_quot_id
+  start with 1
+  increment by 1
+  maxvalue 99999999
+  minvalue 1;
+
+create sequence seq_prop_id
+  start with 1
+  increment by 1
+  maxvalue 99999999
+  minvalue 1;
+
+create sequence seq_so_id
+  start with 1
+  increment by 1
+  maxvalue 99999999
+  minvalue 1;
+
+create sequence seq_inspector_id
+  start with 1
+  increment by 1
+  maxvalue 50
+  minvalue 1;
+
+create sequence seq_user_id
+  start with 1
+  increment by 1
+  maxvalue 50
+  minvalue 1;
+
+create sequence seq_inspection_id
+  start with 1
+  increment by 1
+  maxvalue 99999999
+  minvalue 1;
+
+create sequence seq_record_id
+  start with 1
+  increment by 1
+  maxvalue 99999
+  minvalue 1;
+
+
+-- Tabla para terceros
+create table tblTHIRDPARTIES (
+	thrd_id int DEFAULT nextval('seq_thrd_id'), --Identificador único del tercero uso la secuencia creada
+	thrd_cc bigint not null, --Cédula del representante legal
+	thrd_name varchar(60) not null, --Nombre de la empresa
+	thrd_representative varchar(40) not null, --Nombre del representante legal
+	thrd_address varchar(50) not null, --Dirección de la empresa
+	thrd_mail varchar(40) DEFAULT 'Sin mail',
+	thrd_cel varchar(20) not null, --Número de celular
+	thrd_tel varchar(20) DEFAULT 'Sin número', --Número de teléfono
+	city_id int not null, --Ciudad
+	primary key(thrd_id)
+)without oids; --Sin llave primaria incorporada en la tabla
+
+--Tabla para Departamentos
+create table tblSTATES (
+	state_id int DEFAULT nextval('seq_state_id'), --Uso la secuencia creada correspondiente
+	state_name varchar(20) not null, --Nombre del departamento
+	primary key(state_id)
+)without oids;
+
+--Tabla para ciudades
+create table tblCITIES (
+	city_id int DEFAULT nextval('seq_city_id'),
+	city_name varchar(20) not null, --Nombre de la ciudad
+	state_id int not null, --El id del departamento, toda ciudad depende de un departamento
+	primary key(city_id)
+)without oids;
+
+--Para los distintos usos
+create table tblUSES (
+	uses_id int DEFAULT nextval('seq_uses_id'),
+	uses_name varchar(20) not null, --Usos: comercial, residencial, industrial, etc.
+	primary key(uses_id)
+)without oids;
+
+--Para los distintos procesos
+create table tblPROCESSES (
+	process_id int DEFAULT nextval('seq_process_id'),
+	process_name varchar(50) not null, --Distribución, generación, transformación, etc.
+	primary key(process_id)
+)without oids;
+
+--Para los distintos subprocesos que servirán para seleccionar el Checklist
+create table tblSUBPROCESSES (
+	subproc_id int DEFAULT nextval('seq_subproc_id'),
+	subproc_name varchar(100) not null, --Nombre del subproceso o checklist
+	subproc_path varchar(50) not null, --Ruta a la lista de chequeo en html
+	process_id int not null,
+	primary key(subproc_id)
+)without oids;
+
+--Para los distintos tipos de documentos exigidos
+create table tblDOCUMENTS (
+	document_id int DEFAULT nextval('seq_document_id'),
+	document_name varchar(50) not null, --Distintos documentos obligatorios para determinados procesos
+	subproc_id int not null, --Dependen de un subproceso en específico
+	primary key(document_id)
+)without oids;
+
+--Tabla para cotizaciones
+create table tblQUOTATIONS (
+	quot_id bigint DEFAULT nextval('seq_quot_id'),
+	quot_date date not null,
+	quot_name varchar(60) not null,
+	quot_scope varchar(400) not null,
+	quot_contact varchar(40) not null,
+	quot_address varchar(40) not null,
+	quot_mail varchar(40) DEFAULT 'Sin e-mail',
+	quot_cel varchar(20) not null,
+	quot_tel varchar(20) not null,
+	thrd_id int not null, --La cotización depende de un tercero
+	city_id int not null,
+	use_id int not null, --El uso sirve para saber cuanto facturar
+	processes varchar(100) not null, --Guarda los procesos involucrados
+	primary key (quot_id)
+)without oids;
+
+--Tabla para propuestas
+create table tblPROPOSALS (
+	prop_id bigint DEFAULT nextval('seq_prop_id'),
+	prop_date date not null,
+	prop_oncharge varchar(40) not null, --Quién está a cargo de la propuesta
+	prop_value numeric not null,
+	prop_payway varchar(20) not null,
+	prop_validity int not null, --Cuantos días es válida
+	prop_seller varchar(40), --Quién la vende, no es obligario, si es una venta directa por el dpto de ventas
+	prop_seller_percent int, -- Porcentaje para el vendedor
+	prop_state varchar(40) not null, --El estado de la proposición
+	quot_id int not null unique, --proviene de una cotización pero se puede modificar
+	inspector_id int not null, --Una propuesta comercial debe llevar un inspector
+	user_id int not null, -- Quién valida la propuesta
+	primary key(prop_id)
+)without oids;
+
+--Para órdenes de servicio
+create table tblSERVICEORDERS (
+	so_id bigint DEFAULT nextval('seq_so_id'),
+	os_date date not null,
+	os_observations varchar(200) not null,
+	prop_id bigint not null unique, --La órden de servicio viene de una propuesta pero se puede modificar
+	record_id bigint not null unique,
+	primary key(so_id)
+)without oids;
+
+--Para los inspectores
+create table tblINSPECTORS (
+	inspector_id int DEFAULT nextval('seq_inspector_id'),
+	inspector_name varchar(40) not null,
+	inspector_address varchar(40) not null,
+	inspector_mail varchar(40) not null,
+	inspector_cel varchar(20) not null,
+	inspector_tel varchar(20) DEFAULT 'Sin número',
+	inspector_available varchar(40) not null,
+	inspector_percentage int not null, --Porcentaje por defecto
+	inspector_debit numeric not null, --Debito
+	inspector_credit numeric not null, --Crédito
+	primary key(inspector_id)
+)without oids;
+
+-- Para los usuarios del software y funcionarios de la empresa
+create table tblUSERS (
+	user_id int DEFAULT nextval('seq_user_id'),
+	user_name varchar(40) not null, --Funcionarios que no son inspectores
+	user_charge varchar(40) not null,
+	user_level int not null,
+	user_address varchar(40) not null,
+	user_mail varchar(40) not null,
+	user_cel varchar(20) not null,
+	user_tel varchar(20) DEFAULT 'Sin número',
+	user_available varchar(40) not null,
+	user_percentage int not null,
+	user_debit numeric not null,
+	user_credit numeric not null,
+	primary key(user_id)
+)without oids;
+
+--Para las inspecciones como tal
+create table tblINSPECTIONS (
+	inspection_id bigint DEFAULT nextval('seq_inspection_id'),
+	inspection_state_docs varchar(200), --Se describe en que estado de documentacion está
+	inspection_observ_docs varchar(200), --Observaciones a los documentos.
+	inspection_state_tech varchar(200), --Estado técnico de la inspección
+	inspection_observ_tech varchar(200),--Observaciones sobre el estado técnico
+	so_id bigint not null unique, --Proviene de una órden de servicio
+	record_id bigint not null unique, --Corresponde al consecutivo del archivo
+	primary key(inspection_id)
+)without oids;
+
+create table tblRECORDS (
+	record_id bigint DEFAULT nextval('seq_record_id'),
+	record_foil varchar(20), --En que parte del archivo está guardado
+	primary key(record_id)
+)without oids;
+
+
+--Creación de las relaciones
+alter table tblCITIES
+add constraint fk_states foreign key (state_id) references tblSTATES; --fk_state (foreign key state) nombre de la relación
+
+alter table tblTHIRDPARTIES
+add constraint fk_city foreign key (city_id) references tblCITIES;
+
+alter table tblSUBPROCESSES
+add constraint fk_process foreign key (process_id) references tblPROCESSES;
+
+alter table tblDOCUMENTS
+add constraint fk_subproc foreign key (subproc_id) references tblSUBPROCESSES;
+
+alter table tblQUOTATIONS
+add constraint fk_thirdpartie foreign key (thrd_id) references tblTHIRDPARTIES,
+add constraint fk_city foreign key (city_id) references tblCITIES,
+add constraint fk_use foreign key (use_id) references tblUSES;
+
+alter table tblPROPOSALS
+add constraint fk_quotation foreign key (quot_id) references tblQUOTATIONS,
+add constraint fk_inspector foreign key (inspector_id) references tblINSPECTORS,
+add constraint fk_user foreign key (user_id) references tblUSERS;
+
+alter table tblSERVICEORDERS
+add constraint fk_proposal foreign key (prop_id) references tblPROPOSALS,
+add constraint fk_record foreign key (record_id) references tblRECORDS;
+
+alter table tblINSPECTIONS
+add constraint fk_so foreign key (so_id) references tblSERVICEORDERS,
+add constraint fk_record foreign key (record_id) references tblRECORDS;
+
+
+
+--INSERCIÓN DE ALGUNOS DATOS DE PRUEBA
+insert into tblSTATES (state_name) values ('Caldas');
+insert into tblSTATES (state_name) values ('Risaralda');
+insert into tblSTATES (state_name) values ('Tolima');
+
+insert into tblCITIES (city_name, state_id) values('Manizales',1);
+insert into tblCITIES (city_name, state_id) values('Pereira',2);
+insert into tblCITIES (city_name, state_id) values('Ibagué',3);
+
+insert into tblUSERS (user_name, user_charge, user_level, user_address, user_mail, user_cel, user_tel, user_available, user_percentage, user_debit, user_credit) 
+	    values ('Peranito de Tal','Ejecutivo de ventas',2,'Cra 28 Nº 31-11','peranilalito@hotmail.com', '3139886546', '3647678', 'De Vacaciones', 0.20, 300000, 120000);
+
+insert into tblINSPECTORS (inspector_name, inspector_address, inspector_mail, inspector_cel, inspector_tel, inspector_available, inspector_percentage,
+			   inspector_debit, inspector_credit) values ('Fulanito de Tal','Cra 25 Nº 33-12', 'fulanito@hotmail.com', '3129886545', '4567865', 'En inspección', 0.25,
+			  500000, 150000);
+
+insert into tblTHIRDPARTIES (thrd_cc, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, city_id) 
+	    values(1234578,'Constructora Mejía S.A','Aurelio Cheverony','Cra 7ª Nº 3-21', 'aurelito@gmail.com', '3209874532', '8765432', 1);
+
+insert into tblUSES (uses_name) values ('Residencial');
+insert into tblUSES (uses_name) values ('Comercial');
+insert into tblUSES (uses_name) values ('Industrial');
+
+insert into tblPROCESSES (process_name) values ('Generación');
+insert into tblPROCESSES (process_name) values ('Transformación');
+insert into tblPROCESSES (process_name) values ('Distribución');
+insert into tblPROCESSES (process_name) values ('Uso Final');
+insert into tblPROCESSES (process_name) values ('Especiales');
+
+insert into tblSUBPROCESSES (subproc_name, subproc_path, process_id) values ('Subestación tipo poste','chelists/RIG-FO-001.html',2);
+insert into tblSUBPROCESSES (subproc_name, subproc_path, process_id) values ('Redes Aéreas','chelists/RIG-FO-002.html',3);
+insert into tblSUBPROCESSES (subproc_name, subproc_path, process_id) values ('Vivienda unifamiliar','chelists/RIG-FO-002.html',4);
+insert into tblSUBPROCESSES (subproc_name, subproc_path, process_id) values ('Subestación encapsulada','chelists/RIG-FO-005.html',2);
+insert into tblSUBPROCESSES (subproc_name, subproc_path, process_id) values ('Vivienda movil','chelists/RIG-FO-010.html',4);
+
+--Se pueden repetir los documentos ya que aplican para varios subprocesos.
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Acta de inspección',1);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Acta de inspección',2);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Acta de inspección',3);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Acta de inspección',4);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Matrícula profesional',1);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Matrícula profesional',2);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Matrícula profesional',3);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Matrícula profesional',4);
+insert into tblDOCUMENTS (document_name, subproc_id) values ('Contrato de prestación de servicios',1);
+
+insert into tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, quot_mail, quot_cel, quot_tel, thrd_id, city_id, use_id, processes) 
+	    values ('2012-05-15', 'Edificio las Camelias', 'Acometida e instalaciones interiores', 'Jacinto Tocaima','Av 15, Transv 80','lilola@hotmail.com','3134324566','8632345',1,1,1,'004 ');
+
+insert into tblPROPOSALS (prop_date, prop_oncharge, prop_value, prop_payway, prop_validity, prop_seller, prop_seller_percent, prop_state, inspector_id, quot_id, user_id) 
+	    values ('2012-04-15','Ramon Cristancho', 300000, 'De Contado', 30,'Gina', 0.15, 'En proceso',1, 1, 1);
+
+insert into tblRECORDS (record_foil) values ('AA2013-1');
+
+insert into tblSERVICEORDERS (os_date, os_observations, prop_id, record_id) values ('2012-04-15', 'No se observan anomalías',1,1);
+
+insert into tblINSPECTIONS (inspection_state_docs, inspection_observ_docs, inspection_state_tech, inspection_observ_tech, so_id, record_id) 
+	    values ('Correcto', 'Completo', 'Correcto', 'Correcto', 1, 1);

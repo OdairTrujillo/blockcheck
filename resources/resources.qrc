@@ -1,0 +1,45 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/bc_icon.png</file>
+        <file>icons/filter.png</file>
+        <file>icons/users.png</file>
+        <file>icons/prepare.png</file>
+        <file>icons/new_dict.png</file>
+        <file>icons/tracking.png</file>
+        <file>icons/list2.png</file>
+        <file>icons/login.png</file>
+        <file>icons/billed.png</file>
+        <file>icons/text-plain.png</file>
+        <file>icons/save.png</file>
+        <file>icons/read.png</file>
+        <file>icons/go.png</file>
+        <file>icons/list.png</file>
+        <file>icons/engineering.png</file>
+        <file>icons/approb.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/store.png</file>
+        <file>icons/update.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/find.png</file>
+        <file>icons/preview.png</file>
+        <file>icons/generate.png</file>
+        <file>icons/new.png</file>
+        <file>icons/printer.png</file>
+        <file>icons/verify.png</file>
+        <file>icons/warning.png</file>
+        <file>icons/go-previous.png</file>
+        <file>icons/go-next.png</file>
+        <file>icons/cancel.png</file>
+        <file>icons/process.png</file>
+        <file>icons/add-user.png</file>
+        <file>icons/remove-user.png</file>
+        <file>icons/save-user.png</file>
+        <file>icons/edit-state.png</file>
+        <file>icons/logout.png</file>
+        <file>icons/sales.png</file>
+        <file>icons/configure.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icons/icon.icns</file>
+    </qresource>
+</RCC>

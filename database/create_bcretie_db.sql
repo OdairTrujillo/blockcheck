@@ -1,0 +1,1 @@
+CREATE DATABASE blockcheckdb WITH ENCODING='WIN1252' OWNER bc_user TEMPLATE=template0;

@@ -1,0 +1,1 @@
+E:\QtSDK\QtSources\4.8.1\src\plugins\sqldrivers\psql>qmake -o Makefile "INCLUDEPATH+=\"C:Archivos de programa\PostgreSQL\9.1\include"" "LIBS+=\"C:\Archivos de programa\PostgreSQL\9.1\lib\libpq.lib"" psql.pro

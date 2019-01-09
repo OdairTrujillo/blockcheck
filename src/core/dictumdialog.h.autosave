@@ -1,0 +1,21 @@
+#ifndef DICTUMDIALOG_H
+#define DICTUMDIALOG_H
+
+#include "ui_dictum.h"
+
+#include <QtGui>
+
+class DictumDialog : public QDialog, public Ui::dictumForm
+{
+    Q_OBJECT
+
+public:
+    explicit DictumDialog(QDialog *parent = 0);
+    
+signals:
+    
+public slots:
+    
+};
+
+#endif // DICTUMDIALOG_H

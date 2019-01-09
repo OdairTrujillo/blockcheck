@@ -1,0 +1,122 @@
+#include "ingineeringutils.h"
+#include "dbhandler.h"
+
+// NOTE: Llenado de datos de orden de servicio
+void EngineeringForm::fillSoData()
+{
+    soIdLineEdit->setText(sosData.at(0).at(0));
+    soDateEdit->setDate(QDate::fromString(sosData.at(1).at(0), "yyyy-MM-dd"));
+    soStateLineEdit->setText(sosData.at(4).at(0));
+
+    // Llenado del comboBox de az
+    recordFoilComboBox->clear();
+    recordFoilComboBox->addItems(recordsData.at(1));
+    QStringList recordsIds;
+    DbHandler::getSoRecords(sosData.at(0).at(0), recordsIds);
+
+    int index;
+
+    for (int i=0; i<recordsIds.size();i++) {
+        index=recordsData.at(0).indexOf(recordsIds.at(i));
+        recordFoilComboBox->setItemCheckState(index, Qt::Checked);
+    }
+
+    folderStateLineEdit->setText(sosData.at(6).at(0));
+    propIdLineEdit->setText(propsData.at(0).at(0));
+    userNameLineEdit->setText(propsData.at(12).at(0));
+    userValueSpinBox->setValue(propsData.at(21).at(0).toInt());
+    inspectorNameLineEdit->setText(propsData.at(11).at(0));
+    inspectorValueSpinBox->setValue(propsData.at(22).at(0).toInt());
+
+    propValueModel->setItem(0,1, new QStandardItem(propsData.at(4).at(0)));
+    propValueModel->setItem(1,1, new QStandardItem(propsData.at(16).at(0)));
+    propValueModel->setItem(2,1, new QStandardItem(propsData.at(17).at(0)));
+    propValueModel->setItem(3,1, new QStandardItem(propsData.at(18).at(0)));
+
+    // Después de editarlos hay que ponerlos no editables
+    propValueModel->item(0,1)->setFlags(propValueModel->item(0,1)->flags() & ~Qt::ItemIsEditable);
+    propValueModel->item(1,1)->setFlags(propValueModel->item(1,1)->flags() & ~Qt::ItemIsEditable);
+    propValueModel->item(2,1)->setFlags(propValueModel->item(2,1)->flags() & ~Qt::ItemIsEditable);
+    propValueModel->item(3,1)->setFlags(propValueModel->item(3,1)->flags() & ~Qt::ItemIsEditable);
+
+    processesListWidget->clearSelection();
+    for (int i=0; i<procsIds.size();i++) {
+        index=processesData.at(0).indexOf(procsIds.at(i));
+        processesListWidget->item(index)->setSelected(true);
+    }
+
+
+//    propsData.append(propsIds); // 0
+//    propsData.append(quotsIds); // 1
+//    propsData.append(propsScopes); // 2
+//    propsData.append(propsDates); // 3
+//    propsData.append(propsValues); // 4
+//    propsData.append(propsPayWay); // 5
+//    propsData.append(propsUsersPerc); // 6
+//    propsData.append(propsStates); // 7
+//    propsData.append(quotsCityNames); // 8
+//    propsData.append(quotsAddress); // 9
+//    propsData.append(quotsNames); // 10
+//    propsData.append(inspectorsNames); // 11
+//    propsData.append(usersNames); // 12
+//    propsData.append(thrdNit); // 13
+//    propsData.append(thrdName); // 14
+//    propsData.append(propsObserv); // 15
+//    propsData.append(propsIvas); // 16
+//    propsData.append(propsViaticals); // 17
+//    propsData.append(propsTotalValues); // 18
+//    propsData.append(usersCels); // 19
+//    propsData.append(usersMails); // 20
+//    propsData.append(usersValues); // 21
+//    propsData.append(inspectorsValues); // 22
+//    propsData.append(propValue); // 23
+
+
+}
+
+void EngineeringForm::showCheckFolderForm(void)
+{
+    CheckFolderForm checkFolderForm(this);
+    checkFolderForm.saveButton->setVisible(false);
+    checkFolderForm.storeButton->setVisible(false);
+    checkFolderForm.createFoilButton->setVisible(false);
+
+    checkFolderForm.exec();
+}
+
+void EngineeringForm::showAccountingForm(void)
+{
+    AccountingForm accountingForm(this);
+
+    // Ocultar los botones para no permitir edición
+    accountingForm.billedButton->setVisible(false);
+    accountingForm.payThrdButton->setVisible(false);
+    accountingForm.payInspectorButton->setVisible(false);
+    accountingForm.payUserButton->setVisible(false);
+
+    accountingForm.exec();
+}
+
+void EngineeringForm::clearIngControls()
+{
+    soDateEdit->setDate(QDate::currentDate());
+    soIdLineEdit->clear();
+    recordFoilComboBox->clear();
+    soOutWebView->setHtml("");
+    soStateLineEdit->clear();
+    folderStateLineEdit->clear();
+
+}
+
+void EngineeringForm::checkIngState()
+{
+    QList<QStringList> sosDataForState;
+    if (DbHandler::getServiceOrders("Sin Procesar", sosDataForState, "so_ing_processed"))
+        noProcessedLcdNumber->display(sosDataForState.at(0).size());
+    else {
+        noProcessedLcdNumber->display(0);
+       // qDebug()<< trUtf8("getServiceOrder devolvió false al intentar obtener OS's Sin Procesar");
+    }
+}
+
+

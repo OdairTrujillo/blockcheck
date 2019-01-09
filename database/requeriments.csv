@@ -1,0 +1,196 @@
+1;Independencia constructiva de las edificaciones;1
+2;Matriales acordes con las condiciones ambientales;1
+3;Soportabilida al fuego de materiales;1
+4;Disposición de mimicos;1
+5;Maniobrabilidad, señalización y sistema de alarma sonoro de puente gruas;1
+6;Instalación de sistema de control automatico y manual para compuertas de captación de la central hidraulica;1
+7;Señalización Aeronautica;1
+8;Restricciones en cuarto de bateria;1
+9;Sistemas de protección contra incendios;1
+10;Conductores eléctricos;1
+11;Niveles de iluminancia;1
+12;Sistemas de alumbrado de emergencia;1
+13;Memorias de calculo;1
+14;Disositivos deseccionaiento y mando;1
+15;Avisos y señales de seguridad;1
+16;Distancias de seguridad;1
+17;Ejecución de las conexiones;1
+18;Barreras de Acceso;1
+19;Campos electromagneticos en areas de trabajo permanente;1
+20;Continuidad delos conductores de tierra y conexiones equipotenciales;1
+21;Planos, esquemas y diagramas;1
+22;Funconamieto del corte automatico de la alimentación;1
+23;Encerramientos de equipos (mallas, cuartos y bóvedas);1
+24;Protección contra rayos;1
+25;Protección contra arcos internos;1
+26;Resistencia de puesta a tierra;1
+27;Revisones de certificaciones de prducto;1
+28;Seleccón de dispositivos de protección contra sobrecorrientes;1
+29;Seleccón de dispositivos de protección contra sobretensiones;1
+30;Tiepo de respuesta de protecciones para despeje de fallas;1
+31;Ventilación;1
+32;Tensiones de paso, cntacto y transferidas;1
+33;Verificación detensiones de paso, contacto y transferidas;1
+34;Aisladores;2
+35;Aislamiento;2
+36;Avisos y Señales de seguridad;2
+37;Campos electromagnéticos;2
+38;Condiciones de diseño de estructuras y herrajes;2
+39;Conductores;2
+40;Dispositivos de seccionamiento y mando;2
+41;Distancias de seguridad;2
+42;Ejecución de las conexiones;2
+43;Ensayos funcionales;2
+44;Estructuras acorde con los requerimientos mecánicos;2
+45;Franja de servidumbre;2
+46;Funcionamiento del corte automático de la alimentación;2
+47;Materiales acordes con las condiciones ambientales;2
+48;Memorias de cálculo;2
+49;Planos, esquemas y diagramas;2
+50;Protección contra la corrosión;2
+51;Resistencia de puesta a tierra;2
+52;Revisión de certificaciones de productos;2
+53;Selección de conductores;2
+54;Selección de dispositivos de protección contra sobrecorrientes;2
+55;Selección de dispositivos de protección contra sobretensiones;2
+56;Señales de aeronavegación;2
+57;Tensiones de paso y de contacto;2
+58;Verificación de Tensiones de paso, contacto y transferidas;2
+59;Zona de servidumbre;2
+60;Accesibilidad a todos los dispositivos de protección ;3
+61;Avisos y señales de seguridad;3
+62;Barreras de acceso ;3
+63;Campos electromagnéticos en áreas de trabajo permanente ;3
+64;Continuidad de los conductores de tierra y conexiones equipotenciales ;3
+65;Corriente en el sistema puesta a tierra.;3
+66;Dispositivo de seccionamiento y mando. ;3
+67;Distancias de seguridad ;3
+68;Ejecución de las conexiones.;3
+69;Encerramientos de equipos (mallas, cuartos, bóvedas) ;3
+70;Enclavamientos ;3
+71;Ensayos dieléctricos ;3
+72;Equipotencialidad ;3
+73;Estructuras y herrajes;3
+74;Identificación de circuitos, conductores de neutro y de tierras. ;3
+75;Materiales acordes con las condiciones ambientales ;3
+76;Memorias de cálculo ;3
+77;Mímicos ;3
+78;Montaje ;3
+79;Planos, esquemas y diagramas ;3
+80;Protección contra arcos internos ;3
+81;Protección contra electrocución por contacto directo. ;3
+82;Protección contra electrocución por contacto indirecto. ;3
+83;Protección contra rayos ;3
+84;Resistencia de puesta a tierra. ;3
+85;Resistencia de aislamiento. ;3
+86;Revisiones de certificaciones de producto.;3
+87;Selección de conductores ;3
+88;Selección de dispositivos de protección contra sobrecorrientes. ;3
+89;Selección de dispositivos de protección contra sobretensiones. ;3
+90;Sistema contra incendio ;3
+91;Soportabilidad al fuego de materiales ;3
+92;Tensión de contacto y transferida ;3
+93;Tensión de paso. ;3
+94;Tiempo de respuesta de protecciones para despeje de fallas. ;3
+95;Ventilación ;3
+96;Verificación de tensiones de paso, contacto y transferidas;3
+97;Accesibilidad a todos los dispositivos de protección ;4
+98;Apoyos o estructuras ;4
+99;Avisos y señales de seguridad ;4
+100;Cámaras y canalizaciones adecuadas ;4
+101;Dispositivos de seccionamiento y mando ;4
+102;Distancias de seguridad ;4
+103;Ejecución de las conexiones.;4
+104;Funcionamiento del corte automático de la alimentación ;4
+105;Herrajes ;4
+106;Identificación de circuitos;4
+107;Materiales acordes con las condiciones ambientales ;4
+108;Memorias de cálculo ;4
+109;Planos, esquemas y diagramas ;4
+110;Protección contra la corrosión ;4
+111;Resistencia de puesta a tierra. ;4
+112;Resistencia de aislamiento. ;4
+113;Revisión de certificaciones de productos ;4
+114;Selección de conductores ;4
+115;Selección de dispositivos de protección contra sobrecorrientes. ;4
+116;Selección de dispositivos de protección contra sobretensiones. ;4
+117;Tensiones de paso, contacto y transferidas ;4
+118;Valores de Campo Electromagnéticos. ;4
+119;Accesibilidad a todos los dispositivos de protección ;5
+120;Bomba contra incendio ;5
+121;Continuidad de los conductores de tierra y conexiones equipotenciales ;5
+122;Corrientes en el sistema de puesta a tierra ;5
+123;Distancias de seguridad ;5
+124;Ejecución de las conexiones ;5
+125;Ensayos funcionales ;5
+126;Existencia de planos, esquema, aviso y señales ;5
+127;Funcionamiento del corte automático de la alimentación ;5
+128;Identificación de canalizaciones ;5
+129;Identificación de circuitos ;5
+130;Identificación de conductores de fase, neutro y tierras ;5
+131;Materiales acordes con las condiciones ambientales ;5
+132;Memorias de cálculo ;5
+133;Niveles de iluminación  ;5
+134;Protección contra arcos internos ;5
+135;Protección contra electrocución por contacto directo ;5
+136;Protección contra electrocución por contacto indirecto ;5
+137;Resistencia de aislamiento ;5
+138;Resistencia de puesta a tierra (4,8 ?)           ;5
+139;Revisiones de certificaciones de producto ;5
+140;Selección de conductores ;5
+141;Selección de dispositivos de protección contra sobrecorrientes ;5
+142;Selección de dispositivos de protección contra sobretensiones ;5
+143;Sistema de emergencia ;5
+144;Sistema de protección contra rayos ;5
+145;Valores de campos Electromagnéticos ;5
+146;Memorias de cálculo;6
+147;Determinación de clases de iluminación;6
+148;Selección de las fuentes luminosas (IRC, vida útil) y compatibilidad con luminarias y ambiente de instalación (IP, IK, FHS);6
+149;Información fotométrica de las luminarias utilizadas certificada (Matriz de intensidades, Curvas o Coeficientes de Utilización).;6
+150;Validación de software de diseño;6
+151;Cálculo manual ( alcance, parámetros incluidos y supuestos realizados );6
+152;Cumplimiento de los parámetros de diseño establecidos en el RETILAP;6
+153;Resultados del diseño - Factor de uniformidad longitudinal UL;6
+154;Resultados del diseño - Relación de alrededores (SR);6
+155;Resultados del diseño - Iluminancia promedio mínima mantenida (luxes);6
+156;Resultados del diseño - Coeficiente de uniformidad de iluminancias;6
+157;Resultados del diseño - Iluminancia horizontal promedio (luxes);6
+158;Resultados del diseño - Luminancia promedio (cd/m2);6
+159;Resultados del diseño - Factor de uniformidad general Uo;6
+160;Resultados del diseño - Incremento de umbral TI (%);6
+161;Determinación del factor de mantenimiento de la instalación de alumbrado;6
+162;Esquema de mantenimiento disponible al operador o propietario;6
+163;Planos del proyecto de alumbrado aprobados por responsable de la prestación del servicio de alumbrado;6
+164;Accesibilidad a todos los dispositivos de control de luminarias;6
+165;Mediciones fotométricas sistema de Alumbrado (a las 100 horas de funcionamiento) - Coeficiente de uniformidad de iluminancias;6
+166;Mediciones fotométricas sistema de Alumbrado (a las 100 horas de funcionamiento) - Iluminancia promedio (luxes);6
+167;Control de iluminación de exteriores (Incluye avisos);6
+168;Cumplimiento de los valores ofrecidos en el diseño;6
+169;Cumplimiento de Valores de Densidad de Potencia de la instalación (DPEA);6
+170;Sistema de control automático (fotocontroles) de alumbrado Público (Ensayos funcionales);6
+171;Puesta a tierra de carcasas de luminarias;6
+172;Revisión de certificados de conformidad de productos de iluminación;6
+173;Certificación de instalaciones eléctricas con RETIE;6
+174;Memorias de cálculo;7
+175;Estudio y aplicación del Índice de Contribución de Luz Diurna (CLD);7
+176;Selección de las fuentes luminosas (IRC, vida útil) y compatibilidad con luminarias;7
+177;Información fotométrica de las luminarias utilizadas certificada (Matriz de intensidades, Curvas o Coeficientes de Utilización);7
+178;Validación de software de diseño;7
+179;Cálculo manual ( alcance, parámetros incluidos y supuestos realizados );7
+180;Cumplimiento de los parámetros de diseño establecidos en el RETILAP;7
+181;Iluminancia horizontal promedio (luxes) resultado de diseño;7
+182;Coeficiente de uniformidad de iluminancias resultado de diseño;7
+183;Índice de deslumbramiento unificado (UGR) resultado de diseño;7
+184;Factor de mantenimiento de la instalación de alumbrado;7
+185;Esquema de mantenimiento disponible al operador o propietario;7
+186;Accesibilidad a todos los dispositivos de control de luminarias;7
+187;Mediciones fotométricas del sistema de iluminación general - Coeficiente de uniformidad de iluminancias;7
+188;Mediciones fotométricas del sistema de iluminación general - Iluminancia horizontal promedio (Luxes);7
+189;Mediciones fotométricas en los puestos de trabajo - Coeficiente de uniformidad de iluminancias;7
+190;Mediciones fotométricas en los puestos de trabajo - Iluminancia promedio (Luxes);7
+191;Cumplimiento de los valores ofrecidos en el diseño;7
+192;Cumplimiento de Valores de eficiencia energética de la instalación (VEEI);7
+193;Sistema de alumbrado de emergencia;7
+194;Puesta a tierra de carcasas de luminarias;7
+195;Revisión de certificados de conformidad de productos de iluminación;7
+196;Certificación de instalaciones eléctricas con RETIE;7

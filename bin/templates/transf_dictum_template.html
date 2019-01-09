@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="es"><head>
+
+
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Plantilla Dictamen Transformación</title>
+
+<style>
+	#requirements {
+		font-family:"Arial";
+		width:1000px;
+		border-collapse:collapse;
+	}
+	#requirements td, #requirements th {
+		font-size:0.8em;
+		border:1px solid #000000;
+		padding:1px 1px 2px 2px;
+	}
+	#requirements th {
+		font-size:0.8em;
+		text-align:center;
+		padding-top:2px;
+		padding-bottom:2px;
+	}
+</style>
+
+</head>
+<body>
+
+<!-- Título -->
+<div style="vertical-align:top; font-family: Arial;text-align: center; font-weight: bold; width: 1000px;"><big>
+<big><span style="font-family: Ubuntu;">DICTAMEN DE INSPECCIÓN Y VERIFICACIÓN<br>
+DE TRANSFORMACIÓN (SUBESTACIONES) SEGÚN RETIE</span></big></big><br>
+</div>
+</span>&nbsp;<br>
+</span>&nbsp;<br>
+</span>&nbsp;<br>
+</span>&nbsp;<br>
+
+<div style="font-family: Arial; font-size:0.8em; width: 1000px; border: solid 0 #000; border-width:1px; text-align: center;">
+
+<!--Ubicación y número de expediente-->
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 300px; font-weight: bold;">Lugar y Fecha de Expedición:</td>
+		<td style="vertical-align: top; width: 350px; font-style: italic; text-align: center;">_lugarFechaExp</td>
+		<td style="vertical-align: top; width: 180px; font-weight: bold;">Expediente Número:</td>
+		<td style="vertical-align: top; width: 180px; font-style: italic;">_expedienteNumero</td>
+	</tr>
+</tbody>
+</table>
+
+<!--Datos de la instalación y propietario-->
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 500px; font-weight: bold;">Nombre o razón social del propietario de la línea:</td>
+		<td style="vertical-align: top; width: 500px; font-style: italic; text-align: center;">_nombreRazonSocial</td>
+	</tr>
+	<tr>
+		<td style="vertical-align: top; width: 450px; font-weight: bold;">Dirección de la subestación:</td>
+		<td style="vertical-align: top; width: 500px; font-style: italic;">_dirInstalacion</td>
+	</tr>
+	<tr>
+		<td style="vertical-align: top; width: 500px; text-align: right;">Código del Municipio:</td>
+		<td style="vertical-align: top; width: 500px; font-style: italic; text-align:center">_codDANE</td>
+	</tr>
+</tbody>
+</table>
+
+<!--Procesos asociados-->
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="1" cellspacing="0">
+<tbody>
+	<tr>
+		<td style="width: 300px; font-weight: bold; font-weight: bold;">Tipo de proceso asociado:</td>
+		<td style="width: 100px; font-weight: bold;">Generación:&nbsp;&nbsp;</td>
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XGen</div></td>     
+		<td style="width: 120px; font-weight: bold;">Transmisión:&nbsp;&nbsp;</td>
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XTrm</div></td> 
+		<td style="width: 100px; font-weight: bold;">Distribución:&nbsp;&nbsp;</td>    
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XDis</div></td>
+		<td style="width: 100px; font-weight: bold;">Uso Final:&nbsp;&nbsp;</td>    
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XUsf</div></td> 
+	</tr>
+</tbody>
+</table>
+
+<!--Tipos de uso asociados-->
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="1" cellspacing="0">
+<tbody>
+	<tr>
+		<td style="width: 300px; font-weight: bold; font-weight: bold;">Tipo de uso de la instalación:</td>
+		<td style="width: 100px; font-weight: bold;">Residencial:&nbsp;&nbsp;</td>
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XRes</div></td>     
+		<td style="width: 120px; font-weight: bold;">Comercial:&nbsp;&nbsp;</td>
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XCom</div></td> 
+		<td style="width: 100px; font-weight: bold;">Industrial:&nbsp;&nbsp;</td>    
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XInd</div></td>
+		<td style="width: 100px; font-weight: bold;">Oficial:&nbsp;&nbsp;</td>    
+		<td><div style="width: 20px; border: solid 0 #000; border-width:2px; text-align: center;">_XOfc</div></td> 
+	</tr>
+</tbody>
+</table>
+
+<!--Datos de la línea-->
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 250px; font-weight: bold;">Cap. Instalada en kVA:</td>
+		<td style="vertical-align: top; width: 300px; font-style: italic;">_capacidad</td>
+		<td style="vertical-align: top; width: 130px; font-weight: bold;">Tensión en V:</td>
+		<td style="vertical-align: top; width: 250px; font-style: italic;">_tension</td>
+		<td style="vertical-align: top; width: 200px; font-weight: bold;">Año de terminación:</td>
+		<td style="vertical-align: top; width: 150px; font-style: italic;">_terminacion</td>
+	</tr>
+</tbody>
+</table>
+
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 250px; font-weight: bold;">Tipo de Subestación:</td>
+		<td style="vertical-align: top; width: 300px; font-style: italic;">_tipoSe</td>
+		<td style="vertical-align: top; width: 130px; font-weight: bold;">Capacidad (kVA):</td>
+		<td style="vertical-align: top; width: 250px; font-style: italic;">_kapacidadSe</td>
+		<td style="vertical-align: top; width: 200px; font-weight: bold;">Número de transformadores:</td>
+		<td style="vertical-align: top; width: 150px; font-style: italic;">_numeroTransf</td>
+	</tr>
+</tbody>
+</table>
+
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 400px; font-weight: bold;">Personas calificadas responsables de la instalación:</td>
+	</tr>
+</tbody>
+</table>
+
+<!--Datos de diseñador--> 
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 150px; font-weight: bold;">Diseño (Si lo hay):</td>
+		<td style="vertical-align: top; width: 350px; font-style: italic;">_disenador</td>
+		<td style="vertical-align: top; width: 130px; font-weight: bold">Mat. Profesional:</td>
+		<td style="vertical-align: top; width: 200px; font-style: italic;">_matriculaDis</td>
+	</tr>
+</tbody>
+</table>
+<!--Datos de constructor--> 
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 150px; font-weight: bold;">Construcción:</td>
+		<td style="vertical-align: top; width: 350px; font-style: italic;">_constructor</td>
+		<td style="vertical-align: top; width: 130px; font-weight: bold">Mat. Profesional:</td>
+		<td style="vertical-align: top; width: 200px; font-style: italic;">_matriculaCons</td>
+	</tr>
+</tbody>
+</table>
+<!--Datos de interventor--> 
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 180px; font-weight: bold;">Interventor (Si lo hay):</td>
+		<td style="vertical-align: top; width: 320px; font-style: italic;">_interventor</td>
+		<td style="vertical-align: top; width: 130px; font-weight: bold">Mat. Profesional:</td>
+		<td style="vertical-align: top; width: 200px; font-style: italic;">_matriculaInt</td>
+	</tr>
+</tbody>
+</table>
+
+</div> <!--Fin del primer recuadro--> 
+
+<!--Requerimientos--> 
+</span>&nbsp;<br>
+
+<table id="requirements">
+<tr>
+<th style="width: 20px; text-align: center">Item</th>
+<th style="width: 500px;">Aspecto a Evaluar</th>
+<th style="width: 90px;">Aplica</th>
+<th style="width: 90px;">Cumple</th>
+<th style="width: 90px;">No Cumple</th>
+</tr>
+_dynamicReqRows
+</table>
+
+</span>&nbsp;<br>
+
+<div style="font-family: Arial; font-size:0.8em; width: 1000px; border: solid 0 #000; border-width:1px;  font-family: Ubuntu;">
+<table style="text-align: left; width: 1000px;" border="0" cellpadding="2" cellspacing="2">
+	<tr>
+		<td style="font-weight: bold; text-align:center;">OBSERVACIONES, MODIFICACIONES Y ADVERTENCIAS ESPECIALES (si las hay) 
+		e identificación de anexos.</td>
+	</tr>
+	<tr>
+		<td><span style="font-weight: bold;">ALCANCE:&nbsp;</span>_alcance</td>
+	</tr>
+</table>
+</div>
+
+</span>&nbsp;<br>
+
+<div style="font-family: Arial; font-size:0.8em; width: 1000px; border: solid 0 #000; border-width:1px; font-family: Ubuntu; text-align: center;">
+<!--Estado y datos de RIG-->
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="width: 350px;font-weight: bold; font-weight: bold;">Resultado de conformidad:</td>
+		<td style="width: 80px; font-weight: bold;">Aprobada&nbsp;&nbsp;</td>
+		<td><div style="width: 50px; border: solid 0 #000; border-width:2px; text-align: center;">_XAprob</div></td>     
+		<td style="width: 110px; font-weight: bold;">No Aprobada&nbsp;&nbsp;</td>
+		<td><div style="width: 50px; border: solid 0 #000; border-width:2px; text-align: center;">_XNoAprob</div></td> 
+	</tr>
+</tbody>
+</table>
+
+</span>&nbsp;<br>
+
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 650px;">
+		<span style="font-weight: bold;">Organismo de Inspección:&nbsp;</span>RETIE Ingeniería y Gestión S.A.S.</td>
+		<td style="vertical-align: top; width: 350px;">
+		<span style="font-weight: bold;">Resolución de acreditación:&nbsp;</span>10-OIN-017</td>
+	</tr>
+</tbody>
+</table>
+
+</span>&nbsp;<br>
+
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 680px;">
+		<span style="font-weight: bold;">Nombre Persona Autorizada por Organismo de Inspección:&nbsp;</span>Ing. Cayetano Rugeles</td>
+		<td style="vertical-align: top; width: 250px;">
+		<span style="font-weight: bold;">Firma:&nbsp;</span>_______________________</td>
+	</tr>
+</tbody>
+</table>
+
+</span>&nbsp;<br>
+
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 680px; font-family: Ubuntu;">
+		<span style="font-weight: bold;">Dirección Domicilio:&nbsp;</span>Calle 114 # 47A - 27
+		<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;Teléfono:&nbsp;</span>6206290
+		<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;Fax:&nbsp;</span>2157053</td>
+	</tr>
+</tbody>
+</table>
+
+</span>&nbsp;<br>
+
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 175px; font-weight: bold;">Nombre del Inspector:</td>
+		<td style="vertical-align: top; width: 250px; font-style: italic;">_inspector</td>
+		<td style="vertical-align: top; width: 140px; font-weight: bold">Mat. Profesional:</td>
+		<td style="vertical-align: top; width: 120px; font-style: italic;">_matriculaInsp</td>
+		<td style="vertical-align: top; width: 250px;">
+		<span style="font-weight: bold;">Firma:&nbsp;</span>_______________________</td>
+	</tr>
+</tbody>
+</table>
+
+</span>&nbsp;<br>
+
+<table style="text-align: left; width: 1000px; height: 20px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+	<tr>
+		<td style="vertical-align: top; width: 680px; font-weight:bold;">
+		NOTA: Señor Operador el original de este documento es valido solo con sello seco</td>
+		<td style="vertical-align: top; width: 250px;">RIG-FO-046 V:1</td>
+	</tr>
+</tbody>
+</table>
+
+</div>
+
+</body></html>
