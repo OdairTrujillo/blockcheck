@@ -62,11 +62,11 @@ SalesForm::SalesForm(QWidget *parent)
     connect(deleteButton, SIGNAL(clicked()),
             this, SLOT(deleteSomething()));
 
-    connect(propPreviewButton, SIGNAL(clicked()),
-            this, SLOT(renderProposal()));
+   // connect(propPreviewButton, SIGNAL(clicked()),
+           // this, SLOT(renderProposal()));
 
-    connect(soPreviewButton, SIGNAL(clicked()),
-            this, SLOT(renderServiceOrder()));
+    //connect(soPreviewButton, SIGNAL(clicked()),
+           // this, SLOT(renderServiceOrder()));
 
     connect(propPrintButton, SIGNAL(clicked()),
             this, SLOT(printProposal()));
@@ -858,8 +858,8 @@ void SalesForm::renderProposal()
             htmlString.replace("-inspecTotal", propsData.at(Props::TotVal).at(0));
             htmlString.replace("-formaPago", propsData.at(Props::PayWay).at(0));
 
-            propOutWebView->setHtml(htmlString);
-            propOutWebView->setZoomFactor(0.72);
+            //propOutWebView->setHtml(htmlString);
+            //propOutWebView->setZoomFactor(0.72);
 
         }
     }else
@@ -946,8 +946,8 @@ void SalesForm::renderServiceOrder()
             htmlString.replace("_nombreInspect", sosData.at(Sos::InspName).at(0));
             htmlString.replace("_fInsp", QDate::fromString(sosData.at(Sos::AssignD).at(0), "yyyy-MM-dd").toString("dd 'de' MMMM 'de' yyyy"));
 
-            soOutWebView->setHtml(htmlString);
-            soOutWebView->setZoomFactor(0.73);
+            //soOutWebView->setHtml(htmlString);
+            //soOutWebView->setZoomFactor(0.73);
         }
     }else
         QMessageBox::warning(this, trUtf8("Vista Previa"),
@@ -1006,9 +1006,9 @@ void SalesForm::printProposal()
         QPrintDialog *dialog = new QPrintDialog(&printer, this);
         dialog->setWindowTitle(trUtf8("Imprimir Propuesta"));
         if ( dialog->exec() == QDialog::Accepted) {
-            propOutWebView->setZoomFactor(1);
+            //propOutWebView->setZoomFactor(1);
             //propOutWebView->page()->print(&printer, true);
-            propOutWebView->setZoomFactor(0.73);
+            //propOutWebView->setZoomFactor(0.73);
         }
     } else
         QMessageBox::warning(this, trUtf8("Imprimir Propuesta"),
@@ -1033,9 +1033,9 @@ void SalesForm::printServiceOrder()
         QPrintDialog *dialog = new QPrintDialog(&printer, this);
         dialog->setWindowTitle(trUtf8("Imprimir Orden de Servicio"));
         if ( dialog->exec() == QDialog::Accepted) {
-            soOutWebView->setZoomFactor(1);
+            //soOutWebView->setZoomFactor(1);
             //soOutWebView->page()->print(&printer, true);
-            soOutWebView->setZoomFactor(0.73);
+            //soOutWebView->setZoomFactor(0.73);
         }
     } else
         QMessageBox::warning(this, trUtf8("Imprimir Orden de Servicio"),

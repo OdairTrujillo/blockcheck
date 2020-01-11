@@ -6,4 +6,4 @@ Puede encontrar una copia de la licencia en: http://www.gnu.org/licenses/lgpl.ht
 Usted puede descargar Qt desde https://www.qt.io/download
 Para detalles acerca del licenciamiento de Qt, ver https://www.qt.io/faq/
 
-Contacte al desarrollador en el correo electrónico: ingenieria@magnaorbis.com.co
+Contacte al desarrollador en el correo electrónico: odair.trujillo@magnaorbis.co

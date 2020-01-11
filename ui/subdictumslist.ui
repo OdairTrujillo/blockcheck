@@ -30,7 +30,7 @@
       </size>
      </property>
      <property name="text">
-      <string>Procesar Consecutivos</string>
+      <string>   Procesar Consecutivos</string>
      </property>
      <property name="icon">
       <iconset resource="../resources/resources.qrc">

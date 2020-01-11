@@ -242,7 +242,7 @@ void SalesForm::fillPropData()
     propValueModel->setItem(2,1, new QStandardItem(propsData.at(Props::Viatic).at(prop_position))); // viaticos
     propValueModel->setItem(3,1, new QStandardItem(propsData.at(Props::TotVal).at(prop_position))); // total
 
-    propOutWebView->setHtml("");
+    //propOutWebView->setHtml("");
 
 
 }
@@ -273,7 +273,7 @@ void SalesForm::fillSoData()
         recordFoilListWidget->item(index)->setCheckState(Qt::Checked);
     }
 
-    soOutWebView->setHtml("");
+    //soOutWebView->setHtml("");
 //    propValueModel->item(1,1)->setFlags(propValueModel->item(1,1)->flags() & ~Qt::ItemIsEditable);
 //    propValueModel->item(3,1)->setFlags(propValueModel->item(3,1)->flags() & ~Qt::ItemIsEditable);
 
@@ -349,7 +349,7 @@ void SalesForm::clearPropControls()
     propScopeTextEdit->clear();
     propDocsListWidget->clearSelection();
     propObservTextEdit->clear();
-    propOutWebView->setHtml("");
+    //propOutWebView->setHtml("");
 
     for (int i=0; i<propValueModel->rowCount(); i++)
         propValueModel->setItem(i,1, new QStandardItem(QString::fromUtf8("")));
@@ -382,7 +382,7 @@ void SalesForm::clearSoControls()
     soAssignDateEdit->setDate(QDate::currentDate());
     soAccStateLineEdit->clear();
     soAdmObservTextEdit->clear();
-    soOutWebView->setHtml("");
+    //soOutWebView->setHtml("");
 }
 
 // NOTE: Preparar controles de propuesta comercial
@@ -396,7 +396,7 @@ void SalesForm::preparePropControls()
     propUserPercSpinBox->setValue(20);
     propScopeTextEdit->setText(quotScopeTextEdit->toPlainText());
     propDocsListWidget->selectAll();
-    propOutWebView->setHtml("");
+    //propOutWebView->setHtml("");
 
     for (int i=0; i<propValueModel->rowCount(); i++)
         propValueModel->setItem(i,1, new QStandardItem(QString::fromUtf8("")));
@@ -427,7 +427,7 @@ void SalesForm::prepareSoControls()
     soAccStateLineEdit->clear();
     soObservTextEdit->clear();
     soAdmObservTextEdit->clear();
-    soOutWebView->setHtml("");
+    //soOutWebView->setHtml("");
 
     soScopeTextEdit->setText(propScopeTextEdit->toPlainText());
 

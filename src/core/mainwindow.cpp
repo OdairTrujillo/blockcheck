@@ -26,10 +26,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //    AccountingForm accountingForm;
     if (!DbHandler::createConnection())
         qDebug() << "No se obtuvo acceso a la DB ";
-    else {
-        EngineeringForm engineeringForm;
-        engineeringForm.exec();
-    }
+//    else {
+//        EngineeringForm engineeringForm;
+//        engineeringForm.exec();
+//    }
 //
 
     createActions();
@@ -94,28 +94,28 @@ void MainWindow::logout()
 
 void MainWindow::showSalesForm()
 {
-    SalesForm salesForm(this);
+    SalesForm salesForm;
     salesForm.userName=userName;
     salesForm.exec();
 }
 
 void MainWindow::showCheckFolderForm()
 {
-    CheckFolderForm checkFolderForm(this);
+    CheckFolderForm checkFolderForm;
     checkFolderForm.userName=userName;
     checkFolderForm.exec();
 }
 
 void MainWindow::showAccountingForm()
 {
-    AccountingForm accountingForm(this);
+    AccountingForm accountingForm;
     accountingForm.userName=userName;
     accountingForm.exec();
 }
 
 void MainWindow::showEngineeringForm()
 {
-    EngineeringForm engineeringForm(this);
+    EngineeringForm engineeringForm;
     engineeringForm.userName=userName;
     engineeringForm.exec();
 }
@@ -123,7 +123,6 @@ void MainWindow::showEngineeringForm()
 void MainWindow::showEventsForm()
 {
     LogViewForm logViewForm(this);
-
     logViewForm.exec();
 }
 
@@ -165,8 +164,7 @@ void MainWindow::showEditAuditorsForm()
 
 void MainWindow::showSoStateForm()
 {
-    SoStateForm soStateForm(this);
-
+    SoStateForm soStateForm;
     soStateForm.exec();
 }
 
@@ -192,7 +190,7 @@ void MainWindow::about()
 {
     QMessageBox::about(this, tr("Acerca de BlockCheck"),
                        trUtf8("<b>BlockCheck</b> administración y gestión de "
-                          "organismos de inspección RETIE "));
+                          "organismos de inspección RETIE - En desarrollo "));
 }
 
 

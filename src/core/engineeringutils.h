@@ -604,7 +604,7 @@ void EngineeringForm::styleWithoutData()
 // NOTE: Estilo de los controles por defecto.
 void EngineeringForm::voidStyle()
 {
-
+/* SE IGNORA POR EL MOMENTO
     QList<QLineEdit *> childrenLineEdits = inspectionGroupBox->findChildren<QLineEdit *>(QString(), Qt::FindDirectChildrenOnly);
     foreach(QLineEdit *lineEdit, childrenLineEdits) {
         lineEdit->setEnabled(false);
@@ -636,5 +636,5 @@ void EngineeringForm::voidStyle()
     designersListWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(200, 200, 200);\n"
                                                         "font: 75 oblique 10pt \"DejaVu Sans\";"));
     dictumsComboBox->setEnabled(true);
-
+*/
 }
