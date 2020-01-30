@@ -52,5 +52,7 @@ compile_commands.json
 *creator.user*
 
 # Makefiles y otros
-Makefile*.*
+Makefile
+Makefile.*
 blockcheck.pro.user.*
+blockcheck.pro.user
