@@ -51,8 +51,7 @@ compile_commands.json
 # QtCreator local machine specific files for imported projects
 *creator.user*
 
-# Makefiles y otros
-Makefile
-Makefile.*
+#Otros
 blockcheck.pro.user.*
 blockcheck.pro.user
+debug/**
