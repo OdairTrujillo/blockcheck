@@ -155,7 +155,7 @@ void SalesForm::setValidators()
 {
     QValidator *intValidator = new QDoubleValidator(0, 9999999999, 0, this);
 
-    thrdRepIdLineEdit->setValidator(intValidator);
+    //thrdRepIdLineEdit->setValidator(intValidator);
 }
 
 // NOTE: Llenado de datos de la cotizacion
@@ -168,7 +168,7 @@ void SalesForm::fillQuotData()
     thrdNitLineEdit->setText(thrdData.at(1));
     thrdNameLineEdit->setText(thrdData.at(2));
     thrdRepLineEdit->setText(thrdData.at(3));
-    thrdRepIdLineEdit->setText(thrdData.at(4));
+    //thrdRepIdLineEdit->setText(thrdData.at(4));
     thrdAddressLineEdit->setText(thrdData.at(5));
     thrdMailLineEdit->setText(thrdData.at(6));
     thrdPhoneLineEdit->setText(thrdData.at(7));
@@ -301,7 +301,7 @@ void SalesForm::clearThrdQuotControls()
     thrdNameLineEdit->clear();
     thrdNitLineEdit->clear();
     thrdPhoneLineEdit->clear();
-    thrdRepIdLineEdit->clear();
+    //thrdRepIdLineEdit->clear();
     thrdRepLineEdit->clear();
 
     thrdStateComboBox->setCurrentIndex(0);
@@ -709,7 +709,7 @@ int SalesForm::insertQuotation(int opt)
     thrdData.append(thrdNitLineEdit->text());
     thrdData.append(thrdNameLineEdit->text());
     thrdData.append(thrdRepLineEdit->text());
-    thrdData.append(thrdRepIdLineEdit->text());
+    //thrdData.append(thrdRepIdLineEdit->text());
     thrdData.append(thrdAddressLineEdit->text());
     thrdData.append(thrdMailLineEdit->text());
     thrdData.append(thrdPhoneLineEdit->text());

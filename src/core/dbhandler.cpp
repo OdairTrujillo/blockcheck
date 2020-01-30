@@ -6,24 +6,29 @@
 // NOTE: Crear conexion con el servidor de base de datos
 bool DbHandler::createConnection(void)
 {
-    OutsideActions outside;
-    outside.readSqlServerConf();
+    OutsideActions confs;
+    if (!confs.readSqlServerConf()) {
+        QMessageBox::critical(0, qApp->trUtf8("Error de lectura"),
+                              qApp->trUtf8("No se puede leer el archivo de configuración de BlockCheck \n"
+                                           "revise que el archivo blockcheck.conf exista en la carpeta del \n"
+                                           "programa y tenga permisos para leer y escribir en él."));
+    } else {
+        QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
+        db.setHostName(confs.sqlServerIP);
+        db.setPort(5432);
+        db.setDatabaseName(confs.databaseName);
+        db.setUserName("bc_user");
+        db.setPassword("bc_password");
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
-    db.setHostName(outside.sqlServerIP);
-    db.setPort(5432);
-    db.setDatabaseName(outside.databaseName);
-    db.setUserName("bc_user");
-    db.setPassword("bc_password");
-
-    if (!db.open()) {
-        QMessageBox::critical(0, qApp->trUtf8("No se puede abrir la base de datos"),
-                              qApp->trUtf8("Sucedió que "+db.lastError().text().toUtf8()), QMessageBox::Cancel);
-        qDebug() << db.lastError().text().toUtf8();
-        qDebug() << "Drivers existentes: " << QSqlDatabase::drivers();
-        return false;
-    } else
-        return true;
+        if (!db.open()) {
+            QMessageBox::critical(0, qApp->trUtf8("No se puede abrir la base de datos"),
+                                  qApp->trUtf8("Sucedió que: \n" + db.lastError().text().toUtf8()), QMessageBox::Cancel);
+              qDebug() << "Drivers existentes: " << QSqlDatabase::drivers();
+            return false;
+        } else
+            return true;
+    }
+    return false;
 }
 
 // NOTE: Crear conexion con el servidor de base de datos

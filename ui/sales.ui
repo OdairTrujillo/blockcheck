@@ -9,14 +9,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
-    <height>630</height>
+    <width>880</width>
+    <height>637</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>860</width>
-    <height>630</height>
+    <width>880</width>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -75,6 +75,12 @@
          <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/icons/new.png</normaloff>:/icons/icons/new.png</iconset>
         </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item>
@@ -103,6 +109,12 @@
         <property name="icon">
          <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/icons/update.png</normaloff>:/icons/icons/update.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -133,6 +145,283 @@
          <iconset resource="../resources/resources.qrc">
           <normaloff>:/icons/icons/delete.png</normaloff>:/icons/icons/delete.png</iconset>
         </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <spacer name="horizontalSpacer_10">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>269</width>
+       <height>42</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <widget class="QFrame" name="menuFrame">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>45</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>70</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
+      <property name="topMargin">
+       <number>6</number>
+      </property>
+      <property name="rightMargin">
+       <number>6</number>
+      </property>
+      <property name="bottomMargin">
+       <number>6</number>
+      </property>
+      <item row="1" column="8">
+       <widget class="QPushButton" name="nextButton">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Siguiente</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/icons/icons/go-next.png</normaloff>:/icons/icons/go-next.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QComboBox" name="findComboBox">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Selecciones Criterio de Localización</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="9">
+       <widget class="QPushButton" name="listButton">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Listar todas</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/icons/icons/list.png</normaloff>:/icons/icons/list.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_45">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Localizar</string>
+        </property>
+        <property name="margin">
+         <number>3</number>
+        </property>
+        <property name="indent">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="7">
+       <widget class="QLCDNumber" name="quotLCD">
+        <property name="minimumSize">
+         <size>
+          <width>35</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>35</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Cotización Nº</string>
+        </property>
+        <property name="smallDecimalPoint">
+         <bool>false</bool>
+        </property>
+        <property name="digitCount">
+         <number>2</number>
+        </property>
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Filled</enum>
+        </property>
+        <property name="intValue" stdset="0">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="findLineEdit">
+        <property name="minimumSize">
+         <size>
+          <width>130</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Introduzca Dato a Localizar</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QPushButton" name="findButton">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Ir</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/icons/icons/go.png</normaloff>:/icons/icons/go.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="6">
+       <widget class="QPushButton" name="prevButton">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Anterior</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/icons/icons/go-previous.png</normaloff>:/icons/icons/go-previous.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
        </widget>
       </item>
      </layout>
@@ -146,13 +435,98 @@
       </font>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="quotationsTab">
       <attribute name="title">
-       <string>Cotización</string>
+       <string>Solicitud de Servicio</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <widget class="QLabel" name="label_25">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Fecha de Solicitud</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDateEdit" name="quotDateEdit">
+           <property name="accelerated">
+            <bool>false</bool>
+           </property>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_44">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Solicitudes Encontradas</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="foundLCD">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>35</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="smallDecimalPoint">
+            <bool>false</bool>
+           </property>
+           <property name="digitCount">
+            <number>2</number>
+           </property>
+           <property name="segmentStyle">
+            <enum>QLCDNumber::Filled</enum>
+           </property>
+           <property name="intValue" stdset="0">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item row="1" column="0">
         <widget class="QScrollArea" name="scrollArea">
          <property name="sizePolicy">
@@ -172,33 +546,18 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>804</width>
-            <height>650</height>
+            <width>824</width>
+            <height>823</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>650</height>
+            <height>0</height>
            </size>
           </property>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="7" column="0" colspan="2">
+          <layout class="QGridLayout" name="gridLayout_15">
+           <item row="0" column="0">
             <widget class="QGroupBox" name="thirdPartyGroupBox">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -224,9 +583,12 @@
               </font>
              </property>
              <property name="title">
-              <string>Persona o Empresa Responsable del Pago de la Factura y del Contrato de Prestación de Servicios</string>
+              <string>Datos del solicitante</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_15">
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_14">
               <item row="0" column="0">
                <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0,0,0,0">
                 <property name="bottomMargin">
@@ -235,62 +597,6 @@
                 <property name="spacing">
                  <number>6</number>
                 </property>
-                <item row="0" column="0" colspan="3">
-                 <widget class="QLabel" name="label_15">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Razón Social</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QLabel" name="label_18">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>CC o NIT</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0" colspan="3">
-                 <widget class="QLineEdit" name="thrdNameLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <widget class="QLineEdit" name="thrdNitLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="label_16">
                   <property name="font">
@@ -359,25 +665,10 @@
                   </property>
                  </widget>
                 </item>
-                <item row="4" column="3">
-                 <widget class="QLabel" name="label_20">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>CC</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
                 <item row="4" column="0" colspan="3">
                  <widget class="QLabel" name="label_17">
                   <property name="text">
-                   <string>Representante Legal</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Representante Legal o persona encargada&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="indent">
                    <number>4</number>
@@ -386,19 +677,6 @@
                 </item>
                 <item row="5" column="0" colspan="3">
                  <widget class="QLineEdit" name="thrdRepLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="3">
-                 <widget class="QLineEdit" name="thrdRepIdLineEdit">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -504,26 +782,68 @@
                   </property>
                  </widget>
                 </item>
+                <item row="1" column="0" colspan="2">
+                 <widget class="QLineEdit" name="thrdNameLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0" colspan="2">
+                 <widget class="QLabel" name="label_15">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Razón Social</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_18">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>CC o NIT</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QLineEdit" name="thrdNitLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
                </layout>
-              </item>
-              <item row="1" column="0">
-               <widget class="QPushButton" name="quotGenButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Generar Cotización</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../resources/resources.qrc">
-                  <normaloff>:/icons/icons/generate.png</normaloff>:/icons/icons/generate.png</iconset>
-                </property>
-               </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item row="2" column="0" rowspan="2">
+           <item row="1" column="0">
             <widget class="QGroupBox" name="instalationGroupBox">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -551,20 +871,26 @@
              <property name="title">
               <string>Datos de la instalación</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_14">
-              <property name="leftMargin">
-               <number>4</number>
-              </property>
-              <property name="topMargin">
-               <number>4</number>
-              </property>
-              <property name="rightMargin">
-               <number>4</number>
-              </property>
-              <property name="bottomMargin">
-               <number>4</number>
-              </property>
-              <item row="4" column="0">
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_12">
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_29">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Alcance</string>
+                </property>
+                <property name="indent">
+                 <number>4</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
                <widget class="QTextEdit" name="quotScopeTextEdit">
                 <property name="maximumSize">
                  <size>
@@ -604,359 +930,41 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="2" column="0">
-               <layout class="QGridLayout" name="gridLayout_12">
-                <property name="sizeConstraint">
-                 <enum>QLayout::SetDefaultConstraint</enum>
-                </property>
-                <property name="leftMargin">
-                 <number>1</number>
-                </property>
-                <property name="topMargin">
-                 <number>1</number>
-                </property>
-                <property name="rightMargin">
-                 <number>2</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <property name="horizontalSpacing">
-                 <number>6</number>
-                </property>
-                <property name="verticalSpacing">
-                 <number>1</number>
-                </property>
-                <item row="2" column="2">
-                 <widget class="QLabel" name="label_39">
+              <item row="0" column="0">
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="10" column="0">
+                 <widget class="QLabel" name="label_20">
                   <property name="font">
                    <font>
                     <pointsize>11</pointsize>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Tipo de Inspección</string>
+                   <string>Número de fases</string>
                   </property>
                   <property name="indent">
                    <number>4</number>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="2">
-                 <widget class="QComboBox" name="inspecTypeComboBox">
-                  <item>
-                   <property name="text">
-                    <string>RETIE</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>RETILAP</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>NORMAS VOLUNTARIAS</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_3">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Dirección</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0" colspan="3">
-                 <widget class="QLabel" name="label">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Nombre de la Instalación</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLineEdit" name="quotAddressLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>200</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0" colspan="3">
-                 <widget class="QLineEdit" name="quotNameLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>480</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="label_5">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Departamento</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0">
-                 <widget class="QComboBox" name="quotStateComboBox">
+                <item row="13" column="2" colspan="4">
+                 <widget class="QSpinBox" name="quotNetworkLongSpinBox">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
                     <height>24</height>
                    </size>
                   </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLabel" name="label_4">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
+                  <property name="suffix">
+                   <string> m</string>
                   </property>
-                  <property name="text">
-                   <string>Persona de Contacto</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
+                  <property name="maximum">
+                   <number>999999999</number>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="quotContactLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="label_6">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Ciudad</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="0">
-                 <widget class="QComboBox" name="quotCityComboBox">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLabel" name="label_10">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Teléfono-Fax</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="1">
-                 <widget class="QLineEdit" name="quotFaxLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="1">
-                 <widget class="QLabel" name="label_8">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Celular</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="1">
-                 <widget class="QLineEdit" name="quotPhoneLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="8" column="0">
-                 <widget class="QLabel" name="label_7">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Correo Electrónico</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="8" column="1">
-                 <widget class="QLabel" name="label_12">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Tipo de Uso</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="9" column="0" rowspan="3">
-                 <widget class="QLineEdit" name="quotMailLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="9" column="1" rowspan="3">
-                 <widget class="QComboBox" name="useTypeComboBox">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="2">
-                 <widget class="QLabel" name="label_11">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Tipo de Proceso</string>
-                  </property>
-                  <property name="indent">
-                   <number>4</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="2" rowspan="7">
-                 <widget class="QListWidget" name="processesListWidget">
+                <item row="7" column="2" rowspan="5" colspan="8">
+                 <widget class="QListWidget" name="quotProcessesListWidget">
                   <property name="palette">
                    <palette>
                     <active>
@@ -1010,114 +1018,586 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
+                <item row="13" column="6" colspan="4">
+                 <widget class="QSpinBox" name="quotBoxesSpinBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximum">
+                   <number>9999</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="12" column="0">
+                 <widget class="QLabel" name="label_53">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Clasificación del área</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0" colspan="10">
+                 <widget class="QLineEdit" name="quotNameLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>480</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="2" colspan="8">
+                 <widget class="QComboBox" name="quotCityComboBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="0">
+                 <widget class="QLabel" name="label_49">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Mayor nivel de tensión</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="1">
+                 <widget class="QLabel" name="label_10">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Capacidad instalada</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="9" column="1">
+                 <widget class="QDoubleSpinBox" name="quotKvaSpinBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string> kVA</string>
+                  </property>
+                  <property name="decimals">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <double>100000000.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>10.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0">
+                 <widget class="QComboBox" name="quotInspecTypeComboBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>RETIE</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>RETILAP</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>NORMAS VOLUNTARIAS</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item row="11" column="0">
+                 <widget class="QSpinBox" name="quotPhasesSpinBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximum">
+                   <number>3</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_4">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Persona de Contacto</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QLabel" name="label_12">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Tipo de Uso</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="12" column="6" colspan="4">
+                 <widget class="QLabel" name="label_48">
+                  <property name="text">
+                   <string>Apoyos y/o Cajas</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="13" column="1">
+                 <widget class="QComboBox" name="quotNetworkTypeComboBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Aérea</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Subterránea</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Aérea y Subterránea</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bandejas</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Tuberías</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bandejas y Tuberías</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item row="2" column="2" colspan="8">
+                 <widget class="QLabel" name="label_6">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Ciudad</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLineEdit" name="quotAddressLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>200</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_3">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Dirección</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="9" column="0">
+                 <widget class="QComboBox" name="quotVoltageLevelComboBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Baja tensión</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Media tensión</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Alta tensión</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Extra alta tensión</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_5">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Departamento</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QComboBox" name="quotStateComboBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QComboBox" name="quotUseTypeComboBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="13" column="0">
+                 <widget class="QComboBox" name="quotAreaTypeComboBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>No clasificada</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Clase 2, División 2</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Clase 2, División 1</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Clase 1, División 2</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Clase 1, División 1</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item row="6" column="2" colspan="8">
+                 <widget class="QLabel" name="label_11">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Tipo de Proceso</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLineEdit" name="quotContactLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLabel" name="label_8">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Celular</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="11" column="1">
+                 <widget class="QSpinBox" name="quotProyectAreaSpinBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string> m²</string>
+                  </property>
+                  <property name="maximum">
+                   <number>999999999</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="12" column="1">
+                 <widget class="QLabel" name="label_50">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Red predominante</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QLineEdit" name="quotPhoneLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="label_39">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Tipo de Inspección</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="2" colspan="8">
+                 <widget class="QLineEdit" name="quotMailLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0" colspan="10">
+                 <widget class="QLabel" name="label">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Nombre de la Instalación</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="1">
+                 <widget class="QLabel" name="label_51">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Área del proyecto</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="2" colspan="8">
+                 <widget class="QLabel" name="label_7">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Correo Electrónico</string>
+                  </property>
+                  <property name="indent">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="12" column="2" colspan="4">
+                 <widget class="QLabel" name="label_52">
+                  <property name="text">
+                   <string>Longitud de la red</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_29">
-                <property name="font">
-                 <font>
-                  <pointsize>11</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Alcance</string>
-                </property>
-                <property name="indent">
-                 <number>4</number>
-                </property>
-               </widget>
-              </item>
              </layout>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="quotGenButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Generar Cotización</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/resources.qrc">
+               <normaloff>:/icons/icons/generate.png</normaloff>:/icons/icons/generate.png</iconset>
+             </property>
             </widget>
            </item>
           </layout>
          </widget>
         </widget>
-       </item>
-       <item row="0" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_11">
-         <item>
-          <widget class="QLabel" name="label_25">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Fecha de Cotización</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateEdit" name="quotDateEdit">
-           <property name="accelerated">
-            <bool>false</bool>
-           </property>
-           <property name="displayFormat">
-            <string>dd/MM/yyyy</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_7">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_44">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Cotizaciones Encontradas</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLCDNumber" name="foundLCD">
-           <property name="minimumSize">
-            <size>
-             <width>35</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>35</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string/>
-           </property>
-           <property name="smallDecimalPoint">
-            <bool>false</bool>
-           </property>
-           <property name="digitCount">
-            <number>2</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Filled</enum>
-           </property>
-           <property name="intValue" stdset="0">
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>
@@ -1198,7 +1678,7 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>818</width>
+            <width>824</width>
             <height>906</height>
            </rect>
           </property>
@@ -1250,9 +1730,15 @@ p, li { white-space: pre-wrap; }
               </font>
              </property>
              <property name="title">
-              <string>Configuración de la Propuesta Comercial</string>
+              <string>Configuración de la propuesta comercial</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
              <layout class="QGridLayout" name="gridLayout_6">
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
               <item row="2" column="0">
                <widget class="QTextEdit" name="propScopeTextEdit">
                 <property name="minimumSize">
@@ -2018,7 +2504,7 @@ font: 75 oblique 11pt &quot;DejaVu Sans&quot;;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>804</width>
+            <width>824</width>
             <height>514</height>
            </rect>
           </property>
@@ -2061,6 +2547,9 @@ font: 75 oblique 11pt &quot;DejaVu Sans&quot;;</string>
              </property>
              <property name="title">
               <string>Configuración de la OS</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
              <layout class="QGridLayout" name="gridLayout_21">
               <property name="leftMargin">
@@ -2458,253 +2947,6 @@ font: 75 oblique 10pt &quot;DejaVu Sans&quot;;</string>
      </widget>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QFrame" name="menuFrame">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>45</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>70</height>
-      </size>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="leftMargin">
-       <number>6</number>
-      </property>
-      <property name="topMargin">
-       <number>6</number>
-      </property>
-      <property name="rightMargin">
-       <number>6</number>
-      </property>
-      <property name="bottomMargin">
-       <number>6</number>
-      </property>
-      <item row="1" column="8">
-       <widget class="QPushButton" name="nextButton">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Siguiente</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/icons/icons/go-next.png</normaloff>:/icons/icons/go-next.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QComboBox" name="findComboBox">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>Selecciones Criterio de Localización</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="9">
-       <widget class="QPushButton" name="listButton">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Listar todas</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/icons/icons/list.png</normaloff>:/icons/icons/list.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_45">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Localizar</string>
-        </property>
-        <property name="margin">
-         <number>3</number>
-        </property>
-        <property name="indent">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="7">
-       <widget class="QLCDNumber" name="quotLCD">
-        <property name="minimumSize">
-         <size>
-          <width>35</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>35</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Cotización Nº</string>
-        </property>
-        <property name="smallDecimalPoint">
-         <bool>false</bool>
-        </property>
-        <property name="digitCount">
-         <number>2</number>
-        </property>
-        <property name="segmentStyle">
-         <enum>QLCDNumber::Filled</enum>
-        </property>
-        <property name="intValue" stdset="0">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="findLineEdit">
-        <property name="minimumSize">
-         <size>
-          <width>130</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>Introduzca Dato a Localizar</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="5">
-       <widget class="QPushButton" name="findButton">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Ir</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/icons/icons/go.png</normaloff>:/icons/icons/go.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="6">
-       <widget class="QPushButton" name="prevButton">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Anterior</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/icons/icons/go-previous.png</normaloff>:/icons/icons/go-previous.png</iconset>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <spacer name="horizontalSpacer_10">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>269</width>
-       <height>42</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <tabstops>
@@ -2715,26 +2957,16 @@ font: 75 oblique 10pt &quot;DejaVu Sans&quot;;</string>
   <tabstop>scrollArea</tabstop>
   <tabstop>quotNameLineEdit</tabstop>
   <tabstop>quotAddressLineEdit</tabstop>
-  <tabstop>quotStateComboBox</tabstop>
-  <tabstop>quotCityComboBox</tabstop>
-  <tabstop>quotMailLineEdit</tabstop>
   <tabstop>quotContactLineEdit</tabstop>
-  <tabstop>quotFaxLineEdit</tabstop>
-  <tabstop>quotPhoneLineEdit</tabstop>
-  <tabstop>useTypeComboBox</tabstop>
-  <tabstop>inspecTypeComboBox</tabstop>
-  <tabstop>processesListWidget</tabstop>
+  <tabstop>quotInspecTypeComboBox</tabstop>
   <tabstop>quotScopeTextEdit</tabstop>
   <tabstop>thrdNameLineEdit</tabstop>
-  <tabstop>thrdNitLineEdit</tabstop>
   <tabstop>thrdAddressLineEdit</tabstop>
   <tabstop>thrdStateComboBox</tabstop>
   <tabstop>thrdRepLineEdit</tabstop>
-  <tabstop>thrdRepIdLineEdit</tabstop>
   <tabstop>thrdMailLineEdit</tabstop>
   <tabstop>thrdPhoneLineEdit</tabstop>
   <tabstop>thrdFaxLineEdit</tabstop>
-  <tabstop>quotGenButton</tabstop>
   <tabstop>scrollArea_2</tabstop>
   <tabstop>propThrdNameLineEdit</tabstop>
   <tabstop>propIdLineEdit</tabstop>

@@ -19,32 +19,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    if (!DbHandler::createConnection()) {
+        qDebug() << "No se obtuvo acceso a la DB, revise que el servidor esté corriendo y aceptando conexiones.";
+        exit(1); // Si no se obtiene acceso a la DB, el programa finaliza.
+    } else {
     showMaximized();
-// ESTE BLOQUE DE CREACIÓN DE LA CONEXIÓN DEBE IMPLEMENTARSE EN UN MÓDULO APARTE QUE INCLUYA COMANDOS DEL SERVIDOR POSTGRES.
-//    SalesForm salesForm;
-//    CheckFolderForm checkFolderForm;
-//    AccountingForm accountingForm;
-    if (!DbHandler::createConnection())
-        qDebug() << "No se obtuvo acceso a la DB ";
-//    else {
-//        EngineeringForm engineeringForm;
-//        engineeringForm.exec();
-//    }
-//
-
     createActions();
     createMenus();
     createToolBars();
     createStatusBar();
     hideItems();
-
-
+    }
 }
-
 
 void MainWindow::login()
 {
-
     LoginDialog loginDialog;
 
     // Pregunto si retorna aceptado para poder mostrar formulario de ventas
