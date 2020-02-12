@@ -11,7 +11,7 @@ QT += core \
     printsupport
 DESTDIR += bin
 FORMS += ui/sales.ui \
-         ui/login.ui \
+    ui/login.ui \
     ui/filterquotations.ui \
     ui/filterproposals.ui \
     ui/filterserviceorders.ui \
@@ -28,7 +28,8 @@ FORMS += ui/sales.ui \
     ui/mainwindow.ui \
     ui/sostate.ui \
     ui/logview.ui \
-    ui/bcconfs.ui
+    ui/bcconfs.ui \
+    ui/filesomething.ui
 HEADERS += src/core/dbhandler.h \
     src/core/salesutils.h \
     src/core/sales.h \
@@ -55,7 +56,8 @@ HEADERS += src/core/dbhandler.h \
     src/core/sostate.h \
     src/userlib/outsideactions.h \
     src/core/bcconfs.h \
-    src/userlib/bcnamespace.h
+    src/userlib/bcnamespace.h \
+    src/userlib/filesomething.h
 
 SOURCES += src/core/main.cpp \
     src/core/dbhandler.cpp \
@@ -80,7 +82,8 @@ SOURCES += src/core/main.cpp \
     src/core/logview.cpp \
     src/core/sostate.cpp \
     src/userlib/outsideactions.cpp \
-    src/core/bcconfs.cpp
+    src/core/bcconfs.cpp \
+    src/userlib/filesomething.cpp
 
 RESOURCES += resources/resources.qrc
 INCLUDEPATH += . \

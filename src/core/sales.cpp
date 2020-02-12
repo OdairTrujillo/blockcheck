@@ -25,9 +25,6 @@ SalesForm::SalesForm(QWidget *parent)
     fillSoControls();
     setValidators();
 
-    soInspPercLabel->hide();
-    soInspPercSpinBox->hide();
-
     // Crear señales y slots
     connect(findButton, SIGNAL(clicked()),
             this, SLOT(findSomething()));
@@ -79,9 +76,6 @@ SalesForm::SalesForm(QWidget *parent)
 
     connect(propApprovButton, SIGNAL(clicked()),
             this, SLOT(approvProposal()));
-
-    connect(propRejectButton, SIGNAL(clicked()),
-            this, SLOT(rejectProposal()));
 
     connect(spinBoxDelegate, SIGNAL(commitData(QWidget*)),
             this, SLOT(propTotalSum(void)));
@@ -155,7 +149,6 @@ void SalesForm::findSomething(void)
                 updateButton->setEnabled(true);
                 deleteButton->setEnabled(true);
                 propApprovButton->setEnabled(true);
-                propRejectButton->setEnabled(true);
                 salesTabWidget->setCurrentIndex(0);
                 break;
 
@@ -169,7 +162,6 @@ void SalesForm::findSomething(void)
                 updateButton->setEnabled(true);
                 deleteButton->setEnabled(true);
                 propApprovButton->setEnabled(false);
-                propRejectButton->setEnabled(false);
                 salesTabWidget->setCurrentIndex(0);
                 break;
 
@@ -204,7 +196,6 @@ void SalesForm::findSomething(void)
                 updateButton->setEnabled(true);
                 deleteButton->setEnabled(true);
                 propApprovButton->setEnabled(true);
-                propRejectButton->setEnabled(true);
                 salesTabWidget->setCurrentIndex(1);
                 quotLCD->display(1);
                 break;
@@ -219,7 +210,6 @@ void SalesForm::findSomething(void)
                 updateButton->setEnabled(true);
                 deleteButton->setEnabled(true);
                 propApprovButton->setEnabled(false);
-                propRejectButton->setEnabled(false);
                 salesTabWidget->setCurrentIndex(1);
                 quotLCD->display(1);
                 break;
@@ -248,7 +238,6 @@ void SalesForm::findSomething(void)
                 updateButton->setEnabled(true);
                 deleteButton->setEnabled(true);
                 propApprovButton->setEnabled(false);
-                propRejectButton->setEnabled(false);
                 salesTabWidget->setCurrentIndex(2);
                 quotLCD->display(1);
                 break;
@@ -632,7 +621,6 @@ void SalesForm::genProposal()
             updateButton->setEnabled(true);
             deleteButton->setEnabled(true);
             propApprovButton->setEnabled(true);
-            propRejectButton->setEnabled(true);
 
             break;
         case 1:
@@ -799,7 +787,7 @@ void SalesForm::renderProposal()
             for (int i=0;i<selectedProcs.size();i++)
                 selectedProcs.replace(i, QString("")); // Primero los borro todos
 
-            QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
+            QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
             for (int i=0; i< processesIndexes.size(); i++)
                 // ProcessesData es un Qlist<QStringList>, 0 es la primera lista, osea la de Ids
                 // processesIndexes.at(i).row() indican el registro en cuestion, así coincide
@@ -908,7 +896,7 @@ void SalesForm::renderServiceOrder()
             for (int i=0;i<selectedProcs.size();i++)
                 selectedProcs.replace(i, QString("")); // Primero los borro todos
 
-            QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
+            QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
             for (int i=0; i< processesIndexes.size(); i++)
                 // ProcessesData es un Qlist<QStringList>, 0 es la primera lista, osea la de Ids
                 // processesIndexes.at(i).row() indican el registro en cuestion, así coincide

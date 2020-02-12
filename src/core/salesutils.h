@@ -45,14 +45,14 @@ void SalesForm::fillQuotControls()
 
     // Lleno el listwidget con los procesos existentes
     if (DbHandler::getProcesses(processesData))
-        processesListWidget->addItems(processesData.at(1));
+        quotProcessesListWidget->addItems(processesData.at(1));
     else
-        processesListWidget->addItem("Sin Datos");
+        quotProcessesListWidget->addItem("Sin Datos");
 
     if (DbHandler::getUses(usesData))
-        useTypeComboBox->addItems(usesData.at(1));
+        quotUseTypeComboBox->addItems(usesData.at(1));
     else
-        useTypeComboBox->addItem("Sin Datos");
+        quotUseTypeComboBox->addItem("Sin Datos");
 
     quotDateEdit->setDate(QDate::currentDate());
 
@@ -139,15 +139,6 @@ void SalesForm::fillSoControls()
     else
         soInspectorsComboBox->addItem("Sin Datos");
 
-    // Obtengo los distintos folios o AZ
-    if (!DbHandler::getRecords(recordsData))
-        recordsData.append(QStringList("Sin Datos"));
-    for (int i=0; i<recordsData.at(1).size();i++) {
-        QListWidgetItem *item = new QListWidgetItem;
-        item->setData( Qt::DisplayRole, recordsData.at(1).at(i));
-        item->setData( Qt::CheckStateRole, Qt::Unchecked);
-        recordFoilListWidget->addItem( item );
-    }
 }
 
 // NOTE: Crea y aplica validadores
@@ -183,18 +174,17 @@ void SalesForm::fillQuotData()
     quotAddressLineEdit->setText(quotsData.at(5).at(quot_position));
     quotMailLineEdit->setText(quotsData.at(6).at(quot_position));
     quotPhoneLineEdit->setText(quotsData.at(7).at(quot_position));
-    quotFaxLineEdit->setText(quotsData.at(8).at(quot_position));
     // findText devuelve la posicion en la que coincide el texto
     quotStateComboBox->setCurrentIndex(quotStateComboBox->findText(quotsData.at(9).at(quot_position)));
     quotCityComboBox->setCurrentIndex(quotCityComboBox->findText(quotsData.at(10).at(quot_position)));
-    useTypeComboBox->setCurrentIndex(useTypeComboBox->findText(quotsData.at(11).at(quot_position)));
-    inspecTypeComboBox->setCurrentIndex(inspecTypeComboBox->findText(quotsData.at(12).at(quot_position)));
+    quotUseTypeComboBox->setCurrentIndex(quotUseTypeComboBox->findText(quotsData.at(11).at(quot_position)));
+    quotInspecTypeComboBox->setCurrentIndex(quotInspecTypeComboBox->findText(quotsData.at(12).at(quot_position)));
 
     int index;
-    processesListWidget->clearSelection();
+    quotProcessesListWidget->clearSelection();
     for (int i=0; i<procsIds.size();i++) {
         index=processesData.at(0).indexOf(procsIds.at(i));
-        processesListWidget->item(index)->setSelected(true);
+        quotProcessesListWidget->item(index)->setSelected(true);
     }
 
 
@@ -260,18 +250,7 @@ void SalesForm::fillSoData()
     soAccStateLineEdit->setText(sosData.at(Sos::AccProc).at(0));
     soAdmObservTextEdit->setText(sosData.at(Sos::AdmObserv).at(0));
 
-    // Deschequear primero para luego seleccionar las AZ.
-    for (int i=0; i<recordFoilListWidget->count(); i++)
-        recordFoilListWidget->item(i)->setCheckState(Qt::Unchecked);
 
-    QStringList recordsIds;
-    DbHandler::getSoRecords(sosData.at(Sos::Id).at(0), recordsIds);
-    int index;
-
-    for (int i=0; i<recordsIds.size();i++) {
-        index=recordsData.at(0).indexOf(recordsIds.at(i));
-        recordFoilListWidget->item(index)->setCheckState(Qt::Checked);
-    }
 
     //soOutWebView->setHtml("");
 //    propValueModel->item(1,1)->setFlags(propValueModel->item(1,1)->flags() & ~Qt::ItemIsEditable);
@@ -290,7 +269,6 @@ void SalesForm::clearThrdQuotControls()
     quotPhoneLineEdit->clear();
     quotPhoneLineEdit->clear();
     quotScopeTextEdit->clear();
-    quotFaxLineEdit->clear();
     quotLCD->display(0);
     foundLCD->display(0);
 
@@ -308,10 +286,9 @@ void SalesForm::clearThrdQuotControls()
     setThrdCity(0);
     quotStateComboBox->setCurrentIndex(0);
     setQuotCity(0);
-    inspecTypeComboBox->setCurrentIndex(0);
-    useTypeComboBox->setCurrentIndex(0);
-    processesListWidget->clearSelection();
-
+    quotInspecTypeComboBox->setCurrentIndex(0);
+    quotUseTypeComboBox->setCurrentIndex(0);
+    quotProcessesListWidget->clearSelection();
     quotNameLineEdit->setFocus();
 }
 // NOTE: Limpiar controles de cotizacion para insertar una nueva
@@ -325,13 +302,11 @@ void SalesForm::clearQuotControls()
     quotPhoneLineEdit->clear();
     quotPhoneLineEdit->clear();
     quotScopeTextEdit->clear();
-    quotFaxLineEdit->clear();
-
     quotStateComboBox->setCurrentIndex(0);
     setQuotCity(0);
-    inspecTypeComboBox->setCurrentIndex(0);
-    useTypeComboBox->setCurrentIndex(0);
-    processesListWidget->clearSelection();
+    quotInspecTypeComboBox->setCurrentIndex(0);
+    quotUseTypeComboBox->setCurrentIndex(0);
+    quotProcessesListWidget->clearSelection();
 
 
 
@@ -356,15 +331,12 @@ void SalesForm::clearPropControls()
 
     propPayWayComboBox->setCurrentIndex(0);
     propSoldByComboBox->setCurrentIndex(0);
-    propUserPercSpinBox->setValue(20);
+    QMessageBox::information(this, trUtf8("Falta escribir código para leer porcentaje de vendedor"), trUtf8("Código faltante"), QMessageBox::Cancel);
+    //propUserPercSpinBox->setValue(20);
     propStateLineEdit->clear();
     propStateDetailLineEdit->clear();
 
     propApprovButton->setEnabled(false);
-    propRejectButton->setEnabled(false);
-
-
-
 }
 
 // NOTE: Limpiar controles de orden de servicio
@@ -372,9 +344,6 @@ void SalesForm::clearSoControls()
 {
     soDateEdit->setDate(QDate::currentDate());
     soIdLineEdit->clear();
-    // Deschequear primero para luego seleccionar las AZ.
-    for (int i=0; i<recordFoilListWidget->count(); i++)
-        recordFoilListWidget->item(i)->setCheckState(Qt::Unchecked);
     soScopeTextEdit->clear();
     soObservTextEdit->clear();
     soInspectorsComboBox->setCurrentIndex(0);
@@ -393,7 +362,8 @@ void SalesForm::preparePropControls()
     propInstNameLineEdit->setText(quotNameLineEdit->text());
     propLocalizationLineEdit->setText(quotCityComboBox->currentText() + " - " + quotAddressLineEdit->text());
     propIdLineEdit->clear();
-    propUserPercSpinBox->setValue(20);
+    QMessageBox::information(this, trUtf8("Falta escribir código para leer porcentaje de vendedor"), trUtf8("Código faltante"), QMessageBox::Cancel);
+    //propUserPercSpinBox->setValue(20);
     propScopeTextEdit->setText(quotScopeTextEdit->toPlainText());
     propDocsListWidget->selectAll();
     //propOutWebView->setHtml("");
@@ -403,12 +373,10 @@ void SalesForm::preparePropControls()
 
     propPayWayComboBox->setCurrentIndex(0);
     propSoldByComboBox->setCurrentIndex(0);
-    propUserPercSpinBox->setValue(20);
     propStateLineEdit->clear();
     propStateDetailLineEdit->clear();
 
     propApprovButton->setEnabled(false);
-    propRejectButton->setEnabled(false);
 
     propScopeTextEdit->setFocus();
 
@@ -419,9 +387,6 @@ void SalesForm::prepareSoControls()
 {
     soDateEdit->setDate(QDate::currentDate());
     soIdLineEdit->clear();
-    // Deschequear primero para luego seleccionar las AZ.
-    for (int i=0; i<recordFoilListWidget->count(); i++)
-        recordFoilListWidget->item(i)->setCheckState(Qt::Unchecked);
     soInspectorsComboBox->setCurrentIndex(0);
     soAssignDateEdit->setDate(QDate::currentDate());
     soAccStateLineEdit->clear();
@@ -472,15 +437,6 @@ bool SalesForm::validateQuotData()
         return false;
     }
 
-    if (quotFaxLineEdit->text()=="") {
-        QMessageBox::warning(this, trUtf8("Faltan Datos"),
-                             trUtf8("El teléfono de contacto es obligatorio"),
-                             QMessageBox::Ok);
-        scrollArea->verticalScrollBar()->setValue(0);
-        quotFaxLineEdit->setFocus();
-        return false;
-    }
-
     if (quotScopeTextEdit->toPlainText()=="") {
         QMessageBox::warning(this, trUtf8("Faltan Datos"),
                              trUtf8("El alcance es obligatorio"),
@@ -527,12 +483,12 @@ bool SalesForm::validateQuotData()
 //        return false;
 //    }
 
-    QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
+    QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
     if (processesIndexes.size() == 0) {
         QMessageBox::warning(this, trUtf8("Faltan Datos"),
                              trUtf8("Es obligatorio por lo menos un proceso"),
                              QMessageBox::Ok);
-        processesListWidget->setFocus();
+        quotProcessesListWidget->setFocus();
         return false;
     }
 
@@ -698,11 +654,10 @@ int SalesForm::insertQuotation(int opt)
     quotData.append(quotAddressLineEdit->text());
     quotData.append(quotMailLineEdit->text());
     quotData.append(quotPhoneLineEdit->text());
-    quotData.append(quotFaxLineEdit->text());
     //El index del combobox es el mismo para el QList donde esta guardado el id del departamento
     quotData.append(quotCitiesData.at(0).at(quotCityComboBox->currentIndex()));
-    quotData.append(usesData.at(0).at(useTypeComboBox->currentIndex()));
-    quotData.append(inspecTypeComboBox->currentText());
+    quotData.append(usesData.at(0).at(quotUseTypeComboBox->currentIndex()));
+    quotData.append(quotInspecTypeComboBox->currentText());
 
     thrdData.clear(); // Es necesario limpiar el QStringList ya que es miembro
     thrdData.append("0");
@@ -716,7 +671,7 @@ int SalesForm::insertQuotation(int opt)
     thrdData.append(thrdFaxLineEdit->text());
     thrdData.append(thrdCitiesData.at(0).at(thrdCityComboBox->currentIndex()));
 
-    QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
+    QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
     for (int i=0; i< processesIndexes.size(); i++)
         // ProcessesData es un Qlist<QStringList>, 0 es la primera lista, osea la de Ids
         // processesIndexes.at(i).row() indican el registro en cuestion, así coincide
@@ -859,13 +814,11 @@ bool SalesForm::updateQuotation()
     quotData.append(quotAddressLineEdit->text());
     quotData.append(quotMailLineEdit->text());
     quotData.append(quotPhoneLineEdit->text());
-    quotData.append(quotFaxLineEdit->text());
-
     quotData.append(quotCitiesData.at(0).at(quotCityComboBox->currentIndex()));
-    quotData.append(usesData.at(0).at(useTypeComboBox->currentIndex()));
-    quotData.append(inspecTypeComboBox->currentText());
+    quotData.append(usesData.at(0).at(quotUseTypeComboBox->currentIndex()));
+    quotData.append(quotInspecTypeComboBox->currentText());
 
-    QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
+    QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
     for (int i=0; i< processesIndexes.size(); i++)
         // ProcessesData es un Qlist<QStringList>, 0 es la primera lista, osea la de Ids
         // processesIndexes.at(i).row() indican el registro en cuestion, así coincide
@@ -974,7 +927,6 @@ int SalesForm::deleteQuotation()
             updateButton->setEnabled(true);
             deleteButton->setEnabled(true);
             propApprovButton->setEnabled(true);
-            propRejectButton->setEnabled(true);
             salesTabWidget->setCurrentIndex(0);
             break;
 
@@ -988,7 +940,6 @@ int SalesForm::deleteQuotation()
             updateButton->setEnabled(true);
             deleteButton->setEnabled(true);
             propApprovButton->setEnabled(false);
-            propRejectButton->setEnabled(false);
             salesTabWidget->setCurrentIndex(0);
             break;
 
@@ -1039,7 +990,6 @@ int SalesForm::deleteServiceOrder()
     if (DbHandler::deleteServiceOrder(sosData.at(0).at(so_position), isFkViolation)) {
         clearSoControls();
         propApprovButton->setEnabled(true);
-        propRejectButton->setEnabled(true);
         return 0;
     } else {
         if (isFkViolation) {
@@ -1182,6 +1132,7 @@ void SalesForm::testProposal()
 
     soInspPercLabel->show();
     soInspPercSpinBox->show();
+    QMessageBox::information(this, trUtf8("Falta disparar diálogo de archivado"), trUtf8("Código faltante"), QMessageBox::Cancel);
 }
 
 

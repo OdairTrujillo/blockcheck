@@ -394,7 +394,6 @@ bool EngineeringForm::updateQuotation()
     quotData.append(quotsData.at(Quots::Addrs).at(0)); // Dirección
     quotData.append(quotsData.at(Quots::Mail).at(0)); // Correo
     quotData.append(quotsData.at(Quots::Cel).at(0)); // Celular
-    quotData.append(quotsData.at(Quots::Tel).at(0)); // Telefono
     quotData.append(citiesData.at(0).at(inspectionCityComboBox->currentIndex())); // Id de la ciudad
     quotData.append(usesData.at(0).at(usesData.at(1).indexOf(quotsData.at(Quots::Use).at(0)))); // Id del uso
     quotData.append(quotsData.at(Quots::InspType).at(0)); // Tipo de inspección

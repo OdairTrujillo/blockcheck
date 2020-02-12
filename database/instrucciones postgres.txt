@@ -1,0 +1,3 @@
+Para postgres primero hay que configurar el /etc/postgres/11/postgres.conf para cambiar a listen todas las direcciones, habilitar la autenticación md5.
+Luego en el pg_hba.conf se debe poner trust para el usuario local. 
+Se debe revisar el puerto en el que corre el servidor.

@@ -51,13 +51,12 @@ enum {
     Nit = 1,
     SName = 2,
     LRep = 3,
-    CC = 4,
-    Addrs = 5,
-    Mail = 6,
-    Cel = 7,
-    Tel = 8,
-    State = 9,
-    City = 10
+    Addrs = 4,
+    Mail = 5,
+    Cel = 6,
+    Tel = 7,
+    State = 8,
+    City = 9
 };
 }
 
@@ -71,12 +70,11 @@ enum {
     Addrs = 5,
     Mail = 6,
     Cel = 7,
-    Tel = 8,
-    State = 9,
-    City = 10,
-    Use = 11,
-    InspType = 12,
-    NewId = 11
+    State = 8,
+    City = 9,
+    Use = 10,
+    InspType = 11,
+    NewId = 12
 };
 }
 

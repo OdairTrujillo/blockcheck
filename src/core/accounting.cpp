@@ -606,7 +606,6 @@ void AccountingForm::renderServiceOrder()
         htmlString.replace("_ciudadTercero", thrdData.at(Thrds::City));
         htmlString.replace("_departTercero", thrdData.at(Thrds::State));
         htmlString.replace("_nombreContacto", quotsData.at(Quots::Contact).at(0));
-        htmlString.replace("_telefonoContacto", quotsData.at(Quots::Tel).at(0));
         htmlString.replace("_nombreInstal", quotsData.at(Quots::Name).at(0));
         htmlString.replace("_ciudadInstal", quotsData.at(Quots::City).at(0));
         htmlString.replace("_departInstal", quotsData.at(Quots::State).at(0));

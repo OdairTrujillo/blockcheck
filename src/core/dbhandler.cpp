@@ -15,7 +15,7 @@ bool DbHandler::createConnection(void)
     } else {
         QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
         db.setHostName(confs.sqlServerIP);
-        db.setPort(5432);
+        db.setPort(5433);
         db.setDatabaseName(confs.databaseName);
         db.setUserName("bc_user");
         db.setPassword("bc_password");
@@ -31,7 +31,7 @@ bool DbHandler::createConnection(void)
     return false;
 }
 
-// NOTE: Crear conexion con el servidor de base de datos
+// NOTE: Cerrar conexion con el servidor de base de datos
 void DbHandler::closeConnection(void)
 {
     OutsideActions outside;
@@ -112,20 +112,19 @@ bool DbHandler::insertQuotation(const QStringList thrdData, QStringList &quotDat
 {
     QSqlQuery queryInsertThirdPartie;
 
-    queryInsertThirdPartie.prepare("INSERT INTO tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_cc, thrd_address, thrd_mail, "
+    queryInsertThirdPartie.prepare("INSERT INTO tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, "
                                    "thrd_cel, thrd_tel, city_id) "
-                                   "VALUES (:thrd_nit, :thrd_name, :thrd_representative, :thrd_cc, :thrd_address, :thrd_mail, "
+                                   "VALUES (:thrd_nit, :thrd_name, :thrd_representative, :thrd_address, :thrd_mail, "
                                    ":thrd_cel, :thrd_tel, :city_id) RETURNING thrd_id");
 
     queryInsertThirdPartie.bindValue(":thrd_nit", thrdData.at(1));
     queryInsertThirdPartie.bindValue(":thrd_name", thrdData.at(2));
     queryInsertThirdPartie.bindValue(":thrd_representative", thrdData.at(3));
-    queryInsertThirdPartie.bindValue(":thrd_cc", thrdData.at(4));
-    queryInsertThirdPartie.bindValue(":thrd_address", thrdData.at(5));
-    queryInsertThirdPartie.bindValue(":thrd_mail", thrdData.at(6));
-    queryInsertThirdPartie.bindValue(":thrd_cel", thrdData.at(7));
-    queryInsertThirdPartie.bindValue(":thrd_tel", thrdData.at(8));
-    queryInsertThirdPartie.bindValue(":city_id", thrdData.at(9).toInt());
+    queryInsertThirdPartie.bindValue(":thrd_address", thrdData.at(4));
+    queryInsertThirdPartie.bindValue(":thrd_mail", thrdData.at(5));
+    queryInsertThirdPartie.bindValue(":thrd_cel", thrdData.at(6));
+    queryInsertThirdPartie.bindValue(":thrd_tel", thrdData.at(7));
+    queryInsertThirdPartie.bindValue(":city_id", thrdData.at(8).toInt());
 
 
     if (!queryInsertThirdPartie.exec()) {
@@ -134,12 +133,12 @@ bool DbHandler::insertQuotation(const QStringList thrdData, QStringList &quotDat
         isUniqueViolation=queryInsertThirdPartie.lastError().text().contains("tblthirdparties_thrd_nit_key", Qt::CaseInsensitive);
         return false;
     } else {
-        queryInsertThirdPartie.first(); //Me entrega el ultimo tercero insertado.
+        queryInsertThirdPartie.first(); //Se posiciona en el tercero que fue insertado.
         QSqlQuery queryInsertQuotation;
         queryInsertQuotation.prepare("INSERT INTO tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, "
-                                     "quot_mail, quot_cel, quot_tel, thrd_id, city_id, use_id, quot_inspect_type) "
+                                     "quot_mail, quot_cel, thrd_id, city_id, use_id, quot_inspect_type) "
                                      "VALUES (:quot_date, :quot_name, :quot_scope, :quot_contact, :quot_address, "
-                                     ":quot_mail, :quot_cel, :quot_tel, :thrd_id, :city_id, :use_id, :quot_inspect_type) "
+                                     ":quot_mail, :quot_cel, :thrd_id, :city_id, :use_id, :quot_inspect_type) "
                                      "RETURNING quot_id");
 
         queryInsertQuotation.bindValue(":quot_date", quotData.at(0));
@@ -149,11 +148,10 @@ bool DbHandler::insertQuotation(const QStringList thrdData, QStringList &quotDat
         queryInsertQuotation.bindValue(":quot_address", quotData.at(4));
         queryInsertQuotation.bindValue(":quot_mail", quotData.at(5));
         queryInsertQuotation.bindValue(":quot_cel", quotData.at(6));
-        queryInsertQuotation.bindValue(":quot_tel", quotData.at(7));
         queryInsertQuotation.bindValue(":thrd_id", queryInsertThirdPartie.value(0).toInt());
-        queryInsertQuotation.bindValue(":city_id", quotData.at(8).toInt());
-        queryInsertQuotation.bindValue(":use_id", quotData.at(9).toInt());
-        queryInsertQuotation.bindValue(":quot_inspect_type", quotData.at(10));
+        queryInsertQuotation.bindValue(":city_id", quotData.at(7).toInt());
+        queryInsertQuotation.bindValue(":use_id", quotData.at(8).toInt());
+        queryInsertQuotation.bindValue(":quot_inspect_type", quotData.at(9));
 
         if (!queryInsertQuotation.exec()) {
             qDebug() << "Error en queryInsertQuotation: " + queryInsertQuotation.lastError().text();
@@ -175,9 +173,9 @@ bool DbHandler::insertQuotation(const QString thrdNit, QStringList &quotData, QS
 {
     QSqlQuery queryInsertQuotation;
     queryInsertQuotation.prepare("INSERT INTO tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, "
-                                 "quot_mail, quot_cel, quot_tel, city_id, use_id, thrd_id, quot_inspect_type) "
+                                 "quot_mail, quot_cel, city_id, use_id, thrd_id, quot_inspect_type) "
                                  "VALUES (:quot_date, :quot_name, :quot_scope, :quot_contact, :quot_address, "
-                                 ":quot_mail, :quot_cel, :quot_tel, :city_id, :use_id, (SELECT thrd_id FROM tblTHIRDPARTIES WHERE "
+                                 ":quot_mail, :quot_cel, :city_id, :use_id, (SELECT thrd_id FROM tblTHIRDPARTIES WHERE "
                                  "thrd_nit=:thrd_nit), :quot_inspect_type) RETURNING quot_id");
 
     queryInsertQuotation.bindValue(":quot_date", quotData.at(0));
@@ -187,11 +185,10 @@ bool DbHandler::insertQuotation(const QString thrdNit, QStringList &quotData, QS
     queryInsertQuotation.bindValue(":quot_address", quotData.at(4));
     queryInsertQuotation.bindValue(":quot_mail", quotData.at(5));
     queryInsertQuotation.bindValue(":quot_cel", quotData.at(6));
-    queryInsertQuotation.bindValue(":quot_tel", quotData.at(7));
     queryInsertQuotation.bindValue(":thrd_nit", thrdNit);
-    queryInsertQuotation.bindValue(":city_id", quotData.at(8).toInt());
-    queryInsertQuotation.bindValue(":use_id", quotData.at(9).toInt());
-    queryInsertQuotation.bindValue(":quot_inspect_type", quotData.at(10));
+    queryInsertQuotation.bindValue(":city_id", quotData.at(7).toInt());
+    queryInsertQuotation.bindValue(":use_id", quotData.at(8).toInt());
+    queryInsertQuotation.bindValue(":quot_inspect_type", quotData.at(9));
 
     if (!queryInsertQuotation.exec()) {
         qDebug() << "Error en queryInsertQuotation: " + queryInsertQuotation.lastError().text();
@@ -1026,12 +1023,12 @@ bool DbHandler::updatePropApproval(const QString propId, const QString propState
 {
     QSqlQuery queryUpdatePropApproval;
 
-    queryUpdatePropApproval.prepare("UPDATE tblPROPOSALS SET prop_state=:prop_state, prop_approval=:prop_approval "
+    queryUpdatePropApproval.prepare("UPDATE tblPROPOSALS SET prop_state=:prop_state, prop_state_detail=:prop_state_detail "
                                    "WHERE prop_id=:prop_id");
 
     queryUpdatePropApproval.bindValue(":prop_id", propId);
     queryUpdatePropApproval.bindValue(":prop_state", propState);
-    queryUpdatePropApproval.bindValue(":prop_approval", approvalDetail);
+    queryUpdatePropApproval.bindValue(":prop_state_detail", approvalDetail);
 
     if (!queryUpdatePropApproval.exec()) {
         qDebug() << "Error en queryUpdatePropApproval: " + queryUpdatePropApproval.lastError().text();
@@ -2116,19 +2113,19 @@ bool DbHandler::getThirdPartie(QString findString, QStringList &thrdData, QStrin
 
     thrdData.clear();
     QSqlQuery queryGetThirdPartie;
-    queryGetThirdPartie.prepare(QString("SELECT thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_cc, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
-                                "tblSTATES.state_name, tblCITIES.city_name  "
+    queryGetThirdPartie.prepare(QString("SELECT (thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
+                                "tblSTATES.state_name, tblCITIES.city_name)  "
                                 "FROM tblTHIRDPARTIES, tblCITIES, tblSTATES "
-                                "WHERE tblCITIES.city_id = tblTHIRDPARTIES.city_id "
+                                "WHERE (tblCITIES.city_id = tblTHIRDPARTIES.city_id "
                                 "AND tblSTATES.state_id = tblCITIES.state_id "
-                                "AND %1 = :find_string").arg(searchOption));
+                                "AND %1 = :find_string)").arg(searchOption));
     if (searchOption == "thrd_nit")
         queryGetThirdPartie.bindValue(":find_string", findString);
     else
         queryGetThirdPartie.bindValue(":find_string", findString.toInt());
 
     if(!queryGetThirdPartie.exec()) {
-        qDebug() << "Error en queryGetThirdPartie: \n" + queryGetThirdPartie.lastError().text();
+        qDebug() << "Error en queryGetThirdPartie: " + queryGetThirdPartie.lastError().text();
         return false;
     } else {
         while(queryGetThirdPartie.next()) {
@@ -2136,7 +2133,6 @@ bool DbHandler::getThirdPartie(QString findString, QStringList &thrdData, QStrin
             thrdData.append(queryGetThirdPartie.value(1).toString()); //nit
             thrdData.append(queryGetThirdPartie.value(2).toString()); //razon zocial
             thrdData.append(queryGetThirdPartie.value(3).toString()); //representante legal
-            thrdData.append(queryGetThirdPartie.value(4).toString()); //cedula
             thrdData.append(queryGetThirdPartie.value(5).toString()); //direccion
             thrdData.append(queryGetThirdPartie.value(6).toString()); //mail
             thrdData.append(queryGetThirdPartie.value(7).toString()); //celular
@@ -2160,7 +2156,7 @@ bool DbHandler::getThirdParties(QList<QStringList> &thirdsData)
     thirdsData.clear();
     QStringList thrdData;
     QSqlQuery queryGetThirdParties;
-    queryGetThirdParties.prepare("SELECT thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_cc, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
+    queryGetThirdParties.prepare("SELECT thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
                                 "tblCITIES.city_name, tblSTATES.state_name "
                                 "FROM (tblTHIRDPARTIES INNER JOIN tblCITIES ON tblCITIES.city_id=tblTHIRDPARTIES.city_id) "
                                 "INNER JOIN tblSTATES ON tblSTATES.state_id=tblCITIES.state_id");
@@ -2179,7 +2175,6 @@ bool DbHandler::getThirdParties(QList<QStringList> &thirdsData)
             thrdData.append(queryGetThirdParties.value(7).toString());
             thrdData.append(queryGetThirdParties.value(8).toString());
             thrdData.append(queryGetThirdParties.value(9).toString());
-            thrdData.append(queryGetThirdParties.value(10).toString());
 
             thirdsData.append(thrdData);//Agrego el cliente a la lista de clientes
             thrdData.clear(); //Limpio el stringList de cliente para volverlo a usar
