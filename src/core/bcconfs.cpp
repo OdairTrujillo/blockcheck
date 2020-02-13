@@ -16,8 +16,8 @@ BcConfsForm::BcConfsForm(QWidget *parent) :
     QString fileName(QDir::currentPath() + "/blockcheck.conf");
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(0, trUtf8("Error Abriendo Configuración"),
-                             trUtf8("No se puedo abrir '%1'").arg(fileName));
+        QMessageBox::warning(0, ("Error Abriendo Configuración"),
+                             ("No se puedo abrir '%1'").arg(fileName));
 
     } else {
         QTextStream readStream(&file);
@@ -51,12 +51,12 @@ void BcConfsForm::saveConfs(void)
     writeStream << QString::number(ui->updateTimeSpinBox->value());
 
     if (writeStream.status()==QTextStream::Ok) {
-        QMessageBox::information(this, trUtf8("Guardando"), trUtf8("Configuraciones guardadas con éxito"),
+        QMessageBox::information(this, ("Guardando"), ("Configuraciones guardadas con éxito"),
                                                                QMessageBox::Ok);
     close();
     }
     else
-        QMessageBox::warning(this, trUtf8("Guardando"), trUtf8("Hubo un error guardando el archivo"),
+        QMessageBox::warning(this, ("Guardando"), ("Hubo un error guardando el archivo"),
                                                            QMessageBox::Cancel);
 
 }
