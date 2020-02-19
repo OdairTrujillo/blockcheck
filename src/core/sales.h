@@ -35,7 +35,7 @@ public:
     int quot_position;
     int prop_position;
     int so_position;
-    int newQuot;
+    int newQuot, newQuotId;
     int newProp;
     int newSo;
     int oldTabIndex;
@@ -49,9 +49,9 @@ private:
     void fillSoControls(void);
     void setValidators(void);
 
-
-    int findByNit(QString thrdNit);
     int findByThrdId(QString thrdId);
+    int findByNit(QString thrdNit);
+    int findByQuotId(QString quotId);
     int findByInstName(QString instName);
     int findByScope(QString scope);
     int findByPropId(QString propId);
@@ -71,8 +71,8 @@ private:
     int deleteServiceOrder();
 
 
-    //Estas funciones no reciben datos porque operan sobre
-    //variables miembro
+    //Estas funciones no reciben datos porque operan sobre variables miembro
+    void fillThrdData();
     void fillQuotData();
     void fillPropData();
     void fillSoData();

@@ -119,18 +119,31 @@ void SalesForm::findSomething(void)
         prop_position=0;
         so_position=0;
         switch (findComboBox->currentIndex()) {
-        case 0:
-            // Nit o CC
+
+        case 0: // Nit o CC
+
             switch (findByNit(findLineEdit->text())) {
             case 0: // No encontro datos o ocurrio un error
-                QMessageBox::critical(this, trUtf8("Sin Datos"),
-                                      trUtf8("No se encontraron cotizaciones con: \n" +
-                                      findLineEdit->text().toUtf8()),
+                QMessageBox::critical(this, "Sin Datos",
+                                      "No se encontraron cotizaciones con: \n" +
+                                      findLineEdit->text().toUtf8(),
                                       QMessageBox::Cancel);
                 quotsData.append(QStringList(""));
                 break;
 
-            case 1: // Solo encontro cotizacion
+            case 1: // Solo encontro tercero
+                fillThrdData();
+                clearQuotControls();
+                clearPropControls();
+                clearSoControls();
+                quotGenButton->setEnabled(false);
+                updateButton->setEnabled(true);
+                deleteButton->setEnabled(true);
+                salesTabWidget->setCurrentIndex(0);
+                break;
+
+            case 2: // Sólo encontro tercero cotización
+                fillThrdData();
                 fillQuotData();
                 clearPropControls();
                 clearSoControls();
@@ -140,7 +153,8 @@ void SalesForm::findSomething(void)
                 salesTabWidget->setCurrentIndex(0);
                 break;
 
-            case 2: // Se econtró cotización y propuesta
+            case 3: // Se econtró tercero, cotización y propuesta
+                fillThrdData();
                 fillQuotData();
                 fillPropData();
                 clearSoControls();
@@ -152,7 +166,8 @@ void SalesForm::findSomething(void)
                 salesTabWidget->setCurrentIndex(0);
                 break;
 
-            case 3: // Se econtró cotización, propuesta y orden de servicio
+            case 4: // Se econtró cotización, propuesta y orden de servicio
+                fillThrdData();
                 fillQuotData();
                 fillPropData();
                 fillSoData();
@@ -167,7 +182,7 @@ void SalesForm::findSomething(void)
 
             }
 
-            foundLCD->display(quotsData.at(0).size());
+            quotsLCD->display(quotsData.at(0).size());
             prevButton->setEnabled(false);
 
             if (quotsData.at(0).size()==1)
@@ -177,17 +192,76 @@ void SalesForm::findSomething(void)
             quotLCD->display(quot_position+1);
             break;
 
-        case 1:
-            // Id Propuesta
+        case 1: // Por Id de cotización
+
+            switch (findByQuotId(findLineEdit->text())) {
+            case 0:
+                QMessageBox::critical(this, "Sin Datos",
+                                      "No se encontró cotización con: \n" +
+                                      findLineEdit->text().toUtf8(),
+                                      QMessageBox::Cancel);
+                break;
+            case 2: // Se encontró sólo cotización
+                fillThrdData();
+                fillQuotData();
+                clearPropControls();
+                clearSoControls();
+                quotGenButton->setEnabled(false);
+                propGenButton->setEnabled(false);
+                updateButton->setEnabled(true);
+                deleteButton->setEnabled(true);
+                propApprovButton->setEnabled(true);
+                salesTabWidget->setCurrentIndex(0);
+                quotLCD->display(1);
+                break;
+
+            case 3: // Se encontró sólo cotización y propueta
+                fillThrdData();
+                fillQuotData();
+                fillPropData();
+                clearSoControls();
+                quotGenButton->setEnabled(false);
+                propGenButton->setEnabled(false);
+                updateButton->setEnabled(true);
+                deleteButton->setEnabled(true);
+                propApprovButton->setEnabled(true);
+                salesTabWidget->setCurrentIndex(0);
+                quotLCD->display(1);
+                break;
+
+            case 4: // Se encontró cotización, propuesta y orden de servicio.
+                fillThrdData();
+                fillQuotData();
+                fillPropData();
+                fillSoData();
+                quotGenButton->setEnabled(false);
+                propGenButton->setEnabled(false);
+                soGenButton->setEnabled(false);
+                updateButton->setEnabled(true);
+                deleteButton->setEnabled(true);
+                propApprovButton->setEnabled(false);
+                salesTabWidget->setCurrentIndex(0);
+                quotLCD->display(1);
+                break;
+
+            }
+            prevButton->setEnabled(false);
+            nextButton->setEnabled(false);
+            break;
+
+        case 2: // Id de propuesta
+
             switch (findByPropId(findLineEdit->text())) {
             case 0:
-                QMessageBox::critical(this, trUtf8("Sin Datos"),
-                                      trUtf8("No se encontró propuesta con: \n" +
-                                      findLineEdit->text().toUtf8()),
+                QMessageBox::critical(this, "Sin Datos",
+                                      "No se encontró propuesta con: \n" +
+                                      findLineEdit->text().toUtf8(),
                                       QMessageBox::Cancel);
                 break;
                 // No tiene case 1 porque nunca devuelve 1
-            case 2: // Se encontró cotización y propueta
+
+            case 3: // Se encontró cotización y propueta
+                fillThrdData();
                 fillQuotData();
                 fillPropData();
                 clearSoControls();
@@ -200,7 +274,8 @@ void SalesForm::findSomething(void)
                 quotLCD->display(1);
                 break;
 
-            case 3: // Se encontró cotización, propuesta y orden de servicio.
+            case 4: // Se encontró cotización, propuesta y orden de servicio.
+                fillThrdData();
                 fillQuotData();
                 fillPropData();
                 fillSoData();
@@ -218,17 +293,19 @@ void SalesForm::findSomething(void)
             prevButton->setEnabled(false);
             nextButton->setEnabled(false);
             break;
-        case 2:
-            // Id Orden de servicio
+
+        case 3:// Id Orden de servicio
+
             switch (findBySoId(findLineEdit->text())) {
             case 0:
-                QMessageBox::critical(this, trUtf8("Sin Datos"),
-                                      trUtf8("No se encontró Orden de Servicio con: \n" +
-                                      findLineEdit->text().toUtf8()),
+                QMessageBox::critical(this, "Sin Datos",
+                                      "No se encontró Orden de Servicio con: \n" +
+                                      findLineEdit->text().toUtf8(),
                                       QMessageBox::Cancel);
                 break;
                 // No tiene case 1 y 2 porque nunca devuelve esos valores
-            case 3: // Se encontró cotización, propuesta y orden de servicio.
+            case 4: // Se encontró cotización, propuesta y orden de servicio.
+                fillThrdData();
                 fillQuotData();
                 fillPropData();
                 fillSoData();
@@ -245,29 +322,25 @@ void SalesForm::findSomething(void)
             prevButton->setEnabled(false);
             nextButton->setEnabled(false);
             break;
-
         }
 
-
     } else {
-        QMessageBox::warning(this, trUtf8("Faltan Datos"),
-                             trUtf8("Debe introducir texto de búsqueda"),
+        QMessageBox::warning(this, "Faltan Datos",
+                             "Debe introducir texto de búsqueda",
                              QMessageBox::Cancel);
         findLineEdit->setFocus();
     }
-
 }
-
 
 // NOTA: Nuevo algo
 void SalesForm::newSomething()
 {
     switch (salesTabWidget->currentIndex()) {
     case 0: // Nueva cotización
-        newQuot=QMessageBox::question(this, trUtf8("Nueva Cotización"),
-                                      trUtf8("Presione \"Si\" para crear un nuevo\n"
+        newQuot=QMessageBox::question(this, "Nueva Cotización",
+                                      "Presione \"Si\" para crear un nuevo\n"
                                              "cliente y cotización,  \"No\" para\n"
-                                             "crear  una cotización  en cliente  actual"),
+                                             "crear  una cotización  en cliente  actual",
                                       QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         switch (newQuot) {
         case QMessageBox::Yes:
@@ -282,9 +355,9 @@ void SalesForm::newSomething()
 
             // Se hace por si el usuario selecciono crear cotizacion y los datos del cliente estan vacios
             if (thrdNitLineEdit->text()=="") {
-                QMessageBox::information(this, trUtf8("Faltan Datos"),
-                                         trUtf8("No hay datos del cliente. Se procederá \n"
-                                                "a crear cotización con cliente."),
+                QMessageBox::information(this, "Faltan Datos",
+                                         "No hay datos del cliente. Se procederá \n"
+                                                "a crear cotización con cliente.",
                                          QMessageBox::Ok);
                 newQuot=QMessageBox::Yes;
                 clearThrdQuotControls();
@@ -306,10 +379,10 @@ void SalesForm::newSomething()
 
     case 1: // Nueva Propuesta Comercial
         if (found == 1) { // si se entontró cotización se puede continuar
-            newProp=QMessageBox::question(this, trUtf8("Nueva Propuesta"),
-                                          trUtf8("Presione \"Si\" para crear una propuesta\n"
-                                                 "para " + thrdRepLineEdit->text().toUtf8() + "\n"
-                                                 "en la cotización: " + QString::number(quotLCD->value()).toUtf8()),
+            newProp=QMessageBox::question(this, "Nueva Propuesta",
+                                          "Presione \"Si\" para crear una propuesta\n"
+                                                 "para " + thrdLegalRepLineEdit->text().toUtf8() + "\n"
+                                                 "en la cotización: " + QString::number(quotLCD->value()).toUtf8(),
                                           QMessageBox::Yes | QMessageBox::Cancel);
             switch (newProp) {
             case QMessageBox::Yes:
@@ -323,10 +396,10 @@ void SalesForm::newSomething()
             }
         } else {
 
-            QMessageBox::critical(this, trUtf8("Faltan Datos"),
-                                  trUtf8("Una propuesta se crea sobre una cotización,\n"
+            QMessageBox::critical(this, "Faltan Datos",
+                                  "Una propuesta se crea sobre una cotización,\n"
                                          "encuentre la cotización o cree una nueva\n"
-                                         "para continuar."),
+                                         "para continuar.",
                                   QMessageBox::Cancel);
 
 
@@ -335,11 +408,11 @@ void SalesForm::newSomething()
     case 2: // Nueva Orden de Servicio
         if (found == 2) { // se econtró propuesta, se puede continuar.
             // Se consulta si la propuesta está aprobada para continuar.
-            if (propStateLineEdit->text() == "Aprobada") {
-                newSo=QMessageBox::question(this, trUtf8("Nueva Orden de Servicio"),
-                                            trUtf8("Presione \"Si\" para crear una Orden de\n"
+            if (propApprovalLineEdit->text() == "Aprobada") {
+                newSo=QMessageBox::question(this, "Nueva Orden de Servicio",
+                                            "Presione \"Si\" para crear una Orden de\n"
                                                    "Servicio para " +propThrdNameLineEdit->text().toUtf8() + "\n"
-                                                   "en la propuesta de la cotización: " + QString::number(quotLCD->value()).toUtf8()),
+                                                   "en la propuesta de la cotización: " + QString::number(quotLCD->value()).toUtf8(),
                                             QMessageBox::Yes | QMessageBox::Cancel);
                 switch (newSo) {
                 case QMessageBox::Yes:
@@ -352,17 +425,17 @@ void SalesForm::newSomething()
                     break;
                 }
             } else {
-                QMessageBox::critical(this, trUtf8("Propuesta sin Aprobar"),
-                                      trUtf8("La propuesta comercial no está aprobada. \n"
+                QMessageBox::critical(this, "Propuesta sin Aprobar",
+                                      "La propuesta comercial no está aprobada. \n"
                                              "Cambie a la pestaña de propuesta y apruébela\n"
-                                             "para poder continuar."),
+                                             "para poder continuar.",
                                       QMessageBox::Ok);
             }
         } else {
-            QMessageBox::critical(this, trUtf8("Faltan Datos"),
-                                  trUtf8("Un Orden de Servicio se crea sobre una \n"
+            QMessageBox::critical(this, "Faltan Datos",
+                                  "Un Orden de Servicio se crea sobre una \n"
                                          "propuesta, encuentre la prupuesta o cree\n"
-                                         "una nueva para continuar."),
+                                         "una nueva para continuar.",
                                   QMessageBox::Cancel);
 
         }
@@ -377,73 +450,73 @@ void SalesForm::updateSomething()
     switch (salesTabWidget->currentIndex()) {
     case 0: // actualizar cotización
         if (found >= 1) { // >1 se encontró cotización, se puede seguir
-            if (QMessageBox::information(this, trUtf8("Actualizar Cotización"),
-                                         trUtf8("¿Desea Actualizar esta Cotización?"),
+            if (QMessageBox::information(this, "Actualizar Cotización",
+                                         "¿Desea Actualizar esta Cotización?",
                                          QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
                 if (validateQuotData() && found >=1) { // >=1 significa que está en una cotización válida
                     if (!updateQuotation())
-                        QMessageBox::critical(this, trUtf8("Error Actualizando Cotización"),
-                                              trUtf8("No se pudieron actualizar los datos \n"
+                        QMessageBox::critical(this, "Error Actualizando Cotización",
+                                              "No se pudieron actualizar los datos \n"
                                                      "Ejecute  el programa bajo consola y \n"
-                                                     "revise   los  mensajes   de   error"),
+                                                     "revise   los  mensajes   de   error",
                                               QMessageBox::Cancel);
                     else
-                        QMessageBox::information(this, trUtf8("Actualizando Cotización"),
-                                                 trUtf8("Cotización actualizada con éxito"),
+                        QMessageBox::information(this, "Actualizando Cotización",
+                                                 "Cotización actualizada con éxito",
                                                  QMessageBox::Ok);
                 }
             }
         } else
-            QMessageBox::information(this, trUtf8("Error al Actualizar"),
-                                     trUtf8("No hay una cotización que actualizar"),
+            QMessageBox::information(this, "Error al Actualizar",
+                                     "No hay una cotización que actualizar",
                                      QMessageBox::Cancel);
 
         break;
     case 1: // actualizar propuesta
         if (found >= 2) { // se encontró propuesta, se puede seguir
-            if (QMessageBox::information(this, trUtf8("Actualizar Propuesta"),
-                                         trUtf8("¿Desea Actualizar esta Propuesta?"),
+            if (QMessageBox::information(this, "Actualizar Propuesta",
+                                         "¿Desea Actualizar esta Propuesta?",
                                          QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
                 if (validatePropData() && found >=2) {
                     if (!updateProposal())
-                        QMessageBox::critical(this, trUtf8("Error Actualizando Propuesta"),
-                                              trUtf8("No se pudieron actualizar los datos \n"
+                        QMessageBox::critical(this, "Error Actualizando Propuesta",
+                                              "No se pudieron actualizar los datos \n"
                                                      "Ejecute  el programa bajo consola y \n"
-                                                     "revise   los  mensajes   de   error"),
+                                                     "revise   los  mensajes   de   error",
                                               QMessageBox::Cancel);
                     else
-                        QMessageBox::information(this, trUtf8("Actualizando Propuesta"),
-                                                 trUtf8("Propuesta actualizada con éxito"),
+                        QMessageBox::information(this, "Actualizando Propuesta",
+                                                 "Propuesta actualizada con éxito",
                                                  QMessageBox::Ok);
                 }
 
             }
         } else
-            QMessageBox::information(this, trUtf8("Error al Actualizar"),
-                                     trUtf8("No hay una propuesta que actualizar"),
+            QMessageBox::information(this, "Error al Actualizar",
+                                     "No hay una propuesta que actualizar",
                                      QMessageBox::Cancel);
         break;
     case 2: // actualizar orden de servicio
         if (found >= 3) { // se encontró órden de servicio, se puede continuar.
-            if (QMessageBox::information(this, trUtf8("Actualizar Orden de Servicio"),
-                                         trUtf8("¿Desea Actualizar esta Orden de Servicio?"),
+            if (QMessageBox::information(this, "Actualizar Orden de Servicio",
+                                         "¿Desea Actualizar esta Orden de Servicio?",
                                          QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
                 if (validateSoData()) {
                     if (!updateServiceOrder())
-                        QMessageBox::critical(this, trUtf8("Error Actualizando OS"),
-                                              trUtf8("No se pudieron actualizar los datos \n"
+                        QMessageBox::critical(this, "Error Actualizando OS",
+                                              "No se pudieron actualizar los datos \n"
                                                      "Ejecute  el programa bajo consola y \n"
-                                                     "revise   los  mensajes   de   error"),
+                                                     "revise   los  mensajes   de   error",
                                               QMessageBox::Cancel);
                     else
-                        QMessageBox::information(this, trUtf8("Actualizando OS"),
-                                                 trUtf8("Orden de Servicio actualizada con éxito"),
+                        QMessageBox::information(this, "Actualizando OS",
+                                                 "Orden de Servicio actualizada con éxito",
                                                  QMessageBox::Ok);
                 }
             }
         } else
-            QMessageBox::information(this, trUtf8("Error al Actualizar"),
-                                     trUtf8("No hay una orden de servicio que actualizar"),
+            QMessageBox::information(this, "Error al Actualizar",
+                                     "No hay una orden de servicio que actualizar",
                                      QMessageBox::Cancel);
         break;
     }
@@ -456,104 +529,104 @@ void SalesForm::deleteSomething()
     switch (salesTabWidget->currentIndex()) {
     case 0:
         if (found >= 1) {
-            if (QMessageBox::warning(this, trUtf8("Eliminar Cotización"),
-                                     trUtf8("¿Desea Eliminar esta Cotización?"),
+            if (QMessageBox::warning(this, "Eliminar Cotización",
+                                     "¿Desea Eliminar esta Cotización?",
                                      QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
                 switch (deleteQuotation()) {
                 case 0:
-                    QMessageBox::information(this, trUtf8("Eliminando Cotización"),
-                                             trUtf8("Cotización Eliminada con éxito"),
+                    QMessageBox::information(this, "Eliminando Cotización",
+                                             "Cotización Eliminada con éxito",
                                              QMessageBox::Ok);
                     findByNit(thrdData.at(1));
                     break;
                 case 1:
-                    QMessageBox::critical(this, trUtf8("Error Eliminando Cotización"),
-                                          trUtf8("No se pudo elminar la cotización, hace\n"
+                    QMessageBox::critical(this, "Error Eliminando Cotización",
+                                          "No se pudo elminar la cotización, hace\n"
                                                  "parte de una propuesta comercial, debe\n"
-                                                 "eliminar la propuesta relacionada"),
+                                                 "eliminar la propuesta relacionada",
                                           QMessageBox::Cancel);
                     break;
                 case 2:
-                    QMessageBox::critical(this, trUtf8("Error Eliminando Cotización"),
-                                          trUtf8("No se pudo  elminar  la  cotización \n"
+                    QMessageBox::critical(this, "Error Eliminando Cotización",
+                                          "No se pudo  elminar  la  cotización \n"
                                                  "Ejecute  el programa bajo consola y \n"
-                                                 "revise   los  mensajes   de   error"),
+                                                 "revise   los  mensajes   de   error",
                                           QMessageBox::Cancel);
                     break;
                 }
 
             }
         } else
-            QMessageBox::information(this, trUtf8("Error al Borar"),
-                                     trUtf8("No hay una cotización que borrar"),
+            QMessageBox::information(this, "Error al Borar",
+                                     "No hay una cotización que borrar",
                                      QMessageBox::Cancel);
 
         break;
     case 1:
         if (found >= 2) {
-            if (QMessageBox::warning(this, trUtf8("Eliminar Propuesta"),
-                                     trUtf8("¿Desea Eliminar esta Propuesta?"),
+            if (QMessageBox::warning(this, "Eliminar Propuesta",
+                                     "¿Desea Eliminar esta Propuesta?",
                                      QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
                 switch (deleteProposal()) {
                 case 0:
-                    QMessageBox::information(this, trUtf8("Eliminando Propuesta"),
-                                             trUtf8("Propuesta Eliminada con éxito"),
+                    QMessageBox::information(this, "Eliminando Propuesta",
+                                             "Propuesta Eliminada con éxito",
                                              QMessageBox::Ok);
                     found = 1; // al eliminar propuesta es seguro que hay cotización
                     break;
                 case 1:
-                    QMessageBox::critical(this, trUtf8("Error Eliminando Propuesta"),
-                                          trUtf8("No se pudo elminar la propuesta, hace\n"
+                    QMessageBox::critical(this, "Error Eliminando Propuesta",
+                                          "No se pudo elminar la propuesta, hace\n"
                                                  "parte de una orden de servicio, debe\n"
-                                                 "eliminar la orden de servicio relacionada"),
+                                                 "eliminar la orden de servicio relacionada",
                                           QMessageBox::Cancel);
                     break;
                 case 2:
-                    QMessageBox::critical(this, trUtf8("Error Eliminando Propuesta"),
-                                          trUtf8("No se pudo  elminar  la  propuesta \n"
+                    QMessageBox::critical(this, "Error Eliminando Propuesta",
+                                          "No se pudo  elminar  la  propuesta \n"
                                                  "Ejecute  el programa bajo consola y \n"
-                                                 "revise   los  mensajes   de   error"),
+                                                 "revise   los  mensajes   de   error",
                                           QMessageBox::Cancel);
                     break;
                 }
 
             }
         } else
-            QMessageBox::information(this, trUtf8("Error al Borar"),
-                                     trUtf8("No hay una propuesta que borrar"),
+            QMessageBox::information(this, "Error al Borar",
+                                     "No hay una propuesta que borrar",
                                      QMessageBox::Cancel);
         break;
     case 2:
         if (found >= 3) {
-            if (QMessageBox::warning(this, trUtf8("Eliminar Orden de Servicio"),
-                                     trUtf8("¿Desea Eliminar esta Orden de Servicio?"),
+            if (QMessageBox::warning(this, "Eliminar Orden de Servicio",
+                                     "¿Desea Eliminar esta Orden de Servicio?",
                                      QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
                 switch (deleteServiceOrder()) {
                 case 0:
-                    QMessageBox::information(this, trUtf8("Eliminando OS"),
-                                             trUtf8("Orden de Servicio Eliminada con éxito"),
+                    QMessageBox::information(this, "Eliminando OS",
+                                             "Orden de Servicio Eliminada con éxito",
                                              QMessageBox::Ok);
                     found = 2; // al eliminar la orden de serivcio es seguro que la propuesta existe.
                     break;
                 case 1:
-                    QMessageBox::critical(this, trUtf8("Error Eliminando OS"),
-                                          trUtf8("No se pudo elminar la orden de servicio\n"
+                    QMessageBox::critical(this, "Error Eliminando OS",
+                                          "No se pudo elminar la orden de servicio\n"
                                                  "hace parte de una inspección, debe\n"
-                                                 "eliminar la inspección relacionada"),
+                                                 "eliminar la inspección relacionada",
                                           QMessageBox::Cancel);
                     break;
                 case 2:
-                    QMessageBox::critical(this, trUtf8("Error Eliminando OS"),
-                                          trUtf8("No se pudo  elminar  la  Orden de Servicio \n"
+                    QMessageBox::critical(this, "Error Eliminando OS",
+                                          "No se pudo  elminar  la  Orden de Servicio \n"
                                                  "Ejecute  el programa bajo consola y \n"
-                                                 "revise   los  mensajes   de   error"),
+                                                 "revise   los  mensajes   de   error",
                                           QMessageBox::Cancel);
                     break;
                 }
             }
         } else
-            QMessageBox::information(this, trUtf8("Error al Borar"),
-                                     trUtf8("No hay una orden de servicio que borrar"),
+            QMessageBox::information(this, "Error al Borar",
+                                     "No hay una orden de servicio que borrar",
                                      QMessageBox::Cancel);
         break;
     }
@@ -565,10 +638,10 @@ void SalesForm::genQuotation()
         switch (insertQuotation(newQuot)) {
 
         case 2:
-            QMessageBox::critical(this, trUtf8("Error Insertando"),
-                                  trUtf8("No se  pudo generar la  cotización \n"
+            QMessageBox::critical(this, "Error Insertando",
+                                  "No se  pudo generar la  cotización \n"
                                          "Ejecute el programa bajo consola y \n"
-                                         " revise  los  mensajes  de  error"),
+                                         " revise  los  mensajes  de  error",
                                   QMessageBox::Cancel);
             quotGenButton->setEnabled(false);
             break;
@@ -581,13 +654,13 @@ void SalesForm::genQuotation()
             else
                 nextButton->setEnabled(true);
             quotLCD->display(quot_position+1);
-            foundLCD->display(quotsData[0].size());
+            quotsLCD->display(quotsData.at(Quots::Id).size());
 
             if (newQuot==QMessageBox::No) // Se hace porque al crear cliente no existe una siguiente cotizacion
                 findNext();
 
-            QMessageBox::information(this, trUtf8("Insersión Exitosa"),
-                                     trUtf8("Se ha generado corectamente la cotización"),
+            QMessageBox::information(this, "Insersión Exitosa",
+                                     "Se ha generado corectamente la cotización",
                                      QMessageBox::Accepted);
 
             quotGenButton->setEnabled(false);
@@ -598,9 +671,9 @@ void SalesForm::genQuotation()
             thrdNitLineEdit->setFocus();
             break;
         case 3:
-            QMessageBox::critical(this, trUtf8("Error insertando cotización"),
-                                     trUtf8("Ejecute el programa bajo consola \n "
-                                            "y anote el error"),
+            QMessageBox::critical(this, "Error insertando cotización",
+                                     "Ejecute el programa bajo consola \n "
+                                            "y anote el error",
                                      QMessageBox::Ok);
             break;
         }
@@ -614,8 +687,8 @@ void SalesForm::genProposal()
     if (validatePropData()) {
         switch (insertProposal()) {
         case 0:
-            QMessageBox::information(this, trUtf8("Insersión Exitosa"),
-                                     trUtf8("Se ha generado corectamente la Propuesta"),
+            QMessageBox::information(this, "Insersión Exitosa",
+                                     "Se ha generado corectamente la Propuesta",
                                      QMessageBox::Accepted);
             propGenButton->setEnabled(false);
             updateButton->setEnabled(true);
@@ -624,18 +697,18 @@ void SalesForm::genProposal()
 
             break;
         case 1:
-            QMessageBox::critical(this, trUtf8("Error Insertando"),
-                                  trUtf8("Ya existe una propuesta para esta cotización  \n"
+            QMessageBox::critical(this, "Error Insertando",
+                                  "Ya existe una propuesta para esta cotización  \n"
                                          "seleccione  una  cotización  sin  propuesta \n"
-                                         "o cree una nueva"),
+                                         "o cree una nueva",
                                   QMessageBox::Cancel);
             propGenButton->setEnabled(false);
             break;
         case 2:
-            QMessageBox::critical(this, trUtf8("Error Insertando"),
-                                  trUtf8("No se pudo generar la Propuesta. Ejecute  \n"
+            QMessageBox::critical(this, "Error Insertando",
+                                  "No se pudo generar la Propuesta. Ejecute  \n"
                                          "el programa  bajo  consola y revise  los \n"
-                                         "mensajes  de  error"),
+                                         "mensajes  de  error",
                                   QMessageBox::Cancel);
             propGenButton->setEnabled(false);
             break;
@@ -650,26 +723,26 @@ void SalesForm::genServiceOrder()
     if (validateSoData()) {
         switch (insertServiceOrder()) {
         case 0:
-            QMessageBox::information(this, trUtf8("Insersión Exitosa"),
-                                     trUtf8("Se ha generado corectamente la Orden de Servicio"),
+            QMessageBox::information(this, "Insersión Exitosa",
+                                     "Se ha generado corectamente la Orden de Servicio",
                                      QMessageBox::Accepted);
             soGenButton->setEnabled(false);
             updateButton->setEnabled(true);
             deleteButton->setEnabled(true);
             break;
         case 1:
-            QMessageBox::critical(this, trUtf8("Error Insertando"),
-                                  trUtf8("Ya existe una orden de servicio para esta  \n"
+            QMessageBox::critical(this, "Error Insertando",
+                                  "Ya existe una orden de servicio para esta  \n"
                                          "propuesta, seleccione  una  propuesta sin \n"
-                                         "orden de servicio o cree una nueva"),
+                                         "orden de servicio o cree una nueva",
                                   QMessageBox::Cancel);
             soGenButton->setEnabled(false);
             break;
         case 2:
-            QMessageBox::critical(this, trUtf8("Error Insertando"),
-                                  trUtf8("No se pudo generar la Órden de Servicio  \n"
+            QMessageBox::critical(this, "Error Insertando",
+                                  "No se pudo generar la Órden de Servicio  \n"
                                          "Ejecute el programa bajo consola y revise\n"
-                                         "los  mensajes  de  error"),
+                                         "los  mensajes  de  error",
                                   QMessageBox::Cancel);
             soGenButton->setEnabled(false);
             break;
@@ -763,8 +836,8 @@ void SalesForm::renderProposal()
         QString fileName = QDir::currentPath() + "/templates/proposal_template.html";
         QFile file(fileName);
         if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::warning(this, trUtf8("Error Abriendo Plantilla"),
-                                 trUtf8("No se puedo abrir '%1'").arg(fileName));
+            QMessageBox::warning(this, "Error Abriendo Plantilla",
+                                 QString("No se puedo abrir '%1'").arg(fileName));
         } else {
             QStringList selectedDocs(documentsData.at(1)); // La creo así para que tenga el mismo tamaño
             // Obtengo los documentos de la propuesta para ser marcados en la lista
@@ -800,18 +873,18 @@ void SalesForm::renderProposal()
             htmlString = stream.readAll();
 
             htmlString.replace("_logo", currDir + "/templates/logorig.png");
-            htmlString.replace("_nombreUsuario", propsData.at(Props::UserLName).at(0));
-            htmlString.replace("_ciudad", propsData.at(Props::City).at(0));
+            htmlString.replace("_nombreUsuario", propsData.at(Props::LName).at(0));
+            htmlString.replace("_ciudad", quotsData.at(Quots::City).at(0));
             htmlString.replace("_fecha", QDate::fromString(propsData.at(Props::Date).at(0), "yyyy-MM-dd").toString("dd 'de' MMMM 'de' yyyy"));
-            htmlString.replace("_telefonoUsuario", propsData.at(Props::userCel).at(0));
-            htmlString.replace("_emailUsuario", propsData.at(Props::userMail).at(0));
-            htmlString.replace("_nombreTercero", propsData.at(Props::thrdName).at(0));
+            htmlString.replace("_telefonoUsuario", quotsData.at(Quots::Cel).at(0));
+            htmlString.replace("_emailUsuario", quotsData.at(Quots::Mail).at(0));
+            //htmlString.replace("_nombreTercero", thrdData.at(Thrds::Name).at(0));
             htmlString.replace("_nombreContacto", quotsData.at(4).at(quot_position));
             htmlString.replace("_telefonoContacto", quotsData.at(7).at(quot_position));
             htmlString.replace("_emailContacto", quotsData.at(6).at(quot_position));
             htmlString.replace("_inspecTipo", quotsData.at(12).at(quot_position));
             htmlString.replace("_propNumero", propsData.at(Props::Id).at(0));
-            htmlString.replace("_instalNombre", propsData.at(Props::InstName).at(0));
+            htmlString.replace("_instalNombre", quotsData.at(Quots::Name).at(0));
             htmlString.replace("_tiposProceso", selectedProcs.at(0)+" "+selectedProcs.at(1)
                                +" "+selectedProcs.at(2)+" "+selectedProcs.at(3)+" "+selectedProcs.at(4)
                                +" "+selectedProcs.at(5));
@@ -840,9 +913,9 @@ void SalesForm::renderProposal()
             htmlString.replace("_u", selectedDocs.at(20));
             htmlString.replace("_v", selectedDocs.at(21));
 
-            htmlString.replace("-inspecValor", propsData.at(Props::ValueMoney).at(0));
+            htmlString.replace("-inspecValor", propsData.at(Props::Value).at(0));
             htmlString.replace("-inspecIVA", propsData.at(Props::Iva).at(0));
-            htmlString.replace("-inspecViaticos", propsData.at(Props::Viatic).at(0));
+            htmlString.replace("-inspecViaticos", propsData.at(Props::Viat).at(0));
             htmlString.replace("-inspecTotal", propsData.at(Props::TotVal).at(0));
             htmlString.replace("-formaPago", propsData.at(Props::PayWay).at(0));
 
@@ -851,8 +924,8 @@ void SalesForm::renderProposal()
 
         }
     }else
-        QMessageBox::warning(this, trUtf8("Vista Previa"),
-                             trUtf8("No hay Propuesta para previsualizar"));
+        QMessageBox::warning(this, ("Vista Previa"),
+                             ("No hay Propuesta para previsualizar"));
 
 //    propsData.append(propsIds); // 0
 //    propsData.append(quotsIds); // 1
@@ -889,8 +962,8 @@ void SalesForm::renderServiceOrder()
         QString fileName = QDir::currentPath() + "/templates/so_template.html";
         QFile file(fileName);
         if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::warning(this, trUtf8("Error Abriendo Plantilla"),
-                                 trUtf8("No se puedo abrir '%1'").arg(fileName));
+            QMessageBox::warning(this, ("Error Abriendo Plantilla"),
+                                 QString("No se puedo abrir '%1'").arg(fileName));
         } else {
             QStringList selectedProcs(processesData.at(1)); // Creo una copia de los nombre de procesos
             for (int i=0;i<selectedProcs.size();i++)
@@ -938,8 +1011,8 @@ void SalesForm::renderServiceOrder()
             //soOutWebView->setZoomFactor(0.73);
         }
     }else
-        QMessageBox::warning(this, trUtf8("Vista Previa"),
-                             trUtf8("No hay Orden de Servicio para previsualizar"));
+        QMessageBox::warning(this, ("Vista Previa"),
+                             ("No hay Orden de Servicio para previsualizar"));
 
 //    thrdData.append(queryGetThirdPartie.value(0).toString()); //id
 //    thrdData.append(queryGetThirdPartie.value(1).toString()); //nit
@@ -983,7 +1056,7 @@ void SalesForm::printProposal()
     if (found >=2) {
 
         QPrinter printer(QPrinter::HighResolution);
-        printer.setDocName(trUtf8("PC - %1 - %2").arg(propsData.at(0).at(0)).arg(propsData.at(14).at(0)));
+        printer.setDocName(QString("PC - %1 - %2").arg(propsData.at(0).at(0)).arg(propsData.at(14).at(0)));
         printer.setPaperSize(QPrinter::A4);
         printer.setPageMargins(10,10,10,10,QPrinter::Millimeter);
 
@@ -992,7 +1065,7 @@ void SalesForm::printProposal()
         printer.setOutputFileName(QDir::homePath() +"/"+ printer.docName() + ".pdf");
 #endif
         QPrintDialog *dialog = new QPrintDialog(&printer, this);
-        dialog->setWindowTitle(trUtf8("Imprimir Propuesta"));
+        dialog->setWindowTitle("Imprimir Propuesta");
         if ( dialog->exec() == QDialog::Accepted) {
             //propOutWebView->setZoomFactor(1);
             //propOutWebView->page()->print(&printer, true);
@@ -1009,7 +1082,7 @@ void SalesForm::printServiceOrder()
 {
     if (found >=3) {
         QPrinter printer;
-        printer.setDocName(trUtf8("OS - %1 - %2").arg(sosData.at(0).at(0)).arg(propsData.at(14).at(0)));
+        printer.setDocName(QString("OS - %1 - %2").arg(sosData.at(0).at(0)).arg(propsData.at(14).at(0)));
         printer.setPaperSize(QPrinter::A4);
         printer.setPageMargins(10,10,10,10,QPrinter::Millimeter);
 
@@ -1019,15 +1092,15 @@ void SalesForm::printServiceOrder()
 #endif
 
         QPrintDialog *dialog = new QPrintDialog(&printer, this);
-        dialog->setWindowTitle(trUtf8("Imprimir Orden de Servicio"));
+        dialog->setWindowTitle("Imprimir Orden de Servicio");
         if ( dialog->exec() == QDialog::Accepted) {
             //soOutWebView->setZoomFactor(1);
             //soOutWebView->page()->print(&printer, true);
             //soOutWebView->setZoomFactor(0.73);
         }
     } else
-        QMessageBox::warning(this, trUtf8("Imprimir Orden de Servicio"),
-                             trUtf8("No hay Orden de Servicio para imprimir"));
+        QMessageBox::warning(this, ("Imprimir Orden de Servicio"),
+                             ("No hay Orden de Servicio para imprimir"));
 }
 
 
@@ -1055,21 +1128,21 @@ void SalesForm::approvProposal()
 {
     bool ok;
     QStringList approvalList;
-    approvalList.append(trUtf8("Consignación"));
-    approvalList.append(trUtf8("Transferencia bancaria"));
-    approvalList.append(trUtf8("Orden de compra"));
-    approvalList.append(trUtf8("Pago en efectivo"));
-    approvalList.append(trUtf8("Cheque"));
+    approvalList.append("Consignación");
+    approvalList.append("Transferencia bancaria");
+    approvalList.append("Orden de compra");
+    approvalList.append("Pago en efectivo");
+    approvalList.append("Cheque");
 
-    QString approvalDetail = QInputDialog::getItem(this, trUtf8("Método de Aprobación"),
-                                         trUtf8("Seleccione el método de aprobación usado, o presione cancelar para no aprobar:"),
+    QString approvalDetail = QInputDialog::getItem(this, ("Método de Aprobación"),
+                                         ("Seleccione el método de aprobación usado, o presione cancelar para no aprobar:"),
                                          approvalList, 0, false, &ok);
     if (ok) {
         if (DbHandler::updatePropApproval(propsData.at(Props::Id).at(0), "Aprobada", approvalDetail)) {
-            propStateLineEdit->setText("Aprobada");
-            propStateDetailLineEdit->setText(approvalDetail);
-            QMessageBox::information(this, trUtf8("Propuesta Aprobada"),
-                                 trUtf8("Se ha aprobado la propuesta comercial, \n "
+            propApprovalLineEdit->setText("Aprobada");
+            propApprovalDetailLineEdit->setText(approvalDetail);
+            QMessageBox::information(this, ("Propuesta Aprobada"),
+                                 ("Se ha aprobado la propuesta comercial, \n "
                                         "ahora puede crear la Orden de Servicio"),
                                  QMessageBox::Ok);
         } else
@@ -1082,19 +1155,19 @@ void SalesForm::rejectProposal()
 {
     bool ok;
     QStringList rejectList;
-    rejectList.append(trUtf8("Cliente no responde"));
-    rejectList.append(trUtf8("Precio mínimo rechazado"));
-    rejectList.append(trUtf8("No se puede cubrir el alcance"));
+    rejectList.append("Cliente no responde");
+    rejectList.append("Precio mínimo rechazado");
+    rejectList.append("No se puede cubrir el alcance");
 
-    QString rejectDetail = QInputDialog::getItem(this, trUtf8("Razón de Rechazo"),
-                                         trUtf8("Seleccione la razón por la que se rechazó la propuesta, o presione cancelar para no rechazar:"),
+    QString rejectDetail = QInputDialog::getItem(this, ("Razón de Rechazo"),
+                                         ("Seleccione la razón por la que se rechazó la propuesta, o presione cancelar para no rechazar:"),
                                          rejectList, 0, false, &ok);
     if (ok) {
         if (DbHandler::updatePropApproval(propsData.at(Props::Id).at(0), "Rechazada", rejectDetail)) {
-            propStateLineEdit->setText("Rechazada");
-            propStateDetailLineEdit->setText(rejectDetail);
-            QMessageBox::information(this, trUtf8("Propuesta Rechazada"),
-                                 trUtf8("Se ha rechazado la propuesta comercial, \n"
+            propApprovalLineEdit->setText("Rechazada");
+            propApprovalDetailLineEdit->setText(rejectDetail);
+            QMessageBox::information(this, ("Propuesta Rechazada"),
+                                 ("Se ha rechazado la propuesta comercial, \n"
                                         "no podrá crear la Orden de Servicio"),
                                  QMessageBox::Ok);
        } else

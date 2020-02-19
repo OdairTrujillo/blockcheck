@@ -247,6 +247,26 @@
         <property name="toolTip">
          <string>Selecciones Criterio de Localización</string>
         </property>
+        <item>
+         <property name="text">
+          <string>NIT ó CC</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cotización</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Propuesta</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Orden de Servicio</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="1" column="9">
@@ -435,7 +455,7 @@
       </font>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="quotationsTab">
       <attribute name="title">
@@ -495,7 +515,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="foundLCD">
+          <widget class="QLCDNumber" name="quotsLCD">
            <property name="minimumSize">
             <size>
              <width>35</width>
@@ -546,8 +566,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>825</width>
-            <height>817</height>
+            <width>824</width>
+            <height>823</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -676,7 +696,7 @@
                  </widget>
                 </item>
                 <item row="5" column="0" colspan="3">
-                 <widget class="QLineEdit" name="thrdRepLineEdit">
+                 <widget class="QLineEdit" name="thrdLegalRepLineEdit">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -747,7 +767,7 @@
                  </widget>
                 </item>
                 <item row="7" column="1">
-                 <widget class="QLineEdit" name="thrdPhoneLineEdit">
+                 <widget class="QLineEdit" name="thrdCellPhoneLineEdit">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -760,7 +780,7 @@
                  </widget>
                 </item>
                 <item row="7" column="2">
-                 <widget class="QLineEdit" name="thrdFaxLineEdit">
+                 <widget class="QLineEdit" name="thrdPhoneFaxLineEdit">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1103,7 +1123,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="9" column="1">
-                 <widget class="QDoubleSpinBox" name="quotKvaSpinBox">
+                 <widget class="QDoubleSpinBox" name="quotCapacitySpinBox">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1484,7 +1504,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="5" column="1">
-                 <widget class="QLineEdit" name="quotPhoneLineEdit">
+                 <widget class="QLineEdit" name="quotCellPhoneLineEdit">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1683,9 +1703,9 @@ p, li { white-space: pre-wrap; }
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-350</y>
-            <width>825</width>
-            <height>895</height>
+            <y>0</y>
+            <width>824</width>
+            <height>906</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1944,18 +1964,6 @@ p, li { white-space: pre-wrap; }
                  <number>6</number>
                 </property>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_26">
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Razón Social</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
                  <widget class="QLabel" name="label_32">
                   <property name="font">
                    <font>
@@ -1967,17 +1975,20 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QLineEdit" name="propThrdNameLineEdit">
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="propInstNameLineEdit">
                   <property name="minimumSize">
                    <size>
-                    <width>0</width>
+                    <width>200</width>
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="frame">
+                   <bool>true</bool>
+                  </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
+                <item row="1" column="0">
                  <widget class="QLineEdit" name="propIdLineEdit">
                   <property name="minimumSize">
                    <size>
@@ -2091,30 +2102,19 @@ font: 75 oblique 10pt &quot;DejaVu Sans&quot;;</string>
                   </property>
                  </widget>
                 </item>
-                <item row="4" column="0" rowspan="2">
-                 <widget class="QLineEdit" name="propLocalizationLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>24</height>
-                   </size>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_26">
+                  <property name="font">
+                   <font>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Razón Social</string>
                   </property>
                  </widget>
                 </item>
-                <item row="4" column="1" rowspan="2">
-                 <widget class="QLineEdit" name="propInstNameLineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>200</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="frame">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1" rowspan="2">
+                <item row="2" column="0">
                  <widget class="QLabel" name="label_27">
                   <property name="font">
                    <font>
@@ -2126,7 +2126,7 @@ font: 75 oblique 10pt &quot;DejaVu Sans&quot;;</string>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0" rowspan="2">
+                <item row="0" column="1">
                  <widget class="QLabel" name="label_31">
                   <property name="font">
                    <font>
@@ -2135,6 +2135,26 @@ font: 75 oblique 10pt &quot;DejaVu Sans&quot;;</string>
                   </property>
                   <property name="text">
                    <string>Nombre del Proyecto</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1" rowspan="10">
+                 <widget class="QLineEdit" name="propThrdNameLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0" rowspan="10">
+                 <widget class="QLineEdit" name="propLocalizationLineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
                   </property>
                  </widget>
                 </item>
@@ -2203,7 +2223,7 @@ font: 75 oblique 10pt &quot;DejaVu Sans&quot;;</string>
                  </widget>
                 </item>
                 <item row="6" column="2">
-                 <widget class="QLineEdit" name="propStateLineEdit">
+                 <widget class="QLineEdit" name="propApprovalLineEdit">
                   <property name="enabled">
                    <bool>true</bool>
                   </property>
@@ -2288,7 +2308,7 @@ font: 75 oblique 11pt &quot;DejaVu Sans&quot;;</string>
                  </widget>
                 </item>
                 <item row="7" column="2" rowspan="4">
-                 <widget class="QLineEdit" name="propStateDetailLineEdit">
+                 <widget class="QLineEdit" name="propApprovalDetailLineEdit">
                   <property name="enabled">
                    <bool>true</bool>
                   </property>
@@ -2327,6 +2347,21 @@ font: 75 oblique 11pt &quot;DejaVu Sans&quot;;</string>
                     <height>16777215</height>
                    </size>
                   </property>
+                  <item>
+                   <property name="text">
+                    <string>50% - 50%</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>100 %</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>A convenir</string>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                 <item row="1" column="2">
@@ -2481,9 +2516,9 @@ font: 75 oblique 11pt &quot;DejaVu Sans&quot;;</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>825</width>
-            <height>498</height>
+            <y>-21</y>
+            <width>824</width>
+            <height>504</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -2907,15 +2942,11 @@ font: 75 oblique 10pt &quot;DejaVu Sans&quot;;</string>
   <tabstop>thrdNameLineEdit</tabstop>
   <tabstop>thrdAddressLineEdit</tabstop>
   <tabstop>thrdStateComboBox</tabstop>
-  <tabstop>thrdRepLineEdit</tabstop>
+  <tabstop>thrdLegalRepLineEdit</tabstop>
   <tabstop>thrdMailLineEdit</tabstop>
-  <tabstop>thrdPhoneLineEdit</tabstop>
-  <tabstop>thrdFaxLineEdit</tabstop>
+  <tabstop>thrdCellPhoneLineEdit</tabstop>
+  <tabstop>thrdPhoneFaxLineEdit</tabstop>
   <tabstop>scrollArea_2</tabstop>
-  <tabstop>propThrdNameLineEdit</tabstop>
-  <tabstop>propIdLineEdit</tabstop>
-  <tabstop>propLocalizationLineEdit</tabstop>
-  <tabstop>propInstNameLineEdit</tabstop>
   <tabstop>propScopeTextEdit</tabstop>
   <tabstop>propDocsListWidget</tabstop>
   <tabstop>propValueTableView</tabstop>

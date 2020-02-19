@@ -7,7 +7,7 @@ void Logger::login(QString name, QString lname)
 
     logData.append(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     logData.append(name);
-    logData.append(trUtf8("Inicio de sesión del usuario: ") + lname);
+    logData.append("Inicio de sesión del usuario: " + lname);
     logData.append("0");
     logData.append("0");
     logData.append("0");
@@ -17,7 +17,7 @@ void Logger::login(QString name, QString lname)
     logData.append("16");
 
     if (!DbHandler::insertLogReg(logData))
-        qDebug() << trUtf8("DbHandler::insertLogReg devolvió false al tratar de insertar registro de inicio de sesión");
+        qDebug() << "DbHandler::insertLogReg devolvió false al tratar de insertar registro de inicio de sesión";
 }
 
 void Logger::logout(QString name, QString lname)
@@ -26,7 +26,7 @@ void Logger::logout(QString name, QString lname)
 
     logData.append(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     logData.append(name);
-    logData.append(trUtf8("Cierre de sesión del usuario: ") + lname);
+    logData.append("Cierre de sesión del usuario: " + lname);
     logData.append("0");
     logData.append("0");
     logData.append("0");
@@ -36,17 +36,17 @@ void Logger::logout(QString name, QString lname)
     logData.append("17");
 
     if (!DbHandler::insertLogReg(logData))
-        qDebug() << trUtf8("DbHandler::insertLogReg devolvió false al tratar de insertar registro de cierre de sesión");
+        qDebug() << "DbHandler::insertLogReg devolvió false al tratar de insertar registro de cierre de sesión";
 }
 
-void Logger::insertQuotation(QString name, QString thrdNit, QString quotId)
+void Logger::insertQuotation(QString name, QString thrdNit, int quotId)
 {
     QStringList logData;
 
     logData.append(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     logData.append(name);
-    logData.append(trUtf8("Nueva cotización para el NIT: ") + thrdNit);
-    logData.append(quotId);
+    logData.append("Nueva cotización para el NIT: " + thrdNit);
+    logData.append(QString::number(quotId));
     logData.append("0");
     logData.append("0");
     logData.append("0");
@@ -64,7 +64,7 @@ void Logger::insertProposal(QString name, QString thrdNit, QString quotId, QStri
 
     logData.append(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     logData.append(name);
-    logData.append(trUtf8("Nueva propuesta para el NIT: ") + thrdNit);
+    logData.append("Nueva propuesta para el NIT: " + thrdNit);
     logData.append(quotId);
     logData.append(propId);
     logData.append("0");
@@ -74,7 +74,7 @@ void Logger::insertProposal(QString name, QString thrdNit, QString quotId, QStri
     logData.append("23");
 
     if (!DbHandler::insertLogReg(logData))
-        qDebug() << trUtf8("DbHandler::insertLogReg devolvió false al tratar de insertar registro de nueva propuesta");
+        qDebug() << "DbHandler::insertLogReg devolvió false al tratar de insertar registro de nueva propuesta";
 }
 
 void Logger::insertServiceOrder(QString name, QString thrdNit, QString quotId, QString propId, QString soId)
@@ -83,7 +83,7 @@ void Logger::insertServiceOrder(QString name, QString thrdNit, QString quotId, Q
 
     logData.append(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     logData.append(name);
-    logData.append(trUtf8("Nueva orden de servicio para el NIT: ") + thrdNit);
+    logData.append("Nueva orden de servicio para el NIT: " + thrdNit);
     logData.append(quotId);
     logData.append(propId);
     logData.append(soId);
@@ -93,7 +93,7 @@ void Logger::insertServiceOrder(QString name, QString thrdNit, QString quotId, Q
     logData.append("26");
 
     if (!DbHandler::insertLogReg(logData))
-        qDebug() << trUtf8("DbHandler::insertLogReg devolvió false al tratar de insertar registro de nueva OS");
+        qDebug() << "DbHandler::insertLogReg devolvió false al tratar de insertar registro de nueva OS";
 }
 
 //queryInsertLogReg.bindValue(":log_date_time", logData.at(0));
@@ -113,7 +113,7 @@ void Logger::updateUser(QString name, QString userLName)
 
     logData.append(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     logData.append(name);
-    logData.append(trUtf8("Se editó el usuario: ") + userLName);
+    logData.append("Se editó el usuario: " + userLName);
     logData.append("0");
     logData.append("0");
     logData.append("0");
@@ -123,7 +123,7 @@ void Logger::updateUser(QString name, QString userLName)
     logData.append("2"); //Tipo de evento
 
     if (!DbHandler::insertLogReg(logData))
-        qDebug() << trUtf8("DbHandler::insertLogReg devolvió false al tratar de insertar registro de nueva OS");
+        qDebug() << "DbHandler::insertLogReg devolvió false al tratar de insertar registro de nueva OS";
 }
 
 void Logger::updateInspector(QString name, QString inspectorName)
@@ -132,7 +132,7 @@ void Logger::updateInspector(QString name, QString inspectorName)
 
     logData.append(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     logData.append(name);
-    logData.append(trUtf8("Se editó el inspector: ") + inspectorName);
+    logData.append("Se editó el inspector: " + inspectorName);
     logData.append("0");
     logData.append("0");
     logData.append("0");

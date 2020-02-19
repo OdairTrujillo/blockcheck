@@ -79,7 +79,7 @@ void EngineeringForm::findServiceOrder()
         if (QDate::fromString(sosData.at(Sos::AssignD).at(0), "yyyy-MM-dd") < QDate::currentDate()) {
 
             DbHandler::getProposals(sosData.at(Sos::propId).at(0), propsData, "prop_id");
-            DbHandler::getQuotations(propsData.at(Props::thrdNit).at(0), thrdData, quotsData, "thrd_nit");
+            DbHandler::getQuotations(thrdData.at(Thrds::Nit).at(0), quotsData, "thrd_nit");
             DbHandler::getProcesses(quotsData.at(Quots::Id).at(0), procsIds);
 
             // Al encontrar los datos con fecha válidad de procesamiento, se llenan los controles.

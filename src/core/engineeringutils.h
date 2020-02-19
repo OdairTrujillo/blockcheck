@@ -124,12 +124,12 @@ void EngineeringForm::fillData()
     soAssignDateEdit->setDate(QDate::fromString(sosData.at(Sos::AssignD).at(0), "yyyy-MM-dd"));
     soAccStateLineEdit->setText(sosData.at(Sos::AccProc).at(0));
     soDocStateLineEdit->setText(sosData.at(Sos::DocProc).at(0));
-    userNameLineEdit->setText(propsData.at(Props::UserLName).at(0));
+    userNameLineEdit->setText(propsData.at(Props::LName).at(0));
     inspectorNameLineEdit->setText(sosData.at(Sos::InspName).at(0));
 
-    propValueModel->setItem(0,1, new QStandardItem(propsData.at(Props::ValueMoney).at(0)));
+    propValueModel->setItem(0,1, new QStandardItem(propsData.at(Props::Value).at(0)));
     propValueModel->setItem(1,1, new QStandardItem(propsData.at(Props::Iva).at(0)));
-    propValueModel->setItem(2,1, new QStandardItem(propsData.at(Props::Viatic).at(0)));
+    propValueModel->setItem(2,1, new QStandardItem(propsData.at(Props::Viat).at(0)));
     propValueModel->setItem(3,1, new QStandardItem(propsData.at(Props::TotVal).at(0)));
 
     // Después de editarlos hay que ponerlos no editables
@@ -390,13 +390,13 @@ bool EngineeringForm::updateQuotation()
     quotData.append(quotsData.at(Quots::Date).at(0)); // Fecha
     quotData.append(quotsData.at(Quots::Name).at(0)); // Nombre
     quotData.append(quotsData.at(Quots::Scope).at(0)); // Alcance
-    quotData.append(quotsData.at(Quots::Contact).at(0)); // Persona Contacto
+    quotData.append(quotsData.at(Quots::Ctact).at(0)); // Persona Contacto
     quotData.append(quotsData.at(Quots::Addrs).at(0)); // Dirección
     quotData.append(quotsData.at(Quots::Mail).at(0)); // Correo
     quotData.append(quotsData.at(Quots::Cel).at(0)); // Celular
     quotData.append(citiesData.at(0).at(inspectionCityComboBox->currentIndex())); // Id de la ciudad
     quotData.append(usesData.at(0).at(usesData.at(1).indexOf(quotsData.at(Quots::Use).at(0)))); // Id del uso
-    quotData.append(quotsData.at(Quots::InspType).at(0)); // Tipo de inspección
+    quotData.append(quotsData.at(Quots::InspTyp).at(0)); // Tipo de inspección
 
 
     // Este QModelIndexList sirve para guardar los índices de los ítems seleccionados del QListWidget

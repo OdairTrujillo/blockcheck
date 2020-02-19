@@ -112,13 +112,13 @@ void AccountingForm::findServiceOrder()
     if (DbHandler::getServiceOrders(findLineEdit->text(), sosData, "so_id")) {
         // si encuentra entonces se obteiene la propuesta, la cotización y los pagos.
         DbHandler::getProposals(sosData.at(Sos::propId).at(0), propsData, "prop_id");
-        DbHandler::getQuotations(propsData.at(Props::thrdNit).at(0), thrdData, quotsData, "thrd_nit");// 13 es thrd_nit
+        DbHandler::getQuotations(thrdData.at(Thrds::Nit).at(0), quotsData, "thrd_nit");// 13 es thrd_nit
 
         thrdPaysData.clear();   // Nit del cliente                  // Número OS                  // Datos
-        DbHandler::getThrdPays(propsData.at(Props::thrdNit).at(0), sosData.at(Sos::Id).at(0), thrdPaysData);
+        DbHandler::getThrdPays(thrdData.at(Thrds::Nit).at(0), sosData.at(Sos::Id).at(0), thrdPaysData);
 
         userPaysData.clear();  // Nit del comercial
-        DbHandler::getUserPays(usersData.at(Users::Nit).at(usersData.at(Users::LName).indexOf(propsData.at(Props::UserLName).at(0))),
+        DbHandler::getUserPays(usersData.at(Users::Nit).at(usersData.at(Users::LName).indexOf(propsData.at(Props::LName).at(0))),
                                // Número OS             // Datos
                                sosData.at(Sos::Id).at(0), userPaysData);
 
@@ -156,8 +156,8 @@ void AccountingForm::findServiceOrder()
 
 
     } else {
-        QMessageBox::warning(this, trUtf8("Sin Datos"),
-                             trUtf8("No se encontraron datos con: " + findLineEdit->text().toUtf8()),
+        QMessageBox::warning(this, "Sin Datos",
+                             "No se encontraron datos con: " + findLineEdit->text().toUtf8(),
                              QMessageBox::Cancel);
         billedButton->setEnabled(false);
         payThrdButton->setEnabled(false);
@@ -194,17 +194,17 @@ void AccountingForm::fillSoData()
     soValues.clear();
     DbHandler::getSoValues(sosData.at(Sos::Id).at(0), soValues);
 
-    userNameLineEdit->setText(propsData.at(Props::UserLName).at(0));
+    userNameLineEdit->setText(propsData.at(Props::LName).at(0));
     userValueSpinBox->setValue(soValues.at(SoValue::User).toInt());
     inspectorNameLineEdit->setText(sosData.at(Sos::InspName).at(0));
     inspectorValueSpinBox->setValue(soValues.at(SoValue::Insp).toInt());
 
     billNumberLineEdit->setText(sosData.at(Sos::BillNumb).at(0));
-    approvMethodLineEdit->setText(propsData.at(Props::Aproval).at(0));
+    approvMethodLineEdit->setText(propsData.at(Props::Aprov).at(0));
 
-    propValueModel->setItem(0,1, new QStandardItem(propsData.at(Props::ValueMoney).at(0)));
+    propValueModel->setItem(0,1, new QStandardItem(propsData.at(Props::Value).at(0)));
     propValueModel->setItem(1,1, new QStandardItem(propsData.at(Props::Iva).at(0)));
-    propValueModel->setItem(2,1, new QStandardItem(propsData.at(Props::Viatic).at(0)));
+    propValueModel->setItem(2,1, new QStandardItem(propsData.at(Props::Viat).at(0)));
     propValueModel->setItem(3,1, new QStandardItem(propsData.at(Props::TotVal).at(0)));
 
     // Después de editarlos hay que ponerlos no editables
@@ -265,8 +265,8 @@ void AccountingForm::payThrd()
             payThrdData.append("PAGO FACTURA");
             payThrdData.append(sosData.at(Sos::Id).at(0)); // so_id
             payThrdData.append(thrdTicketLineEdit->text().toUpper()); // documment
-            payThrdData.append(propsData.at(Props::thrdName).at(0)); // thrd_name
-            payThrdData.append(propsData.at(Props::thrdNit).at(0)); // thrd_nit
+            //payThrdData.append(propsData.at(Props::thrdName).at(0)); // thrd_name
+            //payThrdData.append(propsData.at(Props::thrdNit).at(0)); // thrd_nit
             payThrdData.append(QString::number(thrdPayValueSpinBox->value())); // valor
             payThrdData.append(thrdObservLineEdit->text()); // observations
 
@@ -380,8 +380,8 @@ void AccountingForm::payUser()
             payUserData.append("PAGO COMERCIAL");
             payUserData.append(sosData.at(Sos::Id).at(0)); // so_id
             payUserData.append(userTicketLineEdit->text().toUpper()); // documment
-            payUserData.append(propsData.at(Props::UserLName).at(0)); // user_name
-            payUserData.append(usersData.at(Users::Nit).at(usersData.at(Users::LName).indexOf(propsData.at(Props::UserLName).at(0)))); // user_nit
+            payUserData.append(propsData.at(Props::LName).at(0)); // user_name
+            payUserData.append(usersData.at(Users::Nit).at(usersData.at(Users::LName).indexOf(propsData.at(Props::LName).at(0)))); // user_nit
             payUserData.append(QString::number(userPayValueSpinBox->value())); // user_value
             payUserData.append(userObservLineEdit->text()); // observations
 
@@ -605,7 +605,7 @@ void AccountingForm::renderServiceOrder()
         htmlString.replace("_celular", thrdData.at(Thrds::Cel));
         htmlString.replace("_ciudadTercero", thrdData.at(Thrds::City));
         htmlString.replace("_departTercero", thrdData.at(Thrds::State));
-        htmlString.replace("_nombreContacto", quotsData.at(Quots::Contact).at(0));
+        htmlString.replace("_nombreContacto", quotsData.at(Quots::Ctact).at(0));
         htmlString.replace("_nombreInstal", quotsData.at(Quots::Name).at(0));
         htmlString.replace("_ciudadInstal", quotsData.at(Quots::City).at(0));
         htmlString.replace("_departInstal", quotsData.at(Quots::State).at(0));

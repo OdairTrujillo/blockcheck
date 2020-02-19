@@ -8,21 +8,21 @@ bool DbHandler::createConnection(void)
 {
     OutsideActions confs;
     if (!confs.readSqlServerConf()) {
-        QMessageBox::critical(0, qApp->trUtf8("Error de lectura"),
-                              qApp->trUtf8("No se puede leer el archivo de configuración de BlockCheck \n"
+        QMessageBox::critical(0, ("Error de lectura"),
+                              ("No se puede leer el archivo de configuración de BlockCheck \n"
                                            "revise que el archivo blockcheck.conf exista en la carpeta del \n"
                                            "programa y tenga permisos para leer y escribir en él."));
     } else {
         QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
         db.setHostName(confs.sqlServerIP);
-        db.setPort(5433);
+        db.setPort(confs.sqlServerPort);
         db.setDatabaseName(confs.databaseName);
         db.setUserName("bc_user");
         db.setPassword("bc_password");
 
         if (!db.open()) {
-            QMessageBox::critical(0, qApp->trUtf8("No se puede abrir la base de datos"),
-                                  qApp->trUtf8("Sucedió que: \n" + db.lastError().text().toUtf8()), QMessageBox::Cancel);
+            QMessageBox::critical(0, ("No se puede abrir la base de datos"),
+                                  ("Sucedió que: \n" + db.lastError().text().toUtf8()), QMessageBox::Cancel);
               qDebug() << "Drivers existentes: " << QSqlDatabase::drivers();
             return false;
         } else
@@ -108,7 +108,7 @@ bool DbHandler::insertLogReg(const QStringList logData)
 // NOTE: Ingresar una cotizacion y cliente
 //cada qstringlist trae los datos desde las interfaces gráficas
 bool DbHandler::insertQuotation(const QStringList thrdData, QStringList &quotData,
-                                const QStringList processesIds, bool &isUniqueViolation)
+                                const QStringList processesIds, int newQuotId, bool &isUniqueViolation)
 {
     QSqlQuery queryInsertThirdPartie;
 
@@ -158,7 +158,7 @@ bool DbHandler::insertQuotation(const QStringList thrdData, QStringList &quotDat
             return false;
         } else {
             queryInsertQuotation.first();
-            quotData.append(queryInsertQuotation.value(0).toString());
+            newQuotId= queryInsertQuotation.value(0).toInt();
             for (int i=0; i< processesIds.size(); i++)
                 DbHandler::insertQuotProcesses(queryInsertQuotation.value(0).toString(), processesIds.at(i));
             return true;
@@ -169,7 +169,7 @@ bool DbHandler::insertQuotation(const QStringList thrdData, QStringList &quotDat
 
 
 // NOTE: Insertar cotizacion con cliente existente
-bool DbHandler::insertQuotation(const QString thrdNit, QStringList &quotData, QStringList processesIds)
+bool DbHandler::insertQuotation(const QString thrdNit, QStringList &quotData, int newQuotId, QStringList processesIds)
 {
     QSqlQuery queryInsertQuotation;
     queryInsertQuotation.prepare("INSERT INTO tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, "
@@ -195,7 +195,7 @@ bool DbHandler::insertQuotation(const QString thrdNit, QStringList &quotData, QS
         return false;
     } else {
         queryInsertQuotation.first();
-        quotData.append(queryInsertQuotation.value(0).toString());
+        newQuotId = queryInsertQuotation.value(0).toInt();
         for (int i=0; i< processesIds.size(); i++) // Para cada Id de proceso se guarda un registro
             insertQuotProcesses(queryInsertQuotation.value(0).toString(), processesIds.at(i));
         return true;
@@ -1773,80 +1773,158 @@ bool DbHandler::deleteAuditor(const QString auditorId, bool &isFkViolation)
 
 OBTENCIÓN DE DATOS
 ----------------------------------------------------------------------------------------------------------
-
 */
 
+// NOTE: Obtiene un cliente especifico
+bool DbHandler::getThirdPartie(QString findString, QStringList &thrdData, QString searchOption)
+{
+
+    thrdData.clear();
+    QSqlQuery queryGetThirdPartie;
+    queryGetThirdPartie.prepare(QString("SELECT thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
+                                "tblSTATES.state_name, tblCITIES.city_name "
+                                "FROM tblTHIRDPARTIES, tblCITIES, tblSTATES "
+                                "WHERE tblCITIES.city_id = tblTHIRDPARTIES.city_id "
+                                "AND tblSTATES.state_id = tblCITIES.state_id "
+                                "AND %1 = :find_string").arg(searchOption));
+    if (searchOption == "thrd_nit")
+        queryGetThirdPartie.bindValue(":find_string", findString);
+    else
+        queryGetThirdPartie.bindValue(":find_string", findString.toInt());
+
+    if(!queryGetThirdPartie.exec()) {
+        qDebug() << "Error en queryGetThirdPartie: " + queryGetThirdPartie.lastError().text();
+        return false;
+    } else {
+        while(queryGetThirdPartie.next()) {
+            thrdData.append(queryGetThirdPartie.value(Thrds::Id).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::Nit).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::Name).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::LRep).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::Addrs).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::Mail).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::Cel).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::Tel).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::City).toString());
+            thrdData.append(queryGetThirdPartie.value(Thrds::State).toString());
+        }
+        if (thrdData.size()==0) {// Si el StringList es cero no se encontro cliente
+            thrdData.append("0");
+            qDebug()<< "No se encontraron datos para queryGetThirdPartie";
+            return false;
+        } else
+            return true;
+    }
+}
+
+// NOTE: Obtiene listado de clientes
+bool DbHandler::getThirdParties(QList<QStringList> &thirdsData)
+{
+    thirdsData.clear();
+    QStringList thrdData;
+    QSqlQuery queryGetThirdParties;
+    queryGetThirdParties.prepare("SELECT thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
+                                "tblCITIES.city_name, tblSTATES.state_name "
+                                "FROM (tblTHIRDPARTIES INNER JOIN tblCITIES ON tblCITIES.city_id=tblTHIRDPARTIES.city_id) "
+                                "INNER JOIN tblSTATES ON tblSTATES.state_id=tblCITIES.state_id");
+    if(!queryGetThirdParties.exec()) {
+        qDebug() << "Error en queryGetThirdParties: \n" + queryGetThirdParties.lastError().text();
+        return false;
+    } else {
+        while (queryGetThirdParties.next()) {
+            thrdData.append(queryGetThirdParties.value(Thrds::Id).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::Nit).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::Name).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::LRep).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::Addrs).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::Mail).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::Cel).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::Tel).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::City).toString());
+            thrdData.append(queryGetThirdParties.value(Thrds::State).toString());
+
+            thirdsData.append(thrdData);//Agrego el cliente a la lista de clientes
+            thrdData.clear(); //Limpio el stringList de cliente para volverlo a usar
+        }
+        if (thrdData.at(0).size()==0) {
+            qDebug()<< "No se encontraron datos para queryGetThirdParties";
+            return false;
+        } else
+            return true;
+    }
+    return false;
+ }
+
 // NOTE: Obtener Cotizaciones de un cliente
-bool DbHandler::getQuotations(QString findString, QStringList &thrdData, QList<QStringList> &quotsData, QString searchOption)
+bool DbHandler::getQuotations(QString findString, QList<QStringList> &quotsData, QString searchOption)
 {
     quotsData.clear();
     // Strings correspondientes a cada campo.
-    QStringList quotIds, quotDates, quotNames, quotScopes, quotContacts, quotAddresses, quotMails, quotCels;
-    QStringList quotTels, quotStates, quotCities, quotUses, quotInspecTypes;
-
-    if (searchOption == "thrd_nit") {
-        if (getThirdPartie(findString, thrdData, "thrd_nit")) { // Con esta llamada obtengo datos del tercero
-            findString=thrdData.at(0);  // Sobreescribo findString para guardar el id del tercero
-        } else {
-            // Se hace para no dejar vacio el QList y evitar desbordamiento
-            quotsData.append(QStringList("0"));
-            return false;
-        }
-    } else {
-        if (getThirdPartie(findString, thrdData, "thrd_id")) { // Con esta llamada obtengo datos del tercero
-            findString=thrdData.at(0);  // Sobreescribo findString para guardar el id del tercero
-        } else {
-            // Se hace para no dejar vacio el QList y evitar desbordamiento
-            quotsData.append(QStringList("0"));
-            return false;
-        }
-    }
-
+    QStringList ids, dates, names, addresses, states, cities, contacts, cels, mails, inspecTypes, useNames, voltageLevels;
+    QStringList capacities, phases, projecAreas, areaTypes, networkTypes, networkLongs, boxes, scopes, thrdIds;
 
     QSqlQuery queryGetQuotations;
-    queryGetQuotations.prepare("SELECT quot_id, quot_date, quot_name, quot_scope, quot_contact, quot_address, quot_mail, quot_cel, quot_tel, "
-                                       "tblSTATES.state_name, tblCITIES.city_name, tblUSES.use_name, quot_inspect_type "
-                                       "FROM tblQUOTATIONS, tblSTATES, tblCITIES, tblUSES "
-                                       "WHERE tblCITIES.city_id=tblQUOTATIONS.city_id "
-                                       "AND tblSTATES.state_id=tblCITIES.state_id "
-                                       "AND tblUSES.use_id=tblQUOTATIONS.use_id "
-                                       "AND tblQUOTATIONS.thrd_id = :find_string "
-                                       "ORDER BY tblQUOTATIONS.quot_id ASC");
+    queryGetQuotations.prepare(QString("SELECT quot_id, quot_date, quot_name, quot_address, tblSTATES.state_name, tblCITIES.city_name, quot_contact, "
+                                   "quot_cel, quot_mail, quot_inspect_type, tblUSES.use_name, quot_voltage_level, quot_capacity, quot_phases, "
+                                   "quot_project_area, quot_area_type, quot_network_type, quot_network_long, quot_boxes, quot_scope, thrd_id "
+                                   "FROM tblQUOTATIONS, tblSTATES, tblCITIES, tblUSES "
+                                   "WHERE tblCITIES.city_id=tblQUOTATIONS.city_id "
+                                   "AND tblSTATES.state_id=tblCITIES.state_id "
+                                   "AND tblUSES.use_id=tblQUOTATIONS.use_id "
+                                   "AND tblQUOTATIONS.%1 = :find_string "
+                                   "ORDER BY tblQUOTATIONS.quot_id ASC").arg(searchOption));
 
     queryGetQuotations.bindValue(":find_string", findString.toInt());
 
     if(!queryGetQuotations.exec()) {
-        qDebug() << "Error en queryGetQuotations: " << queryGetQuotations.lastError().text();
+        qDebug() << "Error en queryGetQuotations, buscando por " << searchOption << "ocurrio: " << queryGetQuotations.lastError().text();
+        qDebug() << "La consulta fue: " << queryGetQuotations.lastQuery().toUtf8();
         return false;
     } else {
         while (queryGetQuotations.next()) {
-            quotIds.append(queryGetQuotations.value(0).toString());
-            quotDates.append(queryGetQuotations.value(1).toString());
-            quotNames.append(queryGetQuotations.value(2).toString());
-            quotScopes.append(queryGetQuotations.value(3).toString());
-            quotContacts.append(queryGetQuotations.value(4).toString());
-            quotAddresses.append(queryGetQuotations.value(5).toString());
-            quotMails.append(queryGetQuotations.value(6).toString());
-            quotCels.append(queryGetQuotations.value(7).toString());
-            quotTels.append(queryGetQuotations.value(8).toString());
-            quotStates.append(queryGetQuotations.value(9).toString());
-            quotCities.append(queryGetQuotations.value(10).toString());
-            quotUses.append(queryGetQuotations.value(11).toString());
-            quotInspecTypes.append(queryGetQuotations.value(12).toString());
+            ids.append(queryGetQuotations.value(Quots::Id).toString());
+            dates.append(queryGetQuotations.value(Quots::Date).toString());
+            names.append(queryGetQuotations.value(Quots::Name).toString());
+            addresses.append(queryGetQuotations.value(Quots::Addrs).toString());
+            states.append(queryGetQuotations.value(Quots::State).toString());
+            cities.append(queryGetQuotations.value(Quots::City).toString());
+            contacts.append(queryGetQuotations.value(Quots::Ctact).toString());
+            cels.append(queryGetQuotations.value(Quots::Cel).toString());
+            mails.append(queryGetQuotations.value(Quots::Mail).toString());
+            inspecTypes.append(queryGetQuotations.value(Quots::InspTyp).toString());
+            useNames.append(queryGetQuotations.value(Quots::Use).toString());
+            voltageLevels.append(queryGetQuotations.value(Quots::VLev).toString());
+            capacities.append(queryGetQuotations.value(Quots::Capac).toString());
+            phases.append(queryGetQuotations.value(Quots::Phase).toString());
+            projecAreas.append(queryGetQuotations.value(Quots::PrjArea).toString());
+            areaTypes.append(queryGetQuotations.value(Quots::AreaTyp).toString());
+            networkTypes.append(queryGetQuotations.value(Quots::NetTyp).toString());
+            networkLongs.append(queryGetQuotations.value(Quots::NetTyp).toString());
+            boxes.append(queryGetQuotations.value(Quots::Boxes).toString());
+            scopes.append(queryGetQuotations.value(Quots::Scope).toString());
+            thrdIds.append(queryGetQuotations.value(Quots::Thrd).toString());
         }
-        quotsData.append(quotIds);         // 0
-        quotsData.append(quotDates);       // 1
-        quotsData.append(quotNames);       // 2
-        quotsData.append(quotScopes);      // 3
-        quotsData.append(quotContacts);    // 4
-        quotsData.append(quotAddresses);   // 5
-        quotsData.append(quotMails);       // 6
-        quotsData.append(quotCels);        // 7
-        quotsData.append(quotTels);        // 8
-        quotsData.append(quotStates);      // 9
-        quotsData.append(quotCities);      // 10
-        quotsData.append(quotUses);        // 11
-        quotsData.append(quotInspecTypes); // 12
+        quotsData.append(ids);          // 0
+        quotsData.append(dates);        // 1
+        quotsData.append(names);        // 2
+        quotsData.append(addresses);    // 3
+        quotsData.append(states);       // 4
+        quotsData.append(cities);       // 5
+        quotsData.append(contacts);     // 6
+        quotsData.append(cels);         // 7
+        quotsData.append(mails);        // 8
+        quotsData.append(inspecTypes);  // 9
+        quotsData.append(useNames);     // 10
+        quotsData.append(voltageLevels);// 11
+        quotsData.append(capacities);   // 12
+        quotsData.append(phases);       // 13
+        quotsData.append(projecAreas);  // 14
+        quotsData.append(areaTypes);    // 15
+        quotsData.append(networkTypes); // 16
+        quotsData.append(networkLongs); // 17
+        quotsData.append(boxes);        // 18
+        quotsData.append(scopes);       // 19
+        quotsData.append(thrdIds);      // 20
 
         if (quotsData.at(0).size()==0) { // Si size del primer StringList es cero no se econtraron cotizaciones
             // Se hace para no dejar vacio el QList y evitar desbordamiento
@@ -1859,85 +1937,59 @@ bool DbHandler::getQuotations(QString findString, QStringList &thrdData, QList<Q
     }
 }
 
-
-
 // NOTE: Obtener Propuesta
 bool DbHandler::getProposals(QString findString, QList<QStringList> &propsData, QString searchOption)
 {
     propsData.clear();
     // Strings correspondientes a cada campo.
-    QStringList propsIds, quotsIds, propsScopes, propsDates, propsValues, propsPayWay, propsUsersPerc, propsObserv;
-    QStringList propsStates, quotsCityNames, quotsAddress, quotsNames, usersLNames, thrdNit, thrdName;
-    QStringList propsIvas, propsViaticals, propsTotalValues, usersCels, usersMails, propValue, propsAprovals;
+    QStringList ids, scopes, dates, values, payWays, usersPerc, lNames;
+    QStringList ivas, viaticals, totalValues, propValue, approvals, approvalDetails, observs, quotIds;
 
     QSqlQuery queryGetProposal;
-    queryGetProposal.prepare(QString("SELECT prop_id, tblPROPOSALS.quot_id, prop_scope, prop_date, "
-                              "prop_value::money, prop_payway, prop_user_perc, prop_state, prop_approval, tblCITIES.city_name, "
-                              "tblQUOTATIONS.quot_address, tblQUOTATIONS.quot_name, tblUSERS.user_lname, tblTHIRDPARTIES.thrd_nit, "
-                              "tblTHIRDPARTIES.thrd_name, prop_observ, prop_iva::money, prop_viatical::money, "
-                              "prop_total_value::money, tblUSERS.user_cel, tblUSERS.user_mail, prop_total_value "
-                              "FROM tblPROPOSALS, tblQUOTATIONS, tblUSERS, tblCITIES, tblSTATES, tblTHIRDPARTIES "
-                              "WHERE tblQUOTATIONS.quot_id=tblPROPOSALS.quot_id "
-                              "AND tblCITIES.city_id=tblQUOTATIONS.city_id "
-                              "AND tblSTATES.state_id=tblCITIES.state_id "
-                              "AND tblUSERS.user_id=tblPROPOSALS.user_id "
-                              "AND tblTHIRDPARTIES.thrd_id=tblQUOTATIONS.thrd_id "
-                              "AND (tblPROPOSALS.%1 = :find_string) "
-                              "ORDER BY tblPROPOSALS.prop_id ASC").arg(searchOption));
-
+    queryGetProposal.prepare(QString("SELECT prop_id, prop_date, prop_scope, prop_value::money, prop_iva::money, prop_viatical::money, prop_total_value::money, "
+                              "tblUSERS.user_lname, prop_user_perc, prop_payway, prop_approval, prop_approval_detail, prop_observ, quot_id "
+                              "FROM tblPROPOSALS, tblUSERS "
+                              "WHERE tblUSERS.user_id=tblPROPOSALS.user_id "
+                              "AND tblPROPOSALS.%1 = :find_string "
+                              "ORDER BY tblPROPOSALS.prop_id ASC").arg(searchOption)); //.arg() cambia el %1 por la opción de búsqueda
     queryGetProposal.bindValue(":find_string", findString.toInt());
 
     if(!queryGetProposal.exec()) {
-        qDebug() << "Error en queryGetProposal: " << queryGetProposal.lastError().text();
-        queryGetProposal.lastQuery();
+        qDebug() << "Error en queryGetProposal, buscando por " << searchOption << "ocurrio: " << queryGetProposal.lastError().text();
+        qDebug() << "La consulta fue: " << queryGetProposal.lastQuery().toUtf8();
         return false;
     } else {
         while (queryGetProposal.next()) {
-            propsIds.append(queryGetProposal.value(0).toString());
-            quotsIds.append(queryGetProposal.value(1).toString());
-            propsScopes.append(queryGetProposal.value(2).toString());
-            propsDates.append(queryGetProposal.value(3).toString());
-            propsValues.append(queryGetProposal.value(4).toString());
-            propsPayWay.append(queryGetProposal.value(5).toString());
-            propsUsersPerc.append(queryGetProposal.value(6).toString());
-            propsStates.append(queryGetProposal.value(7).toString());
-            propsAprovals.append(queryGetProposal.value(8).toString());
-            quotsCityNames.append(queryGetProposal.value(9).toString());
-            quotsAddress.append(queryGetProposal.value(10).toString());
-            quotsNames.append(queryGetProposal.value(11).toString());
-            usersLNames.append(queryGetProposal.value(12).toString());
-            thrdNit.append(queryGetProposal.value(13).toString());
-            thrdName.append(queryGetProposal.value(14).toString());
-            propsObserv.append(queryGetProposal.value(15).toString());
-            propsIvas.append(queryGetProposal.value(16).toString());
-            propsViaticals.append(queryGetProposal.value(17).toString());
-            propsTotalValues.append(queryGetProposal.value(18).toString());
-            usersCels.append(queryGetProposal.value(19).toString());
-            usersMails.append(queryGetProposal.value(20).toString());
-            propValue.append(queryGetProposal.value(21).toString());
+            ids.append(queryGetProposal.value(Props::Id).toString());
+            dates.append(queryGetProposal.value(Props::Date).toString());
+            scopes.append(queryGetProposal.value(Props::Scope).toString());
+            values.append(queryGetProposal.value(Props::Value).toString());
+            ivas.append(queryGetProposal.value(Props::Iva).toString());
+            viaticals.append(queryGetProposal.value(Props::Viat).toString());
+            totalValues.append(queryGetProposal.value(Props::TotVal).toString());
+            lNames.append(queryGetProposal.value(Props::LName).toString());
+            usersPerc.append(queryGetProposal.value(Props::UsPerc).toString());
+            payWays.append(queryGetProposal.value(Props::PayWay).toString());
+            approvals.append(queryGetProposal.value(Props::Aprov).toString());
+            approvalDetails.append(queryGetProposal.value(Props::AprovD).toString());
+            observs.append(queryGetProposal.value(Props::Observ).toString());
+            quotIds.append(queryGetProposal.value(Props::QuotId).toString());
         }
-        propsData.append(propsIds); // 0
-        propsData.append(quotsIds); // 1
-        propsData.append(propsScopes); // 2
-        propsData.append(propsDates); // 3
-        propsData.append(propsValues); // 4
-        propsData.append(propsPayWay); // 5
-        propsData.append(propsUsersPerc); // 6
-        propsData.append(propsStates); // 7
-        propsData.append(propsAprovals); // 8
-        propsData.append(quotsCityNames); // 9
-        propsData.append(quotsAddress); // 10
-        propsData.append(quotsNames); // 11
-        propsData.append(usersLNames); // 12
-        propsData.append(thrdNit); // 13
-        propsData.append(thrdName); // 14
-        propsData.append(propsObserv); // 15
-        propsData.append(propsIvas); // 16
-        propsData.append(propsViaticals); // 17
-        propsData.append(propsTotalValues); // 18
-        propsData.append(usersCels); // 19
-        propsData.append(usersMails); // 20
-        propsData.append(propValue); // 21
+        propsData.append(ids);          // 0
+        propsData.append(dates);        // 1
+        propsData.append(scopes);       // 2
+        propsData.append(values);       // 3
+        propsData.append(ivas);         // 4
+        propsData.append(viaticals);    // 5
+        propsData.append(totalValues);  // 6
+        propsData.append(lNames);       // 7
+        propsData.append(usersPerc);    // 8
+        propsData.append(payWays);      // 9
+        propsData.append(approvals);    // 10
+        propsData.append(approvalDetails); // 11
+        propsData.append(observs);      //12
+        propsData.append(quotIds);      //13
+
         if (propsData.at(0).size()==0) {
             qDebug()<< "No se encontraron datos para queryGetProposal";
             return false;
@@ -1952,16 +2004,16 @@ bool DbHandler::getServiceOrders(QString findString, QList<QStringList> &sosData
 {
     sosData.clear();
     // Strings correspondientes a cada campo.
-    QStringList sosIds, sosDates, sosScopes, sosObservations, sosAccProcessed, sosDocProcessed, sosEngProcessed, propsIds;
-    QStringList sosEngObservations, sosAdmObservations, inspectorsNames, sosInspectorsPercs, sosAssignDates, sosBillNumber;
+    QStringList ids, dates, scopes, observations, accProcessed, docProcessed, engProcessed, propsIds;
+    QStringList engObservations, admObservations, inspectorsNames, inspectorsPercs, assignDates, billNumber;
 
     QSqlQuery queryGetServiceOrders;
-    queryGetServiceOrders.prepare(QString("SELECT so_id, so_date, so_scope, so_observations, so_acc_processed, "
-                              "so_doc_processed, so_eng_processed, so_eng_observations, so_adm_observations, "
-                              "so_inspector_perc, so_assign_date, so_bill_number, tblINSPECTORS.inspector_name, prop_id "
-                              "FROM tblSERVICEORDERS, tblINSPECTORS "
-                              "WHERE tblSERVICEORDERS.inspector_id=tblINSPECTORS.inspector_id "
-                              "AND tblSERVICEORDERS.%1 = :find_string").arg(searchOption));
+    queryGetServiceOrders.prepare(QString("SELECT so_id, so_date, tblINSPECTORS.inspector_name, so_inspector_perc, so_assign_date, "
+                                     "so_scope, so_observations, so_eng_observations, so_adm_observations, so_acc_processed, "
+                                     "so_doc_processed, so_eng_processed, so_bill_number, prop_id "
+                                     "FROM tblSERVICEORDERS, tblINSPECTORS "
+                                     "WHERE tblSERVICEORDERS.inspector_id=tblINSPECTORS.inspector_id "
+                                     "AND tblSERVICEORDERS.%1 = :find_string").arg(searchOption));
 
     if (searchOption == "so_id")
         queryGetServiceOrders.bindValue(":find_string", findString.toInt());
@@ -1973,36 +2025,35 @@ bool DbHandler::getServiceOrders(QString findString, QList<QStringList> &sosData
         return false;
     } else {
         while (queryGetServiceOrders.next()) {
-            sosIds.append(queryGetServiceOrders.value(0).toString());
-            sosDates.append(queryGetServiceOrders.value(1).toString());
-            sosScopes.append(queryGetServiceOrders.value(2).toString());
-            sosObservations.append(queryGetServiceOrders.value(3).toString());
-            sosAccProcessed.append(queryGetServiceOrders.value(4).toString());
-            sosDocProcessed.append(queryGetServiceOrders.value(5).toString());
-            sosEngProcessed.append(queryGetServiceOrders.value(6).toString());
-            sosEngObservations.append(queryGetServiceOrders.value(7).toString());
-            sosAdmObservations.append(queryGetServiceOrders.value(8).toString());
-            sosInspectorsPercs.append(queryGetServiceOrders.value(9).toString());
-            sosAssignDates.append(queryGetServiceOrders.value(10).toString());
-            sosBillNumber.append(queryGetServiceOrders.value(11).toString());
-            inspectorsNames.append(queryGetServiceOrders.value(12).toString());
-            propsIds.append(queryGetServiceOrders.value(13).toString());
+            ids.append(queryGetServiceOrders.value(Sos::Id).toString());
+            dates.append(queryGetServiceOrders.value(Sos::Date).toString());
+            inspectorsNames.append(queryGetServiceOrders.value(Sos::InspName).toString());
+            inspectorsPercs.append(queryGetServiceOrders.value(Sos::InspPerc).toString());
+            assignDates.append(queryGetServiceOrders.value(Sos::AssignD).toString());
+            scopes.append(queryGetServiceOrders.value(Sos::Scope).toString());
+            observations.append(queryGetServiceOrders.value(Sos::Observ).toString());
+            engObservations.append(queryGetServiceOrders.value(Sos::EngObserv).toString());
+            admObservations.append(queryGetServiceOrders.value(Sos::AdmObserv).toString());
+            accProcessed.append(queryGetServiceOrders.value(Sos::AccProc).toString());
+            docProcessed.append(queryGetServiceOrders.value(Sos::DocProc).toString());
+            engProcessed.append(queryGetServiceOrders.value(Sos::EngProc).toString());
+            billNumber.append(queryGetServiceOrders.value(Sos::BillNumb).toString());
+            propsIds.append(queryGetServiceOrders.value(Sos::propId).toString());
         }
-        sosData.append(sosIds);                 // 0
-        sosData.append(sosDates);               // 1
-        sosData.append(sosScopes);              // 2
-        sosData.append(sosObservations);        // 3
-        sosData.append(sosAccProcessed);        // 4
-        sosData.append(sosDocProcessed);        // 5
-        sosData.append(sosEngProcessed);        // 6
-        sosData.append(sosEngObservations);     // 7
-        sosData.append(sosAdmObservations);     // 8
-        sosData.append(sosInspectorsPercs);     // 9
-        sosData.append(sosAssignDates);         // 10
-        sosData.append(sosBillNumber);          // 11
-        sosData.append(inspectorsNames);        // 12
-        sosData.append(propsIds);               // 13
-
+        sosData.append(ids);             // 0
+        sosData.append(dates);           // 1
+        sosData.append(inspectorsNames);    // 2
+        sosData.append(inspectorsPercs); // 3
+        sosData.append(assignDates);     // 4
+        sosData.append(scopes);          // 5
+        sosData.append(observations);    // 6
+        sosData.append(engObservations); // 7
+        sosData.append(admObservations); // 8
+        sosData.append(accProcessed);    // 9
+        sosData.append(docProcessed);    // 10
+        sosData.append(engProcessed);    // 11
+        sosData.append(billNumber);      // 12
+        sosData.append(propsIds);           // 13
 
         if (sosData.at(0).size()==0) {
             qDebug()<< "No se encontraron datos para queryGetServiceOrders";
@@ -2107,86 +2158,7 @@ bool DbHandler::getSoState(QString searchString, QStringList &soState, QStringLi
     return false;
 }
 
-// NOTE: Obtiene un cliente especifico
-bool DbHandler::getThirdPartie(QString findString, QStringList &thrdData, QString searchOption)
-{
 
-    thrdData.clear();
-    QSqlQuery queryGetThirdPartie;
-    queryGetThirdPartie.prepare(QString("SELECT (thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
-                                "tblSTATES.state_name, tblCITIES.city_name)  "
-                                "FROM tblTHIRDPARTIES, tblCITIES, tblSTATES "
-                                "WHERE (tblCITIES.city_id = tblTHIRDPARTIES.city_id "
-                                "AND tblSTATES.state_id = tblCITIES.state_id "
-                                "AND %1 = :find_string)").arg(searchOption));
-    if (searchOption == "thrd_nit")
-        queryGetThirdPartie.bindValue(":find_string", findString);
-    else
-        queryGetThirdPartie.bindValue(":find_string", findString.toInt());
-
-    if(!queryGetThirdPartie.exec()) {
-        qDebug() << "Error en queryGetThirdPartie: " + queryGetThirdPartie.lastError().text();
-        return false;
-    } else {
-        while(queryGetThirdPartie.next()) {
-            thrdData.append(queryGetThirdPartie.value(0).toString()); //id
-            thrdData.append(queryGetThirdPartie.value(1).toString()); //nit
-            thrdData.append(queryGetThirdPartie.value(2).toString()); //razon zocial
-            thrdData.append(queryGetThirdPartie.value(3).toString()); //representante legal
-            thrdData.append(queryGetThirdPartie.value(5).toString()); //direccion
-            thrdData.append(queryGetThirdPartie.value(6).toString()); //mail
-            thrdData.append(queryGetThirdPartie.value(7).toString()); //celular
-            thrdData.append(queryGetThirdPartie.value(8).toString()); //telefono
-            thrdData.append(queryGetThirdPartie.value(9).toString()); //departamento
-            thrdData.append(queryGetThirdPartie.value(10).toString()); //ciudad
-        }
-        if (thrdData.size()==0) {// Si el StringList es cero no se encontro cliente
-            thrdData.append("0");
-            qDebug()<< "No se encontraron datos para queryGetConstructors";
-            return false;
-        } else
-            return true;
-    }
-}
-
-// NOTE: Obtiene listado de clientes
-// TODO: modificar la obtencion de clientes igual que se hace en cotizaciones
-bool DbHandler::getThirdParties(QList<QStringList> &thirdsData)
-{
-    thirdsData.clear();
-    QStringList thrdData;
-    QSqlQuery queryGetThirdParties;
-    queryGetThirdParties.prepare("SELECT thrd_id, thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, "
-                                "tblCITIES.city_name, tblSTATES.state_name "
-                                "FROM (tblTHIRDPARTIES INNER JOIN tblCITIES ON tblCITIES.city_id=tblTHIRDPARTIES.city_id) "
-                                "INNER JOIN tblSTATES ON tblSTATES.state_id=tblCITIES.state_id");
-    if(!queryGetThirdParties.exec()) {
-        qDebug() << "Error en queryGetThirdParties: \n" + queryGetThirdParties.lastError().text();
-        return false;
-    } else {
-        while (queryGetThirdParties.next()) {
-            thrdData.append(queryGetThirdParties.value(0).toString());
-            thrdData.append(queryGetThirdParties.value(1).toString());
-            thrdData.append(queryGetThirdParties.value(2).toString());
-            thrdData.append(queryGetThirdParties.value(3).toString());
-            thrdData.append(queryGetThirdParties.value(4).toString());
-            thrdData.append(queryGetThirdParties.value(5).toString());
-            thrdData.append(queryGetThirdParties.value(6).toString());
-            thrdData.append(queryGetThirdParties.value(7).toString());
-            thrdData.append(queryGetThirdParties.value(8).toString());
-            thrdData.append(queryGetThirdParties.value(9).toString());
-
-            thirdsData.append(thrdData);//Agrego el cliente a la lista de clientes
-            thrdData.clear(); //Limpio el stringList de cliente para volverlo a usar
-        }
-        if (thrdData.at(0).size()==0) {
-            qDebug()<< "No se encontraron datos para queryGetThirdParties";
-            return false;
-        } else
-            return true;
-    }
-    return false;
- }
 
 // NOTE: Obtiene los inspectores
 // TODO: Revisar los cargos y nivles

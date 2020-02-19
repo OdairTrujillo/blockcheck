@@ -14,6 +14,7 @@ public:
     static int readUpdateTimeConf();
 
     QString sqlServerIP, databaseName;
+    int sqlServerPort;
 };
 
 #endif // OUTSIDEACTIONS_H

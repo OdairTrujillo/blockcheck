@@ -376,23 +376,23 @@ create table tblTHIRDPARTIES (
 -- Tabla para solicitudes de cotización
 create table tblQUOTATIONS (
 	quot_id bigint DEFAULT nextval('seq_quot_id'),
-    quot_date date not null,
+    	quot_date date not null,
 	quot_name varchar(100) not null,
 	quot_address varchar(50) not null,
-    city_id int not null,
-    quot_contact varchar(50) not null,
+    	city_id int not null,
+    	quot_contact varchar(50) not null,
 	quot_cel varchar(40) not null,
 	quot_mail varchar(40) DEFAULT 'Sin e-mail',
-	quot_inspect_type varchar(40) not null, -- RETIE, RETILAP
+	quot_inspect_type int not null DEFAULT 1, -- RETIE, RETILAP
 	use_id int not null, --El uso determina el precio de oferta
-    quot_voltage_level int not null DEFAULT 0,
-    quot_capacity float not null default 0.0,
-    quot_phases int not null default 3,
-    quot_project_area int not null default 0,
-    quot_area_type int default 0,
-    quot_network_type int default 0,
-    quot_network_long int default 0,
-    quot_boxes int default 0,
+    	quot_voltage_level int not null DEFAULT 0,
+    	quot_capacity float not null default 0.0,
+    	quot_phases int not null default 3,
+    	quot_project_area int not null default 0,
+    	quot_area_type int default 0,
+    	quot_network_type int default 0,
+    	quot_network_long int default 0,
+    	quot_boxes int default 0,
 	quot_scope varchar(1600) not null,
 	thrd_id int not null, --La cotización depende de un tercero
 	primary key (quot_id)
@@ -416,11 +416,11 @@ create table tblPROPOSALS (
 	prop_iva numeric not null, -- Valor del iva
 	prop_viatical numeric not null, -- Valor de los viáticos
 	prop_total_value numeric not null, -- Valor total
-    user_id int not null, -- Quien vende la propuesta
+    	user_id int not null, -- Quien vende la propuesta
+    	prop_user_perc float DEFAULT 0.1, -- Porcentaje para el vendedor
 	prop_payway varchar(40) not null,
-    prop_state varchar(60) not null, --Por Aprobar, Aprobada, Rechazada - Lo hace gerencia
-	prop_state_detail varchar(400) DEFAULT 'Sin Aprobación', -- Detalle de estado de aprobación por gerencia
-    prop_user_perc float DEFAULT 0.1, -- Porcentaje para el vendedor
+    	prop_approval varchar(60) not null, --Por Aprobar, Aprobada, Rechazada - Lo hace gerencia
+	prop_approval_detail varchar(400) DEFAULT 'Sin Aprobación', -- Detalle de estado de aprobación por gerencia
 	prop_observ varchar(400) DEFAULT 'Sin Observaciones', -- Obervaciones generales
 	quot_id int not null unique, --Proviene de una cotización pero se puede modificar
 	primary key(prop_id)

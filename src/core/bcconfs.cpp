@@ -13,23 +13,26 @@ BcConfsForm::BcConfsForm(QWidget *parent) :
             this, SLOT(saveConfs(void)));
 
     QString sqlServerIP, databaseName, webServer, updateTime;
+    int sqlServerPort;
     QString fileName(QDir::currentPath() + "/blockcheck.conf");
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::warning(0, ("Error Abriendo Configuración"),
-                             ("No se puedo abrir '%1'").arg(fileName));
+                             QString("No se puedo abrir '%1'").arg(fileName));
 
     } else {
         QTextStream readStream(&file);
 
         readStream.seek(0);
         sqlServerIP = readStream.readLine(75);
-        databaseName=readStream.readLine(75);
-        webServer=readStream.readLine(75);
-        updateTime=readStream.readLine(75);
+        sqlServerPort = readStream.readLine(75).toInt();
+        databaseName = readStream.readLine(75);
+        webServer = readStream.readLine(75);
+        updateTime = readStream.readLine(75);
     }
 
     ui->sqlServerIpLineEdit->setText(sqlServerIP);
+    ui->sqlServerPortSpinBox->setValue(QString(sqlServerPort).toUInt());
     ui->dbNameLineEdit->setText(databaseName);
     ui->webServerLineEdit->setText(webServer);
     ui->updateTimeSpinBox->setValue(updateTime.toInt());

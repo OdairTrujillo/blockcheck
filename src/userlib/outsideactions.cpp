@@ -19,7 +19,8 @@ bool OutsideActions::readSqlServerConf()
 
         readStream.seek(0);
         sqlServerIP = readStream.readLine(75); // Lee la primera línea
-        databaseName=readStream.readLine(75); // Lee la segunda
+        sqlServerPort = readStream.readLine(75).toInt(); // lee la segunda línea
+        databaseName=readStream.readLine(75); // Lee la tercera línea
         return true;
     }
     return false;
