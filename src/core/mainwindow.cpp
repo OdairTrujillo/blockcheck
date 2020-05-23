@@ -19,21 +19,32 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    if (!DbHandler::createConnection()) {
-        qDebug() << "No se obtuvo acceso a la DB, revise que el servidor esté corriendo y aceptando conexiones.";
-        exit(1); // Si no se obtiene acceso a la DB, el programa finaliza.
-    } else {
     showMaximized();
+// ESTE BLOQUE DE CREACIÓN DE LA CONEXIÓN DEBE IMPLEMENTARSE EN UN MÓDULO APARTE QUE INCLUYA COMANDOS DEL SERVIDOR POSTGRES.
+//    SalesForm salesForm;
+//    CheckFolderForm checkFolderForm;
+//    AccountingForm accountingForm;
+    if (!DbHandler::createConnection())
+        qDebug() << "No se obtuvo acceso a la DB ";
+    else {
+        EngineeringForm engineeringForm;
+        engineeringForm.exec();
+    }
+//
+
     createActions();
     createMenus();
     createToolBars();
     createStatusBar();
     hideItems();
-    }
+
+
 }
+
 
 void MainWindow::login()
 {
+
     LoginDialog loginDialog;
 
     // Pregunto si retorna aceptado para poder mostrar formulario de ventas
@@ -51,7 +62,7 @@ void MainWindow::login()
             accountingMenu->menuAction()->setVisible(true);
         }
 
-        if (loginDialog.userData.at(3) == "Ingeniería") {
+        if (loginDialog.userData.at(3) == trUtf8("Ingeniería")) {
             engineeringMenu->menuAction()->setVisible(true);
         }
 
@@ -65,14 +76,14 @@ void MainWindow::login()
         loginAct->setVisible(false); // Oculta solo la opción de login
         logoutAct->setVisible(true);
 
-        statusLabel = new QLabel("Usuario Activo: " + userLName.toUtf8());
+        statusLabel = new QLabel(trUtf8("Usuario Activo: ") + userLName.toUtf8());
         statusBar()->addWidget(statusLabel);
     }
 }
 
 void MainWindow::logout()
 {
-    if (QMessageBox::question(this, "Cerrar sesión", "¿Desea cerrar sesión?",
+    if (QMessageBox::question(this, trUtf8("Cerrar sesión"), trUtf8("¿Desea cerrar sesión?"),
                               QMessageBox::Yes | QMessageBox::Cancel)==QMessageBox::Yes) {
         hideItems();
         Logger::logout(userName, userLName);
@@ -83,28 +94,28 @@ void MainWindow::logout()
 
 void MainWindow::showSalesForm()
 {
-    SalesForm salesForm;
+    SalesForm salesForm(this);
     salesForm.userName=userName;
     salesForm.exec();
 }
 
 void MainWindow::showCheckFolderForm()
 {
-    CheckFolderForm checkFolderForm;
+    CheckFolderForm checkFolderForm(this);
     checkFolderForm.userName=userName;
     checkFolderForm.exec();
 }
 
 void MainWindow::showAccountingForm()
 {
-    AccountingForm accountingForm;
+    AccountingForm accountingForm(this);
     accountingForm.userName=userName;
     accountingForm.exec();
 }
 
 void MainWindow::showEngineeringForm()
 {
-    EngineeringForm engineeringForm;
+    EngineeringForm engineeringForm(this);
     engineeringForm.userName=userName;
     engineeringForm.exec();
 }
@@ -112,6 +123,7 @@ void MainWindow::showEngineeringForm()
 void MainWindow::showEventsForm()
 {
     LogViewForm logViewForm(this);
+
     logViewForm.exec();
 }
 
@@ -153,7 +165,8 @@ void MainWindow::showEditAuditorsForm()
 
 void MainWindow::showSoStateForm()
 {
-    SoStateForm soStateForm;
+    SoStateForm soStateForm(this);
+
     soStateForm.exec();
 }
 
@@ -166,7 +179,7 @@ void MainWindow::showBcConfsForm()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (QMessageBox::question(this, "Cerrar el programa", "¿Desea cerrar BlockCheck?",
+    if (QMessageBox::question(this, "Cerrar el programa", trUtf8("¿Desea cerrar BlockCheck?"),
                               QMessageBox::Yes | QMessageBox::Cancel)==QMessageBox::Yes) {
 
         event->accept();
@@ -178,80 +191,80 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::about()
 {
     QMessageBox::about(this, tr("Acerca de BlockCheck"),
-                       "<b>BlockCheck</b> administración y gestión de "
-                          "organismos de inspección RETIE - En desarrollo ");
+                       trUtf8("<b>BlockCheck</b> administración y gestión de "
+                          "organismos de inspección RETIE "));
 }
 
 
 void MainWindow::createActions()
 {
-    loginAct = new QAction(QIcon(":/icons/icons/login.png"), "&Iniciar Sesión", this);
-    loginAct->setStatusTip("Iniciar Sesión");
+    loginAct = new QAction(QIcon(":/icons/icons/login.png"), trUtf8("&Iniciar Sesión"), this);
+    loginAct->setStatusTip(trUtf8("Iniciar Sesión"));
     connect(loginAct, SIGNAL(triggered()), this, SLOT(login()));
 
-    logoutAct = new QAction(QIcon(":/icons/icons/logout.png"), "&Cerrar Sesión", this);
-    logoutAct->setStatusTip("Cerrar Sesión");
+    logoutAct = new QAction(QIcon(":/icons/icons/logout.png"), trUtf8("&Cerrar Sesión"), this);
+    logoutAct->setStatusTip(trUtf8("Cerrar Sesión"));
     connect(logoutAct, SIGNAL(triggered()), this, SLOT(logout()));
 
-    showSalesAct = new QAction(QIcon(":/icons/icons/sales.png"), "&Ventas", this);
-    showSalesAct->setStatusTip("Muestra el módulo de ventas");
+    showSalesAct = new QAction(QIcon(":/icons/icons/sales.png"), trUtf8("&Ventas"), this);
+    showSalesAct->setStatusTip(trUtf8("Muestra el módulo de ventas"));
     connect(showSalesAct, SIGNAL(triggered()), this, SLOT(showSalesForm()));
 
-    showCheckFolderAct = new QAction(QIcon(":/icons/icons/store.png"), "&Documentos", this);
-    showCheckFolderAct->setStatusTip("Muestra el módulo de documentos");
+    showCheckFolderAct = new QAction(QIcon(":/icons/icons/store.png"), trUtf8("&Documentos"), this);
+    showCheckFolderAct->setStatusTip(trUtf8("Muestra el módulo de documentos"));
     connect(showCheckFolderAct, SIGNAL(triggered()), this, SLOT(showCheckFolderForm()));
 
-    showAccountingAct = new QAction(QIcon(":/icons/icons/billed.png"), "&Contabilidad", this);
-    showAccountingAct->setStatusTip("Muestra el módulo de Contabilidad");
+    showAccountingAct = new QAction(QIcon(":/icons/icons/billed.png"), trUtf8("&Contabilidad"), this);
+    showAccountingAct->setStatusTip(trUtf8("Muestra el módulo de Contabilidad"));
     connect(showAccountingAct, SIGNAL(triggered()), this, SLOT(showAccountingForm()));
 
-    showEngineeringAct = new QAction(QIcon(":/icons/icons/engineering.png"), "&Ingeniería", this);
-    showEngineeringAct->setStatusTip("Muestra el módulo de Ingeniería");
+    showEngineeringAct = new QAction(QIcon(":/icons/icons/engineering.png"), trUtf8("&Ingeniería"), this);
+    showEngineeringAct->setStatusTip(trUtf8("Muestra el módulo de Ingeniería"));
     connect(showEngineeringAct, SIGNAL(triggered()), this, SLOT(showEngineeringForm()));
 
-    showEventsAct = new QAction(QIcon(":/icons/icons/filter.png"), "&Eventos", this);
-    showEventsAct->setStatusTip("Registro de Eventos");
+    showEventsAct = new QAction(QIcon(":/icons/icons/filter.png"), trUtf8("&Eventos"), this);
+    showEventsAct->setStatusTip(trUtf8("Registro de Eventos"));
     connect(showEventsAct, SIGNAL(triggered()), this, SLOT(showEventsForm()));
 
-    showEditDesignersAct = new QAction("&Editar Diseñadores", this);
-    showEditDesignersAct->setStatusTip("Edición de Diseñadores");
+    showEditDesignersAct = new QAction(trUtf8("&Editar Diseñadores"), this);
+    showEditDesignersAct->setStatusTip(trUtf8("Edición de Diseñadores"));
     connect(showEditDesignersAct, SIGNAL(triggered()), this, SLOT(showEditDesignersForm()));
 
-    showEditConstructorsAct = new QAction("&Editar Constructores", this);
-    showEditConstructorsAct->setStatusTip("Edición de Constructores");
+    showEditConstructorsAct = new QAction(trUtf8("&Editar Constructores"), this);
+    showEditConstructorsAct->setStatusTip(trUtf8("Edición de Constructores"));
     connect(showEditConstructorsAct, SIGNAL(triggered()), this, SLOT(showEditConstructorsForm()));
 
-    showEditAuditorsAct = new QAction("&Editar Interventores", this);
-    showEditAuditorsAct->setStatusTip("Edición de Interventores");
+    showEditAuditorsAct = new QAction(trUtf8("&Editar Interventores"), this);
+    showEditAuditorsAct->setStatusTip(trUtf8("Edición de Interventores"));
     connect(showEditAuditorsAct, SIGNAL(triggered()), this, SLOT(showEditAuditorsForm()));
 
-    showEditInspectorsAct = new QAction("&Editar Inspectores", this);
-    showEditInspectorsAct->setStatusTip("Edición de Inspectores");
+    showEditInspectorsAct = new QAction(trUtf8("&Editar Inspectores"), this);
+    showEditInspectorsAct->setStatusTip(trUtf8("Edición de Inspectores"));
     connect(showEditInspectorsAct, SIGNAL(triggered()), this, SLOT(showEditInspectorsForm()));
 
-    showEditUsersAct = new QAction("&Editar Usuarios", this);
-    showEditUsersAct->setStatusTip("Edición de Usuarios");
+    showEditUsersAct = new QAction(trUtf8("&Editar Usuarios"), this);
+    showEditUsersAct->setStatusTip(trUtf8("Edición de Usuarios"));
     connect(showEditUsersAct, SIGNAL(triggered()), this, SLOT(showEditUsersForm()));
 
-    showSoStateAct = new QAction(QIcon(":/icons/icons/find.png"), "&Estado de Expediente", this);
-    showSoStateAct->setStatusTip("Estado de Expediente");
+    showSoStateAct = new QAction(QIcon(":/icons/icons/find.png"), trUtf8("&Estado de Expediente"), this);
+    showSoStateAct->setStatusTip(trUtf8("Estado de Expediente"));
     connect(showSoStateAct, SIGNAL(triggered()), this, SLOT(showSoStateForm()));
 
-    exitAct = new QAction("&Salir", this);
+    exitAct = new QAction(trUtf8("&Salir"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
-    exitAct->setStatusTip("Salir de BlockCheck");
+    exitAct->setStatusTip(trUtf8("Salir de BlockCheck"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    showBcConfsAct = new QAction(QIcon(":/icons/icons/configure.png"), "&Configurar BlockCheck", this);
-    showBcConfsAct->setStatusTip("Accede las configuraciones del programa");
+    showBcConfsAct = new QAction(QIcon(":/icons/icons/configure.png"), trUtf8("&Configurar BlockCheck"), this);
+    showBcConfsAct->setStatusTip(trUtf8("Accede las configuraciones del programa"));
     connect(showBcConfsAct, SIGNAL(triggered()), this, SLOT(showBcConfsForm()));
 
-    aboutAct = new QAction("&Acerca de ...", this);
-    aboutAct->setStatusTip("Muestra el Acerca de BlockCheck");
+    aboutAct = new QAction(trUtf8("&Acerca de ..."), this);
+    aboutAct->setStatusTip(trUtf8("Muestra el Acerca de BlockCheck"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
-    aboutQtAct = new QAction("Acerca de &Qt", this);
-    aboutQtAct->setStatusTip("Muestra el Acerca de Qt");
+    aboutQtAct = new QAction(trUtf8("Acerca de &Qt"), this);
+    aboutQtAct->setStatusTip(trUtf8("Muestra el Acerca de Qt"));
     connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
 }
@@ -259,30 +272,30 @@ void MainWindow::createActions()
 void MainWindow::createMenus()
 {
     // Tanto las opciones de menú como las acciones de estas, son miembros de la clase
-    // Aquí se agregan a la barra de menú que por defecto es parte del QMainWindow
-    sessionMenu = menuBar()->addMenu("Sesión");
+    // aquí se agregan a la barra de menú que por defecto es parte del QMainWindow
+    sessionMenu = menuBar()->addMenu(trUtf8("Sesión"));
     sessionMenu->addAction(loginAct);
     sessionMenu->addAction(logoutAct);
     sessionMenu->addSeparator();
     sessionMenu->addAction(exitAct);
 
-    salesMenu = menuBar()->addMenu("&Ventas");
+    salesMenu = menuBar()->addMenu(trUtf8("&Ventas"));
     salesMenu->addAction(showSalesAct);
 
-    checkFolderMenu = menuBar()->addMenu("&Documentos");
+    checkFolderMenu = menuBar()->addMenu(trUtf8("&Documentos"));
     checkFolderMenu->addAction(showCheckFolderAct);
 
-    accountingMenu = menuBar()->addMenu("&Contabilidad");
+    accountingMenu = menuBar()->addMenu(trUtf8("&Contabilidad"));
     accountingMenu->addAction(showAccountingAct);
 
-    engineeringMenu = menuBar()->addMenu("&Ingeniería");
+    engineeringMenu = menuBar()->addMenu(trUtf8("&Ingeniería"));
     engineeringMenu->addAction(showEngineeringAct);
 
     // La función menuBar() evita tener que hacer adminMenu=new QMenu(menubar), ya que usa la barra de menú implícita
-    adminMenu = menuBar()->addMenu("&Gerencia y Monitoreo");
+    adminMenu = menuBar()->addMenu(trUtf8("&Gerencia y Monitoreo"));
     adminMenu->addAction(showEventsAct);
     // Para agregar el submenú, este debe ser hijo del menú y el padre debe agregar la acción del hijo con menuAction
-    personsMenu = new QMenu("Editar &Personas", adminMenu);
+    personsMenu = new QMenu(trUtf8("Editar &Personas"), adminMenu);
     personsMenu->setIcon(QIcon(":/icons/icons/users.png"));
     // Aquí se agrega el menuAction del hijo al padre para que pueda ejecutarse como submenú dentro del menú.
     adminMenu->addAction(personsMenu->menuAction());
@@ -297,7 +310,7 @@ void MainWindow::createMenus()
 
     menuBar()->addSeparator();
 
-    bcConfsMenu = menuBar()->addMenu("Configuración");
+    bcConfsMenu = menuBar()->addMenu(trUtf8("Configuración"));
     bcConfsMenu->addAction(showBcConfsAct);
 
     helpMenu = menuBar()->addMenu(tr("&Ayuda"));
@@ -307,13 +320,13 @@ void MainWindow::createMenus()
 
 void MainWindow::createToolBars()
 {
-    adminToolBar = addToolBar("Gerencia y Monitoreo");
+    adminToolBar = addToolBar(tr("Gerencia y Monitoreo"));
     adminToolBar->addAction(showEventsAct);
 }
 
 void MainWindow::createStatusBar()
 {
-    statusBar()->showMessage("Listo");
+    statusBar()->showMessage(trUtf8("Listo"));
 }
 
 void MainWindow::hideItems()
@@ -326,6 +339,8 @@ void MainWindow::hideItems()
     adminToolBar->hide();
     logoutAct->setVisible(false);
     loginAct->setVisible(true);
+
+    statusBar()->removeWidget(statusLabel);
 }
 
 MainWindow::~MainWindow()

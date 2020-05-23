@@ -43,7 +43,9 @@
         </font>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Ingrese su nombre de&lt;br/&gt;usuario y contraseña&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;div align=&quot;center&quot;&gt;Ingrese su Nombre de&lt;br&gt;
+Usuario y Contraseña&lt;br&gt;
+&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -68,7 +70,7 @@
         </font>
        </property>
        <property name="text">
-        <string>leonardo</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -91,7 +93,7 @@
         <string/>
        </property>
        <property name="text">
-        <string>123</string>
+        <string/>
        </property>
       </widget>
      </item>

@@ -19,8 +19,8 @@ public:
     static bool createConnection(void);
     static void closeConnection(void);
     static bool insertLogReg(const QStringList logData);
-    static bool insertQuotation(const QStringList thirdData, QStringList &quotData, QStringList processesIds, int newQuotId, bool &isUniqueViolation);
-    static bool insertQuotation(const QString thrdNit, QStringList &quotData, int newQuotId, QStringList processesIds);
+    static bool insertQuotation(const QStringList thirdData, QStringList &quotData, QStringList processesIds, bool &isUniqueViolation);
+    static bool insertQuotation(const QString thrdNit, QStringList &quotData, QStringList processesIds);
     static bool insertProposal(QStringList &propData, QStringList documentsIds, bool &isUniqueViolation);
     static bool insertServiceOrder(QStringList &soData, bool &isUniqueViolation);
     static bool insertQuotProcesses(const QString quotId, const QString processId);
@@ -91,7 +91,7 @@ public:
     // Obtención de datos
     static bool getThirdPartie(QString findString, QStringList &thirdData, QString searchOption);
     static bool getThirdParties(QList<QStringList> &thrdsData);
-    static bool getQuotations(QString findString, QList<QStringList> &quotsData, QString searchOption);
+    static bool getQuotations(QString findString, QStringList &thrdData, QList<QStringList> &quotsData, QString searchOption);
     static bool getServiceOrders(QString findString, QList<QStringList> &sosData, QString searchOption);
     static bool getProposals(QString findString, QList<QStringList> &propsData, QString searchOption);
     static bool getProcesses(QString quot_id, QStringList &procsIds);

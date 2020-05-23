@@ -229,11 +229,11 @@
      <property name="wordWrap">
       <bool>true</bool>
      </property>
-     <attribute name="horizontalHeaderMinimumSectionSize">
-      <number>40</number>
-     </attribute>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>100</number>
+     </attribute>
+     <attribute name="horizontalHeaderMinimumSectionSize">
+      <number>40</number>
      </attribute>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>false</bool>
@@ -261,10 +261,10 @@
      <item>
       <widget class="QPushButton" name="goRecordButton">
        <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
+        <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
-        <string>   Ir a OS</string>
+        <string>Ir a OS</string>
        </property>
        <property name="icon">
         <iconset resource="../resources/resources.qrc">

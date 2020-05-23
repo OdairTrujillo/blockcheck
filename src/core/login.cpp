@@ -9,9 +9,9 @@ LoginDialog::LoginDialog(QDialog *parent)
 {
     setupUi(this);
 
-//    if (!DbHandler::createConnection()) {
-//        qDebug() << "No se obtuvo acceso a la DB ";
-//    }
+    if (!DbHandler::createConnection()) {
+        qDebug() << "No se obtuvo acceso a la DB ";
+    }
 
     passwdLineEdit->setEchoMode(QLineEdit::Password);
 

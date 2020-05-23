@@ -15,6 +15,9 @@ void SalesForm::fillQuotControls()
     // NOTE: Llenado de valores por defecto para la cotizacion
 
     oldTabIndex=salesTabWidget->currentIndex();
+    findComboBox->addItem(trUtf8("Nit o CC"));
+    findComboBox->addItem(trUtf8("Propuesta"));
+    findComboBox->addItem(trUtf8("Orden de Servicio"));
 
     nextButton->setEnabled(false);
     prevButton->setEnabled(false);
@@ -42,14 +45,14 @@ void SalesForm::fillQuotControls()
 
     // Lleno el listwidget con los procesos existentes
     if (DbHandler::getProcesses(processesData))
-        quotProcessesListWidget->addItems(processesData.at(1));
+        processesListWidget->addItems(processesData.at(1));
     else
-        quotProcessesListWidget->addItem("Sin Datos");
+        processesListWidget->addItem("Sin Datos");
 
     if (DbHandler::getUses(usesData))
-        quotUseTypeComboBox->addItems(usesData.at(1));
+        useTypeComboBox->addItems(usesData.at(1));
     else
-        quotUseTypeComboBox->addItem("Sin Datos");
+        useTypeComboBox->addItem("Sin Datos");
 
     quotDateEdit->setDate(QDate::currentDate());
 
@@ -68,6 +71,10 @@ void SalesForm::fillPropControls()
         propSoldByComboBox->addItem("Sin Datos");
 
     propDateEdit->setDate(QDate::currentDate());
+
+    propPayWayComboBox->addItem(trUtf8("50% - 50%"));
+    propPayWayComboBox->addItem(trUtf8("100%"));
+    propPayWayComboBox->addItem(trUtf8("A Convenir"));
 
     // propValueModel es miembro de la clase y sirve para mostrar los datos
     // de precios de la propuesta comercial en forma de tabla.
@@ -132,6 +139,15 @@ void SalesForm::fillSoControls()
     else
         soInspectorsComboBox->addItem("Sin Datos");
 
+    // Obtengo los distintos folios o AZ
+    if (!DbHandler::getRecords(recordsData))
+        recordsData.append(QStringList("Sin Datos"));
+    for (int i=0; i<recordsData.at(1).size();i++) {
+        QListWidgetItem *item = new QListWidgetItem;
+        item->setData( Qt::DisplayRole, recordsData.at(1).at(i));
+        item->setData( Qt::CheckStateRole, Qt::Unchecked);
+        recordFoilListWidget->addItem( item );
+    }
 }
 
 // NOTE: Crea y aplica validadores
@@ -139,21 +155,7 @@ void SalesForm::setValidators()
 {
     QValidator *intValidator = new QDoubleValidator(0, 9999999999, 0, this);
 
-    //thrdRepIdLineEdit->setValidator(intValidator);
-}
-
-// NOTE: Llenado de datos del tercero
-void SalesForm::fillThrdData()
-{
-    thrdNitLineEdit->setText(thrdData.at(Thrds::Nit));
-    thrdNameLineEdit->setText(thrdData.at(Thrds::Name));
-    thrdAddressLineEdit->setText(thrdData.at(Thrds::Addrs));
-    thrdStateComboBox->setCurrentText(thrdData.at(Thrds::State));
-    thrdCityComboBox->setCurrentText(thrdData.at(Thrds::City));
-    thrdLegalRepLineEdit->setText(thrdData.at(Thrds::LRep));
-    thrdMailLineEdit->setText(thrdData.at(Thrds::Mail));
-    thrdCellPhoneLineEdit->setText(thrdData.at(Thrds::Cel));
-    thrdPhoneFaxLineEdit->setText(thrdData.at(Thrds::Tel));
+    thrdRepIdLineEdit->setValidator(intValidator);
 }
 
 // NOTE: Llenado de datos de la cotizacion
@@ -161,61 +163,58 @@ void SalesForm::fillQuotData()
 {
 
     QStringList procsIds;
-    DbHandler::getProcesses(quotsData.at(Quots::Id).at(quot_position), procsIds);
+    DbHandler::getProcesses(quotsData.at(0).at(quot_position), procsIds);
 
-    quotDateEdit->setDate(QDate::fromString(quotsData.at(Quots::Date).at(quot_position), "yyyy-MM-dd"));
-    quotNameLineEdit->setText(quotsData.at(Quots::Name).at(quot_position));
-    quotAddressLineEdit->setText(quotsData.at(Quots::Addrs).at(quot_position));
-    quotStateComboBox->setCurrentText(quotsData.at(Quots::State).at(quot_position));
-    quotCityComboBox->setCurrentText(quotsData.at(Quots::City).at(quot_position));
-    quotContactLineEdit->setText(quotsData.at(Quots::Ctact).at(quot_position));
-    quotCellPhoneLineEdit->setText(quotsData.at(Quots::Cel).at(quot_position));
-    quotMailLineEdit->setText(quotsData.at(Quots::Mail).at(quot_position));
-    quotInspecTypeComboBox->setCurrentText(quotsData.at(Quots::InspTyp).at(quot_position));
-    quotUseTypeComboBox->setCurrentText(quotsData.at(Quots::Use).at(quot_position));
-    quotVoltageLevelComboBox->setCurrentText(quotsData.at(Quots::VLev).at(quot_position));
-    quotCapacitySpinBox->setValue(quotsData.at(Quots::Capac).at(quot_position).toInt());
-    quotPhasesSpinBox->setValue(quotsData.at(Quots::Phase).at(quot_position).toInt());
-    quotProyectAreaSpinBox->setValue(quotsData.at(Quots::PrjArea).at(quot_position).toInt());
-    quotAreaTypeComboBox->setCurrentText(quotsData.at(Quots::AreaTyp).at(quot_position));
-    quotNetworkTypeComboBox->setCurrentText(quotsData.at(Quots::NetTyp).at(quot_position));
-    quotNetworkLongSpinBox->setValue(quotsData.at(Quots::NetLong).at(quot_position).toInt());
-    quotBoxesSpinBox->setValue(quotsData.at(Quots::Boxes).at(quot_position).toInt());
+    thrdNitLineEdit->setText(thrdData.at(1));
+    thrdNameLineEdit->setText(thrdData.at(2));
+    thrdRepLineEdit->setText(thrdData.at(3));
+    thrdRepIdLineEdit->setText(thrdData.at(4));
+    thrdAddressLineEdit->setText(thrdData.at(5));
+    thrdMailLineEdit->setText(thrdData.at(6));
+    thrdPhoneLineEdit->setText(thrdData.at(7));
+    thrdFaxLineEdit->setText(thrdData.at(8));
+    thrdStateComboBox->setCurrentIndex(thrdStateComboBox->findText(thrdData.at(9)));
+    thrdCityComboBox->setCurrentIndex(thrdCityComboBox->findText(thrdData.at(10)));
+
+    quotDateEdit->setDate(QDate::fromString(quotsData.at(1).at(quot_position), "yyyy-MM-dd"));
+    quotNameLineEdit->setText(quotsData.at(2).at(quot_position));
+    quotScopeTextEdit->setText(quotsData.at(3).at(quot_position));
+    quotContactLineEdit->setText(quotsData.at(4).at(quot_position));
+    quotAddressLineEdit->setText(quotsData.at(5).at(quot_position));
+    quotMailLineEdit->setText(quotsData.at(6).at(quot_position));
+    quotPhoneLineEdit->setText(quotsData.at(7).at(quot_position));
+    quotFaxLineEdit->setText(quotsData.at(8).at(quot_position));
+    // findText devuelve la posicion en la que coincide el texto
+    quotStateComboBox->setCurrentIndex(quotStateComboBox->findText(quotsData.at(9).at(quot_position)));
+    quotCityComboBox->setCurrentIndex(quotCityComboBox->findText(quotsData.at(10).at(quot_position)));
+    useTypeComboBox->setCurrentIndex(useTypeComboBox->findText(quotsData.at(11).at(quot_position)));
+    inspecTypeComboBox->setCurrentIndex(inspecTypeComboBox->findText(quotsData.at(12).at(quot_position)));
 
     int index;
-    quotProcessesListWidget->clearSelection();
+    processesListWidget->clearSelection();
     for (int i=0; i<procsIds.size();i++) {
         index=processesData.at(0).indexOf(procsIds.at(i));
-        quotProcessesListWidget->item(index)->setSelected(true);
+        processesListWidget->item(index)->setSelected(true);
     }
 
-    quotScopeTextEdit->setText(quotsData.at(Quots::Scope).at(quot_position));
+
 
 }
-
 // NOTE: Llenado de datos de la propuesta
 void SalesForm::fillPropData()
 {
 
-    // Primero se cargan los datos provenientes de la propuesta
+    // TODO: dependiendo del pedido del cliente agregar a la DB viaticos e iva por separado
     propIdLineEdit->setText(propsData.at(Props::Id).at(0));
-    propDateEdit->setDate(QDate::fromString(propsData.at(Props::Date).at(0), "yyyy-MM-dd"));
     propScopeTextEdit->setText(propsData.at(Props::Scope).at(0));
-    propValueModel->setItem(0,1, new QStandardItem(propsData.at(Props::Value).at(prop_position))); // inpeccion
-    propValueModel->setItem(1,1, new QStandardItem(propsData.at(Props::Iva).at(prop_position))); // iva
-    propValueModel->setItem(2,1, new QStandardItem(propsData.at(Props::Viat).at(prop_position))); // viaticos
-    propValueModel->setItem(3,1, new QStandardItem(propsData.at(Props::TotVal).at(prop_position))); // total
-    propSoldByComboBox->setCurrentText(propsData.at(Props::LName).at(0));
-    propUserPercSpinBox->setValue(propsData.at(Props::UsPerc).at(0).toDouble()*100);
-    propPayWayComboBox->setCurrentText(propsData.at(Props::PayWay).at(0));
-    propApprovalLineEdit->setText(propsData.at(Props::Aprov).at(0));
-    propApprovalDetailLineEdit->setText(propsData.at(Props::AprovD).at(0));
-    propObservTextEdit->setText(propsData.at(Props::Observ).at(prop_position));
-
-    // Luego se cargan los provenientes de la cotización.
-    propThrdNameLineEdit->setText(thrdData.at(Thrds::Name));
-    propInstNameLineEdit->setText(quotsData.at(Quots::Name).at(0));
-    propLocalizationLineEdit->setText(quotsData.at(Quots::Addrs).at(0) + " - " + quotsData.at(Quots::City).at(0) + " - " + quotsData.at(Quots::State).at(0));
+    propDateEdit->setDate(QDate::fromString(propsData.at(Props::Date).at(0), "yyyy-MM-dd"));
+    propPayWayComboBox->setCurrentIndex(propPayWayComboBox->findText(propsData.at(Props::PayWay).at(0)));
+    propUserPercSpinBox->setValue(propsData.at(Props::UserPerc).at(0).toDouble()*100);
+    propStateLineEdit->setText(propsData.at(Props::PState).at(0));
+    propStateDetailLineEdit->setText(propsData.at(Props::Aproval).at(0));
+    propLocalizationLineEdit->setText(propsData.at(Props::Addrs).at(0) + " - " + propsData.at(Props::City).at(0));
+    propInstNameLineEdit->setText(propsData.at(Props::InstName).at(0));
+    propSoldByComboBox->setCurrentIndex(propSoldByComboBox->findText(propsData.at(Props::UserLName).at(0)));
 
     // Obtengo los documentos de la propuesta para ser marcados en la lista
     // que se obtuvo al preparar los controles de propuesta
@@ -230,11 +229,22 @@ void SalesForm::fillPropData()
             propDocsListWidget->item(index)->setSelected(true);
         }
     } else
-        QMessageBox::critical(this, ("Sin Datos"),
-                              ("No hay documentos seleccionados para la propuesta" +
+        QMessageBox::critical(this, trUtf8("Sin Datos"),
+                              trUtf8("No hay documentos seleccionados para la propuesta" +
                                      findLineEdit->text().toUtf8()),
                               QMessageBox::Cancel);
-    //propOutWebView->setHtml("");
+
+    propThrdNameLineEdit->setText(propsData.at(Props::thrdName).at(prop_position));
+    propObservTextEdit->setText(propsData.at(Props::Observ).at(prop_position));
+
+    propValueModel->setItem(0,1, new QStandardItem(propsData.at(Props::ValueMoney).at(prop_position))); // inpeccion
+    propValueModel->setItem(1,1, new QStandardItem(propsData.at(Props::Iva).at(prop_position))); // iva
+    propValueModel->setItem(2,1, new QStandardItem(propsData.at(Props::Viatic).at(prop_position))); // viaticos
+    propValueModel->setItem(3,1, new QStandardItem(propsData.at(Props::TotVal).at(prop_position))); // total
+
+    propOutWebView->setHtml("");
+
+
 }
 
 // NOTE: Llenado de datos de orden de servicio
@@ -242,15 +252,28 @@ void SalesForm::fillSoData()
 {
     soIdLineEdit->setText(sosData.at(Sos::Id).at(0));
     soDateEdit->setDate(QDate::fromString(sosData.at(Sos::Date).at(0), "yyyy-MM-dd"));
-    soInspectorsComboBox->setCurrentText(sosData.at(Sos::InspName).at(0));
-    soInspPercSpinBox->setValue(sosData.at(Sos::InspPerc).at(0).toFloat()*100);
-    soAssignDateEdit->setDate(QDate::fromString(sosData.at(Sos::AssignD).at(0), "yyyy-MM-dd"));
     soScopeTextEdit->setText(sosData.at(Sos::Scope).at(0));
     soObservTextEdit->setText(sosData.at(Sos::Observ).at(0));
-    soAdmObservTextEdit->setText(sosData.at(Sos::AdmObserv).at(0));
+    soInspectorsComboBox->setCurrentIndex(soInspectorsComboBox->findText(sosData.at(Sos::InspName).at(0)));
+    soInspPercSpinBox->setValue(sosData.at(Sos::InspPerc).at(0).toFloat()*100);
+    soAssignDateEdit->setDate(QDate::fromString(sosData.at(Sos::AssignD).at(0), "yyyy-MM-dd"));
     soAccStateLineEdit->setText(sosData.at(Sos::AccProc).at(0));
+    soAdmObservTextEdit->setText(sosData.at(Sos::AdmObserv).at(0));
 
-    //soOutWebView->setHtml("");
+    // Deschequear primero para luego seleccionar las AZ.
+    for (int i=0; i<recordFoilListWidget->count(); i++)
+        recordFoilListWidget->item(i)->setCheckState(Qt::Unchecked);
+
+    QStringList recordsIds;
+    DbHandler::getSoRecords(sosData.at(Sos::Id).at(0), recordsIds);
+    int index;
+
+    for (int i=0; i<recordsIds.size();i++) {
+        index=recordsData.at(0).indexOf(recordsIds.at(i));
+        recordFoilListWidget->item(index)->setCheckState(Qt::Checked);
+    }
+
+    soOutWebView->setHtml("");
 //    propValueModel->item(1,1)->setFlags(propValueModel->item(1,1)->flags() & ~Qt::ItemIsEditable);
 //    propValueModel->item(3,1)->setFlags(propValueModel->item(3,1)->flags() & ~Qt::ItemIsEditable);
 
@@ -264,29 +287,31 @@ void SalesForm::clearThrdQuotControls()
     quotContactLineEdit->clear();
     quotDateEdit->setDate(QDate::currentDate());
     quotMailLineEdit->clear();
-    quotCellPhoneLineEdit->clear();
-    quotCellPhoneLineEdit->clear();
+    quotPhoneLineEdit->clear();
+    quotPhoneLineEdit->clear();
     quotScopeTextEdit->clear();
+    quotFaxLineEdit->clear();
     quotLCD->display(0);
-    quotsLCD->display(0);
+    foundLCD->display(0);
 
     thrdAddressLineEdit->clear();
-    thrdPhoneFaxLineEdit->clear();
+    thrdFaxLineEdit->clear();
     thrdMailLineEdit->clear();
     thrdMailLineEdit->clear();
     thrdNameLineEdit->clear();
     thrdNitLineEdit->clear();
-    thrdCellPhoneLineEdit->clear();
-    //thrdRepIdLineEdit->clear();
-    thrdLegalRepLineEdit->clear();
+    thrdPhoneLineEdit->clear();
+    thrdRepIdLineEdit->clear();
+    thrdRepLineEdit->clear();
 
     thrdStateComboBox->setCurrentIndex(0);
     setThrdCity(0);
     quotStateComboBox->setCurrentIndex(0);
     setQuotCity(0);
-    quotInspecTypeComboBox->setCurrentIndex(0);
-    quotUseTypeComboBox->setCurrentIndex(0);
-    quotProcessesListWidget->clearSelection();
+    inspecTypeComboBox->setCurrentIndex(0);
+    useTypeComboBox->setCurrentIndex(0);
+    processesListWidget->clearSelection();
+
     quotNameLineEdit->setFocus();
 }
 // NOTE: Limpiar controles de cotizacion para insertar una nueva
@@ -297,13 +322,16 @@ void SalesForm::clearQuotControls()
     quotContactLineEdit->clear();
     quotDateEdit->setDate(QDate::currentDate());
     quotMailLineEdit->clear();
-    quotCellPhoneLineEdit->clear();
+    quotPhoneLineEdit->clear();
+    quotPhoneLineEdit->clear();
     quotScopeTextEdit->clear();
+    quotFaxLineEdit->clear();
+
     quotStateComboBox->setCurrentIndex(0);
     setQuotCity(0);
-    quotInspecTypeComboBox->setCurrentIndex(0);
-    quotUseTypeComboBox->setCurrentIndex(0);
-    quotProcessesListWidget->clearSelection();
+    inspecTypeComboBox->setCurrentIndex(0);
+    useTypeComboBox->setCurrentIndex(0);
+    processesListWidget->clearSelection();
 
 
 
@@ -321,19 +349,22 @@ void SalesForm::clearPropControls()
     propScopeTextEdit->clear();
     propDocsListWidget->clearSelection();
     propObservTextEdit->clear();
-    //propOutWebView->setHtml("");
+    propOutWebView->setHtml("");
 
     for (int i=0; i<propValueModel->rowCount(); i++)
         propValueModel->setItem(i,1, new QStandardItem(QString::fromUtf8("")));
 
     propPayWayComboBox->setCurrentIndex(0);
     propSoldByComboBox->setCurrentIndex(0);
-    QMessageBox::information(this, ("Falta escribir código para leer porcentaje de vendedor"), ("Código faltante"), QMessageBox::Cancel);
-    //propUserPercSpinBox->setValue(20);
-    propApprovalLineEdit->clear();
-    propApprovalDetailLineEdit->clear();
+    propUserPercSpinBox->setValue(20);
+    propStateLineEdit->clear();
+    propStateDetailLineEdit->clear();
 
     propApprovButton->setEnabled(false);
+    propRejectButton->setEnabled(false);
+
+
+
 }
 
 // NOTE: Limpiar controles de orden de servicio
@@ -341,6 +372,9 @@ void SalesForm::clearSoControls()
 {
     soDateEdit->setDate(QDate::currentDate());
     soIdLineEdit->clear();
+    // Deschequear primero para luego seleccionar las AZ.
+    for (int i=0; i<recordFoilListWidget->count(); i++)
+        recordFoilListWidget->item(i)->setCheckState(Qt::Unchecked);
     soScopeTextEdit->clear();
     soObservTextEdit->clear();
     soInspectorsComboBox->setCurrentIndex(0);
@@ -348,32 +382,33 @@ void SalesForm::clearSoControls()
     soAssignDateEdit->setDate(QDate::currentDate());
     soAccStateLineEdit->clear();
     soAdmObservTextEdit->clear();
-    //soOutWebView->setHtml("");
+    soOutWebView->setHtml("");
 }
 
 // NOTE: Preparar controles de propuesta comercial
 void SalesForm::preparePropControls()
 {
     propDateEdit->setDate(QDate::currentDate());
-    propThrdNameLineEdit->setText(thrdLegalRepLineEdit->text());
+    propThrdNameLineEdit->setText(thrdRepLineEdit->text());
     propInstNameLineEdit->setText(quotNameLineEdit->text());
     propLocalizationLineEdit->setText(quotCityComboBox->currentText() + " - " + quotAddressLineEdit->text());
     propIdLineEdit->clear();
-    QMessageBox::information(this, ("Falta escribir código para leer porcentaje de vendedor"), ("Código faltante"), QMessageBox::Cancel);
-    //propUserPercSpinBox->setValue(20);
+    propUserPercSpinBox->setValue(20);
     propScopeTextEdit->setText(quotScopeTextEdit->toPlainText());
     propDocsListWidget->selectAll();
-    //propOutWebView->setHtml("");
+    propOutWebView->setHtml("");
 
     for (int i=0; i<propValueModel->rowCount(); i++)
         propValueModel->setItem(i,1, new QStandardItem(QString::fromUtf8("")));
 
     propPayWayComboBox->setCurrentIndex(0);
     propSoldByComboBox->setCurrentIndex(0);
-    propApprovalLineEdit->clear();
-    propApprovalDetailLineEdit->clear();
+    propUserPercSpinBox->setValue(20);
+    propStateLineEdit->clear();
+    propStateDetailLineEdit->clear();
 
     propApprovButton->setEnabled(false);
+    propRejectButton->setEnabled(false);
 
     propScopeTextEdit->setFocus();
 
@@ -384,12 +419,15 @@ void SalesForm::prepareSoControls()
 {
     soDateEdit->setDate(QDate::currentDate());
     soIdLineEdit->clear();
+    // Deschequear primero para luego seleccionar las AZ.
+    for (int i=0; i<recordFoilListWidget->count(); i++)
+        recordFoilListWidget->item(i)->setCheckState(Qt::Unchecked);
     soInspectorsComboBox->setCurrentIndex(0);
     soAssignDateEdit->setDate(QDate::currentDate());
     soAccStateLineEdit->clear();
     soObservTextEdit->clear();
     soAdmObservTextEdit->clear();
-    //soOutWebView->setHtml("");
+    soOutWebView->setHtml("");
 
     soScopeTextEdit->setText(propScopeTextEdit->toPlainText());
 
@@ -402,69 +440,103 @@ bool SalesForm::validateQuotData()
 {
 
     if (quotNameLineEdit->text()=="") {
-        QMessageBox::warning(this, ("Faltan Datos"),
-                             ("El nombre de la instalación es obligatorio"),
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El nombre de la instalación es obligatorio"),
                              QMessageBox::Ok);
         scrollArea->verticalScrollBar()->setValue(0);
         quotNameLineEdit->setFocus();
         return false;
     }
     if (quotAddressLineEdit->text()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "La dirección de la instalación es obligatoria",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("La dirección de la instalación es obligatoria"),
                              QMessageBox::Ok);
         scrollArea->verticalScrollBar()->setValue(0);
         quotAddressLineEdit->setFocus();
         return false;
     }
     if (quotContactLineEdit->text()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "La persona de contacto es obligatoria",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("La persona de contacto es obligatoria"),
                              QMessageBox::Ok);
         scrollArea->verticalScrollBar()->setValue(0);
         quotContactLineEdit->setFocus();
         return false;
     }
-    if (quotCellPhoneLineEdit->text()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El teléfono de contacto es obligatorio",
+    if (quotPhoneLineEdit->text()=="") {
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El teléfono de contacto es obligatorio"),
                              QMessageBox::Ok);
         scrollArea->verticalScrollBar()->setValue(0);
-        quotCellPhoneLineEdit->setFocus();
+        quotPhoneLineEdit->setFocus();
+        return false;
+    }
+
+    if (quotFaxLineEdit->text()=="") {
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El teléfono de contacto es obligatorio"),
+                             QMessageBox::Ok);
+        scrollArea->verticalScrollBar()->setValue(0);
+        quotFaxLineEdit->setFocus();
         return false;
     }
 
     if (quotScopeTextEdit->toPlainText()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El alcance es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El alcance es obligatorio"),
                              QMessageBox::Ok);
         scrollArea->verticalScrollBar()->setValue(0);
         quotScopeTextEdit->setFocus();
         return false;
     }
     if (thrdNameLineEdit->text()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El nombre de la empresa es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El nombre de la empresa es obligatorio"),
                              QMessageBox::Ok);
         thrdNameLineEdit->setFocus();
         return false;
     }
     if (thrdNitLineEdit->text()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El NIT de la empresa es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El NIT de la empresa es obligatorio"),
                              QMessageBox::Ok);
         thrdNitLineEdit->setFocus();
         return false;
     }
 
-    QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
+    // Se retiran por petición del cliente
+//    if (thrdPhoneLineEdit->text()=="") {
+//        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+//                             trUtf8("El teléfono de la empresa es obligatorio"),
+//                             QMessageBox::Ok);
+//        thrdPhoneLineEdit->setFocus();
+//        return false;
+//    }
+//    if (thrdRepIdLineEdit->text()=="") {
+//        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+//                             trUtf8("La cédula del representante es obligatorio"),
+//                             QMessageBox::Ok);
+//        thrdRepIdLineEdit->setFocus();
+//        return false;
+//    }
+//    if (thrdRepLineEdit->text()=="") {
+//        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+//                             trUtf8("El nombre del representante es obligatorio"),
+//                             QMessageBox::Ok);
+//        thrdRepLineEdit->setFocus();
+//        return false;
+//    }
+
+    QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
     if (processesIndexes.size() == 0) {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "Es obligatorio por lo menos un proceso",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("Es obligatorio por lo menos un proceso"),
                              QMessageBox::Ok);
-        quotProcessesListWidget->setFocus();
+        processesListWidget->setFocus();
         return false;
     }
+
+
     return true;
  }
 
@@ -472,16 +544,16 @@ bool SalesForm::validateQuotData()
 bool SalesForm::validatePropData()
 {
     if (propThrdNameLineEdit->text()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El representante legal es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El representante legal es obligatorio"),
                              QMessageBox::Ok);
         propThrdNameLineEdit->setFocus();
         return false;
     }
 
     if (propInstNameLineEdit->text()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El nombre de la instalación es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El nombre de la instalación es obligatorio"),
                              QMessageBox::Ok);
         propInstNameLineEdit->setFocus();
         return false;
@@ -489,24 +561,24 @@ bool SalesForm::validatePropData()
 
     if (propValueModel->data(propValueModel->index(0,1), Qt::EditRole).toString()==""
             || propValueModel->data(propValueModel->index(0,1), Qt::EditRole).toString()=="0") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El Valor de La inspección es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El Valor de La inspección es obligatorio"),
                              QMessageBox::Ok);
         return false;
     }
 
 
     if (propScopeTextEdit->toPlainText()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El alcance es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El alcance es obligatorio"),
                              QMessageBox::Ok);
         propScopeTextEdit->setFocus();
         return false;
     }
 
     if (propDocsListWidget->selectionModel()->selectedIndexes().size()<5) {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "Faltan requerimientos por seleccionar",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("Faltan requerimientos por seleccionar"),
                              QMessageBox::Ok);
         propDocsListWidget->setFocus();
         return false;
@@ -520,17 +592,17 @@ bool SalesForm::validatePropData()
 bool SalesForm::validateSoData()
 {
     if (soScopeTextEdit->toPlainText()=="") {
-        QMessageBox::warning(this, "Faltan Datos",
-                             "El alcance es obligatorio",
+        QMessageBox::warning(this, trUtf8("Faltan Datos"),
+                             trUtf8("El alcance es obligatorio"),
                              QMessageBox::Ok);
         soScopeTextEdit->setFocus();
         return false;
     }
 
     if (soDateEdit->date() >  soAssignDateEdit->date()) {
-        QMessageBox::warning(this, "Fechas inválidas",
-                             "La fecha de la OS debe ser menor a la\n"
-                                    " fecha programada de inspección",
+        QMessageBox::warning(this, trUtf8("Fechas inválidas"),
+                             trUtf8("La fecha de la OS debe ser menor a la\n"
+                                    " fecha programada de inspección"),
                              QMessageBox::Ok);
         soAssignDateEdit->setFocus();
         return false;
@@ -541,25 +613,23 @@ bool SalesForm::validateSoData()
 }
 
 
-// NOTE: Encontrar por id de tercero, funcion mas de uso interno
+// NOTE: Encontrar por id de tercero, fucion mas de uso interno
 int SalesForm::findByThrdId(QString thrdId)
 {
     found=0;
     // Devuelve los QList modificados
-    // el tercer parametro es searchOption para que la funcion busque en el campo adecuado
-    if (DbHandler::getThirdPartie(thrdId, thrdData, "thrd_id")) {
-        found = 1; // Significa que encontro el tercero, por ende se buscan cotizaciones
-        if(DbHandler::getQuotations(thrdId, quotsData, "thrd_id")) {
-            found = 2; // Significa que encontro cotizacion/es para el tercero, por ende se buscan propuestas
-            if (DbHandler::getProposals(quotsData.at(Quots::Id).at(0), propsData, "quot_id")) {
-                found = 3; // Significa que econtro propuesta para la cotizacion ya encontrada, por ende se busca orden de servicio
-                if (DbHandler::getServiceOrders(propsData.at(0).at(0), sosData, "prop_id"))
-                    found = 4; // Significa que encontro cotizacion, propuesta y orden de servicio
-            }
-        }
-        return found;  // se retorna la bandera de lo encontrado
+    // el cuarto parametro es searchOption para que la funcion busque en el campo adecuado
+    if (DbHandler::getQuotations(thrdId, thrdData, quotsData, "thrd_id")) {
+       found = 1; // Significa que encontro cotizaciones
+       if (DbHandler::getProposals(quotsData.at(0).at(0), propsData, "quot_id")) {
+           found = 2; // Significa que econtro cotizaciones y propuesta
+           if (DbHandler::getServiceOrders(propsData.at(0).at(0), sosData, "prop_id"))
+               found = 3; // Significa que encontro cotizacion, propuesta y orden de servicio
+       }
+       return found;  // hasta aqui se sabe que econtro una cotizacion
     }
-    return found; // si se llega a este punto found es igual a 0, por ende no encontró tercero.
+    found = 0;
+    return found;
 }
 
 // NOTE: Encontrar por nit
@@ -567,41 +637,18 @@ int SalesForm::findByNit(QString thrdNit)
 {
     found=0;
     // Devuelve los QList modificados
-    // el tercer parametro es searchOption para que la funcion busque en el campo adecuado
-    if (DbHandler::getThirdPartie(thrdNit, thrdData, "thrd_nit")) {
-        found = 1; // Significa que encontro el tercero, por ende se buscan cotizaciones
-        if(DbHandler::getQuotations(thrdData.at(Thrds::Id), quotsData, "thrd_id")) {
-            found = 2; // Significa que encontro cotizacion/es para el tercero, por ende se buscan propuestas
-            quotsLCD->display(propsData.at(Props::Id).size());
-            if (DbHandler::getProposals(quotsData.at(Quots::Id).at(0), propsData, "quot_id")) {
-                found = 3; // Significa que econtro propuesta para la cotizacion ya encontrada, por ende se busca orden de servicio
-                if (DbHandler::getServiceOrders(propsData.at(0).at(0), sosData, "prop_id"))
-                    found = 4; // Significa que encontro cotizacion, propuesta y orden de servicio
-            }
-        }
-        return found;  // se retorna la bandera de lo encontrado
+    // el cuarto parametro es searchOption para que la funcion busque en el campo adecuado
+    if (DbHandler::getQuotations(thrdNit, thrdData, quotsData, "thrd_nit")) {
+       found = 1; // Significa que encontro cotizaciones
+       if (DbHandler::getProposals(quotsData.at(0).at(0), propsData, "quot_id")) {
+           found = 2; // Significa que econtro cotizaciones y propuesta
+           if (DbHandler::getServiceOrders(propsData.at(0).at(0), sosData, "prop_id"))
+               found = 3; // Significa que encontro cotizacion, propuesta y orden de servicio
+       }
+       return found;  // hasta aqui se sabe que econtro una cotizacion
     }
-    return found; // si se llega a este punto found es igual a 0, por ende no encontró tercero.
-}
-
-// NOTE: Encontrar por nit
-int SalesForm::findByQuotId(QString quotId)
-{
-    found=0;
-    // Devuelve los QList modificados
-    // el tercer parametro es searchOption para que la funcion busque en el campo adecuado
-    if (DbHandler::getQuotations(quotId, quotsData, "quot_id")) {
-        found = 2; // Significa que encontro cotizacion, por ende existe tercero y se busca propuesta
-        quotsLCD->display(quotsData.at(Quots::Id).size());
-        DbHandler::getThirdPartie(quotsData.at(Quots::Thrd).at(0), thrdData, "thrd_id");
-        if (DbHandler::getProposals(quotsData.at(Quots::Id).at(0), propsData, "quot_id")) {
-            found = 3; // Significa que econtro propuesta para la cotizacion ya encontrada, por ende se busca orden de servicio
-            if (DbHandler::getServiceOrders(propsData.at(0).at(0), sosData, "prop_id"))
-            found = 4; // Significa que encontro cotizacion, propuesta y orden de servicio
-            }
-        return found;  // se retorna la bandera de lo encontrado
-    }
-    return found; // si se llega a este punto found es igual a 0, por ende no encontró tercero.
+    found = 0;
+    return found;
 }
 
 // NOTE: Encuentra por id de propuesta
@@ -609,32 +656,33 @@ int SalesForm::findByPropId(QString propId)
 {
     found=0;
     // Devuelve los QList modificados
-    // el tercer parametro es searchOption para que la funcion busque en el campo adecuado
-    if (DbHandler::getProposals(propId, propsData, "quot_id")) {
-        found = 3; // Significa que encontro propuesta, por ende exite cotizacion y tercero
-        DbHandler::getQuotations(propsData.at(Props::QuotId).at(0), quotsData, "quot_id");
-        DbHandler::getThirdPartie(quotsData.at(Quots::Thrd).at(0), thrdData, "thrd_id");
-        if (DbHandler::getServiceOrders(propsData.at(Props::Id).at(0), sosData, "prop_id"))
-           found = 4; // Significa que encontro cotizacion, propuesta y orden de servicio
-        return found;  // se retorna la bandera de lo encontrado
+    if (DbHandler::getProposals(propId, propsData, "prop_id")) {
+       foundLCD->display(propsData.at(Props::Id).size());
+       found=2; // Significa que econtro propuesta por tanto cotizacion
+       DbHandler::getQuotations(propsData.at(Props::thrdNit).at(0), thrdData, quotsData, "thrd_nit"); // 13 es thrd_nit
+       if (DbHandler::getServiceOrders(propId, sosData, "prop_id"))
+           found=3; // Significa que encontro cotizacion, propuesta y orden de servicio
+       return found;
     }
-    return found; // si se llega a este punto found es igual a 0, por ende no encontró tercero.
+    found = 0;
+    return found;
 }
 
 // NOTE: Encuentra por id de orden de servicio
 int SalesForm::findBySoId(QString soId)
 {
+
     found=0;
     // Devuelve los QList modificados
-    // el tercer parametro es searchOption para que la funcion busque en el campo adecuado
-    if (DbHandler::getServiceOrders(soId, sosData, "prop_id")) {
-        found = 4; // Significa que encontro orden de servicio, por ende existe propuesta, cotizacion y tercero
-        DbHandler::getProposals(sosData.at(Sos::propId).at(0), propsData, "prop_id");
-        DbHandler::getQuotations(propsData.at(Props::QuotId).at(0), quotsData, "quot_id");
-        DbHandler::getThirdPartie(quotsData.at(Quots::Thrd).at(0), thrdData, "thrd_id");
-        return found;  // se retorna la bandera de lo encontrado
+    if (DbHandler::getServiceOrders(soId, sosData, "so_id")) {
+       foundLCD->display(sosData.at(0).size());
+       DbHandler::getProposals(sosData.at(Sos::propId).at(0), propsData, "prop_id");
+       DbHandler::getQuotations(propsData.at(Props::thrdNit).at(0), thrdData, quotsData, "thrd_nit");// 13 es thrd_nit
+       found=3;
+       return found;
     }
-    return found; // si se llega a este punto found es igual a 0, por ende no encontró tercero.
+    found = 0;
+    return found;
 }
 
 // NOTE: Insertar cotizacion
@@ -649,25 +697,26 @@ int SalesForm::insertQuotation(int opt)
     quotData.append(quotContactLineEdit->text());
     quotData.append(quotAddressLineEdit->text());
     quotData.append(quotMailLineEdit->text());
-    quotData.append(quotCellPhoneLineEdit->text());
+    quotData.append(quotPhoneLineEdit->text());
+    quotData.append(quotFaxLineEdit->text());
     //El index del combobox es el mismo para el QList donde esta guardado el id del departamento
     quotData.append(quotCitiesData.at(0).at(quotCityComboBox->currentIndex()));
-    quotData.append(usesData.at(0).at(quotUseTypeComboBox->currentIndex()));
-    quotData.append(quotInspecTypeComboBox->currentText());
+    quotData.append(usesData.at(0).at(useTypeComboBox->currentIndex()));
+    quotData.append(inspecTypeComboBox->currentText());
 
     thrdData.clear(); // Es necesario limpiar el QStringList ya que es miembro
     thrdData.append("0");
     thrdData.append(thrdNitLineEdit->text());
     thrdData.append(thrdNameLineEdit->text());
-    thrdData.append(thrdLegalRepLineEdit->text());
-    //thrdData.append(thrdRepIdLineEdit->text());
+    thrdData.append(thrdRepLineEdit->text());
+    thrdData.append(thrdRepIdLineEdit->text());
     thrdData.append(thrdAddressLineEdit->text());
     thrdData.append(thrdMailLineEdit->text());
-    thrdData.append(thrdCellPhoneLineEdit->text());
-    thrdData.append(thrdPhoneFaxLineEdit->text());
+    thrdData.append(thrdPhoneLineEdit->text());
+    thrdData.append(thrdFaxLineEdit->text());
     thrdData.append(thrdCitiesData.at(0).at(thrdCityComboBox->currentIndex()));
 
-    QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
+    QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
     for (int i=0; i< processesIndexes.size(); i++)
         // ProcessesData es un Qlist<QStringList>, 0 es la primera lista, osea la de Ids
         // processesIndexes.at(i).row() indican el registro en cuestion, así coincide
@@ -679,20 +728,20 @@ int SalesForm::insertQuotation(int opt)
 
     switch (opt) {
     case QMessageBox::Yes: // Se pidio crear cotizacion y cliente
-        if (DbHandler::insertQuotation(thrdData, quotData, processesIds, newQuotId, isUniqueViolation)) {
-            Logger::insertQuotation(userName, thrdNitLineEdit->text(), newQuotId);
+        if (DbHandler::insertQuotation(thrdData, quotData, processesIds, isUniqueViolation)) {
+            Logger::insertQuotation(userName, thrdNitLineEdit->text(), quotData.at(Quots::NewId));
             return 0;
         }
         else {
             if (isUniqueViolation == true) {
-                int ret=QMessageBox::question(this, "Cliente ya existe",
-                                              "El cliente ya existe,\n"
-                                                     "¿desea agregar una nueva cotización?",
+                int ret=QMessageBox::question(this, trUtf8("Cliente ya existe"),
+                                              trUtf8("El cliente ya existe,\n"
+                                                     "¿desea agregar una nueva cotización?"),
                                               QMessageBox::Ok | QMessageBox::Cancel);
                 switch (ret) {
                 case QMessageBox::Ok:
-                    if (DbHandler::insertQuotation(thrdData.at(1), quotData, newQuotId, processesIds)) {
-                        Logger::insertQuotation(userName, thrdData.at(1), newQuotId);
+                    if (DbHandler::insertQuotation(thrdData.at(1), quotData, processesIds)) {
+                        Logger::insertQuotation(userName, thrdData.at(1), quotData.at(Quots::NewId));
                         findByNit(thrdData.at(1));
                         return 0; // se inserto correctamente la cotizacion
                     }
@@ -709,8 +758,8 @@ int SalesForm::insertQuotation(int opt)
     break;
 
     case QMessageBox::No: // se pidio insertar contizacion en el cliente
-        if (DbHandler::insertQuotation(thrdData.at(Thrds::Nit), quotData, newQuotId, processesIds)) {
-            Logger::insertQuotation(userName, thrdData.at(1), newQuotId);
+        if (DbHandler::insertQuotation(thrdData[1], quotData, processesIds)) {
+            Logger::insertQuotation(userName, thrdData.at(1), quotData.at(Quots::NewId));
             return 0;
         }
         else
@@ -809,12 +858,14 @@ bool SalesForm::updateQuotation()
     quotData.append(quotContactLineEdit->text());
     quotData.append(quotAddressLineEdit->text());
     quotData.append(quotMailLineEdit->text());
-    quotData.append(quotCellPhoneLineEdit->text());
-    quotData.append(quotCitiesData.at(0).at(quotCityComboBox->currentIndex()));
-    quotData.append(usesData.at(0).at(quotUseTypeComboBox->currentIndex()));
-    quotData.append(quotInspecTypeComboBox->currentText());
+    quotData.append(quotPhoneLineEdit->text());
+    quotData.append(quotFaxLineEdit->text());
 
-    QModelIndexList processesIndexes = quotProcessesListWidget->selectionModel()->selectedIndexes();
+    quotData.append(quotCitiesData.at(0).at(quotCityComboBox->currentIndex()));
+    quotData.append(usesData.at(0).at(useTypeComboBox->currentIndex()));
+    quotData.append(inspecTypeComboBox->currentText());
+
+    QModelIndexList processesIndexes = processesListWidget->selectionModel()->selectedIndexes();
     for (int i=0; i< processesIndexes.size(); i++)
         // ProcessesData es un Qlist<QStringList>, 0 es la primera lista, osea la de Ids
         // processesIndexes.at(i).row() indican el registro en cuestion, así coincide
@@ -822,7 +873,7 @@ bool SalesForm::updateQuotation()
         processesIds.append(processesData.at(0).at(processesIndexes.at(i).row()));
         // Con esto quedan los ids de los procesos seleccionados guardados.
     if (!DbHandler::updateQuotation(quotData, processesIds)) {
-        qDebug() << "updateQuotation devolvió 'false', intentando actualizar la cotización: "
+        qDebug() << trUtf8("updateQuotation devolvió 'false', intentando actualizar la cotización: ")
                     + quotsData.at(0).at(quot_position);
         return false;
     } else {
@@ -842,7 +893,7 @@ bool SalesForm::updateProposal()
     propData.append(propDateEdit->date().toString("yyyy-MM-dd"));
     propData.append(propScopeTextEdit->toPlainText());
     propData.append(propPayWayComboBox->currentText());
-    propData.append(propApprovalLineEdit->text());
+    propData.append(propStateLineEdit->text());
     propData.append(QString::number(propUserPercSpinBox->value()/100));
     propData.append(propObservTextEdit->toPlainText());
     // El index del combobox se usa como index ddel qlist.
@@ -862,8 +913,8 @@ bool SalesForm::updateProposal()
         // Con esto quedan los ids de los documentos seleccionados y guardados.
 
     if (!DbHandler::updateProposal(propData, documentsIds)) {
-        qDebug() << "updateProposal devolvió 'false', intentando actualizar la propuesta: "
-                           + propsData.at(0).at(0).toUtf8();
+        qDebug() << trUtf8("updateProposal devolvió 'false', intentando actualizar la propuesta: "
+                           + propsData.at(0).at(0).toUtf8());
         return false;
     } else {
         findByPropId(propsData.at(0).at(0));
@@ -887,8 +938,8 @@ bool SalesForm::updateServiceOrder()
     soData.append(inspectorsData.at(0).at(soInspectorsComboBox->currentIndex())); // id inspector
 
     if (!DbHandler::updateServiceOrder(soData)) {
-        qDebug() << "updateServiceOrder devolvió 'false', intentando actualizar la orden de servicio: "
-                           +sosData.at(Sos::Id).at(0).toUtf8();
+        qDebug() << trUtf8("updateServiceOrder devolvió 'false', intentando actualizar la orden de servicio: "
+                           +sosData.at(Sos::Id).at(0).toUtf8());
         return false;
     } else {
         findBySoId(sosData.at(Sos::Id).at(0));
@@ -923,6 +974,7 @@ int SalesForm::deleteQuotation()
             updateButton->setEnabled(true);
             deleteButton->setEnabled(true);
             propApprovButton->setEnabled(true);
+            propRejectButton->setEnabled(true);
             salesTabWidget->setCurrentIndex(0);
             break;
 
@@ -936,6 +988,7 @@ int SalesForm::deleteQuotation()
             updateButton->setEnabled(true);
             deleteButton->setEnabled(true);
             propApprovButton->setEnabled(false);
+            propRejectButton->setEnabled(false);
             salesTabWidget->setCurrentIndex(0);
             break;
 
@@ -947,12 +1000,12 @@ int SalesForm::deleteQuotation()
         else
             nextButton->setEnabled(true);
 
-        quotsLCD->display(quotsData[0].size());
+        foundLCD->display(quotsData[0].size());
         quotLCD->display(quot_position+1);
         return 0;
     } else {
         if (isFkViolation) {
-            qDebug() << "Violación de llave foranea se retorna 1";
+            qDebug() << trUtf8("Violación de llave foranea se retorna 1");
             return 1;
         } else
             return 2; // Error desconocido, revidar DbHandler::deleteQuotation
@@ -971,7 +1024,7 @@ int SalesForm::deleteProposal()
         return 0;
     } else {
         if (isFkViolation) {
-            qDebug() << "Violación de llave foranea se retorna 1";
+            qDebug() << trUtf8("Violación de llave foranea se retorna 1");
             return 1;
         } else
             return 2; // Error desconocido, revidar DbHandler::deleteProposal
@@ -986,10 +1039,11 @@ int SalesForm::deleteServiceOrder()
     if (DbHandler::deleteServiceOrder(sosData.at(0).at(so_position), isFkViolation)) {
         clearSoControls();
         propApprovButton->setEnabled(true);
+        propRejectButton->setEnabled(true);
         return 0;
     } else {
         if (isFkViolation) {
-            qDebug() << "Violación de llave foranea se retorna 1";
+            qDebug() << trUtf8("Violación de llave foranea se retorna 1");
             return 1;
         } else
             return 2; // Error desconocido, revidar DbHandler::deleteProposal
@@ -1128,7 +1182,6 @@ void SalesForm::testProposal()
 
     soInspPercLabel->show();
     soInspPercSpinBox->show();
-    QMessageBox::information(this, trUtf8("Falta disparar diálogo de archivado"), trUtf8("Código faltante"), QMessageBox::Cancel);
 }
 
 

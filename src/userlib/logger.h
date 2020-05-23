@@ -12,7 +12,7 @@ public:
 
     static void login(QString name, QString lname);
     static void logout(QString name, QString lname);
-    static void insertQuotation(QString name, QString thrdNit, int quotId);
+    static void insertQuotation(QString name, QString thrdNit, QString quotId);
     static void insertProposal(QString name, QString thrdNit, QString quotId, QString propId);
     static void insertServiceOrder(QString name, QString thrdNit, QString quotId, QString propId, QString soId);
     static void updateUser(QString name, QString userLName);

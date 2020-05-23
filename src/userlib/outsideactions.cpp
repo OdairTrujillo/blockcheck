@@ -12,15 +12,16 @@ bool OutsideActions::readSqlServerConf()
     QString fileName = QDir::currentPath() + "/blockcheck.conf";
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "No se tuvo acceso a " + fileName.toUtf8();
+        QMessageBox::warning(0, trUtf8("Error Abriendo Configuración"),
+                             trUtf8("No se puedo abrir '%1'").arg(fileName));
+
         return false;
     } else {
         QTextStream readStream(&file);
 
         readStream.seek(0);
         sqlServerIP = readStream.readLine(75); // Lee la primera línea
-        sqlServerPort = readStream.readLine(75).toInt(); // lee la segunda línea
-        databaseName=readStream.readLine(75); // Lee la tercera línea
+        databaseName=readStream.readLine(75); // Lee la segunda
         return true;
     }
     return false;
@@ -31,7 +32,9 @@ QString OutsideActions::readWebServerConf()
     QString fileName = QDir::currentPath() + "/blockcheck.conf";
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "No se tuvo acceso a " + fileName.toUtf8();
+        QMessageBox::warning(0, trUtf8("Error Abriendo Configuración"),
+                             trUtf8("No se puedo abrir '%1'").arg(fileName));
+
         return "Error";
     } else {
         QTextStream readStream(&file);
@@ -51,7 +54,9 @@ int OutsideActions::readUpdateTimeConf()
     QString fileName = QDir::currentPath() + "/blockcheck.conf";
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "No se tuvo acceso a " + fileName.toUtf8();
+        QMessageBox::warning(0, trUtf8("Error Abriendo Configuración"),
+                             trUtf8("No se puedo abrir '%1'").arg(fileName));
+
         return 0;
     } else {
         QTextStream readStream(&file);
