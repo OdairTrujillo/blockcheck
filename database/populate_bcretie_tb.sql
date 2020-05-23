@@ -1,965 +1,3 @@
---Script para la creación de tablas de la DB BockCheck RETIE
-
---Se deben eliminar las tablas existentes
-
-drop table tblCITIES cascade;
-drop table tblDOCUMENTS cascade;
-drop table tblPROPDOCUMENTS cascade;
-drop table tblINSPECTIONS cascade;
-drop table tblINSPECTIONDESIGNERS cascade;
-drop table tblINSPECTORS cascade;
-drop table tblINSPDETAILS cascade;
-drop table tblAUDITORS cascade;
-drop table tblCONSTRUCTORS cascade;
-drop table tblDESIGNERS cascade;
-drop table tblPROCESSES cascade;
-drop table tblPROPOSALS cascade;
-drop table tblQUOTATIONS cascade;
-drop table tblRECORDS cascade;
-drop table tblSORECORDS cascade;
-drop table tblSERVICEORDERS cascade;
-drop table tblMOVEMENTS cascade;
-drop table tblSODOCUMENTS cascade;
-drop table tblSTATES cascade;
-drop table tblSUBPROCESSES cascade;
-drop table tblTHIRDPARTIES cascade;
-drop table tblUSERS cascade;
-drop table tblUSES cascade;
-drop table tblQUOTPROCESSES cascade;
-drop table tblDICTUMS cascade;
-drop table tblSUBDICTUMS cascade;
-drop table tblSOTRACKING cascade;
-drop table tblREQUIREMENTS cascade;
-drop table tblDICTUMREQS cascade;
-drop table tblDICTUMUSES cascade;
-drop table tblDICTUMPROCS cascade;
-drop table tblSUBDICTUMREQS cascade;
-drop table tblGENDICTUMS cascade;
-drop table tblTRANSMDICTUMS cascade;
-drop table tblTRANSFDICTUMS cascade;
-drop table tblDISTDICTUMS cascade;
-drop table tblALINTDICTUMS cascade;
-drop table tblALEXTDICTUMS cascade;
-drop table tblEVENTTYPE cascade;
-drop table tblEVENTS cascade;
-
---Elimino secuencias
-drop sequence seq_city_id cascade;
-drop sequence seq_document_id cascade;
-drop sequence seq_propdocument_id cascade;
-drop sequence seq_inspection_id cascade;
-drop sequence seq_inspection_designer_id cascade;
-drop sequence seq_inspector_id cascade;
-drop sequence seq_insp_detail_id cascade;
-drop sequence seq_so_id cascade;
-drop sequence seq_mov_id cascade;
-drop sequence seq_so_document_id cascade;
-drop sequence seq_process_id cascade;
-drop sequence seq_prop_id cascade;
-drop sequence seq_quot_id cascade;
-drop sequence seq_record_id cascade;
-drop sequence seq_so_record_id cascade;
-drop sequence seq_state_id cascade;
-drop sequence seq_subproc_id cascade;
-drop sequence seq_thrd_id cascade;
-drop sequence seq_user_id cascade;
-drop sequence seq_use_id cascade;
-drop sequence seq_auditor_id cascade;
-drop sequence seq_constructor_id cascade;
-drop sequence seq_designer_id cascade;
-drop sequence seq_quotproc_id cascade;
-drop sequence seq_dictum_id cascade;
-drop sequence seq_subdictum_id cascade;
-drop sequence seq_trck_id cascade;
-drop sequence seq_requirement_id cascade;
-drop sequence seq_dictum_req_id cascade;
-drop sequence seq_dictum_use_id cascade;
-drop sequence seq_dictum_proc_id cascade;
-drop sequence seq_subdictum_req_id cascade;
-drop sequence seq_gendictum_id cascade;
-drop sequence seq_transmdictum_id cascade;
-drop sequence seq_transfdictum_id cascade;
-drop sequence seq_distdictum_id cascade;
-drop sequence seq_alintdictum_id cascade;
-drop sequence seq_alextdictum_id cascade;
-drop sequence seq_event_type_id cascade;
-
--- Creación de secuencias que generan los consecutivos
-create sequence seq_auditor_id
-  start with 1
-  increment by 1
-  maxvalue 9999
-  minvalue 1;
-
-create sequence seq_constructor_id
-  start with 1
-  increment by 1
-  maxvalue 9999
-  minvalue 1;
-
-create sequence seq_designer_id
-  start with 1
-  increment by 1
-  maxvalue 9999
-  minvalue 1;
-
-create sequence seq_state_id
-  start with 1
-  increment by 1
-  maxvalue 99
-  minvalue 1;
-
-create sequence seq_city_id
-  start with 1
-  increment by 1
-  maxvalue 9999
-  minvalue 1;
-
-create sequence seq_use_id
-  start with 1
-  increment by 1
-  maxvalue 50
-  minvalue 1;
-
-create sequence seq_process_id
-  start with 1
-  increment by 1
-  maxvalue 20
-  minvalue 1;
-
-create sequence seq_subproc_id
-  start with 1
-  increment by 1
-  maxvalue 50
-  minvalue 1;
-
-create sequence seq_document_id
-  start with 1
-  increment by 1
-  maxvalue 500
-  minvalue 1;
-
-create sequence seq_propdocument_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;  
-  
-create sequence seq_quot_id
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
-
-create sequence seq_quotproc_id
-  start with 1
-  increment by 1
-  maxvalue 99999999999
-  minvalue 1;
-
-create sequence seq_prop_id
-  start with 1
-  increment by 1
-  maxvalue 999999999
-  minvalue 1;
-
-create sequence seq_so_id
-  start with 1
-  increment by 1
-  maxvalue 999999999
-  minvalue 1;
-  
-create sequence seq_mov_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_so_document_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;    
-
-create sequence seq_inspector_id
-  start with 1
-  increment by 1
-  maxvalue 300
-  minvalue 1;
-  
-create sequence seq_insp_detail_id
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
-  
-create sequence seq_inspection_designer_id
-  start with 1
-  increment by 1
-  maxvalue 999999999
-  minvalue 1;    
-
-create sequence seq_user_id
-  start with 1
-  increment by 1
-  maxvalue 200
-  minvalue 1;
-
-create sequence seq_thrd_id
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
-
-create sequence seq_inspection_id
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
-
-create sequence seq_dictum_id
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
-
-create sequence seq_subdictum_id
-  start with 1
-  increment by 1
-  maxvalue 999999999
-  minvalue 1;  
-  
-create sequence seq_record_id
-  start with 1
-  increment by 1
-  maxvalue 99999
-  minvalue 1;
-  
-create sequence seq_so_record_id
-  start with 1
-  increment by 1
-  maxvalue 999999999
-  minvalue 1;
-  
-create sequence seq_trck_id
-  start with 1
-  increment by 1
-  maxvalue 999999999
-  minvalue 1;
-  
-create sequence seq_requirement_id
-  start with 1
-  increment by 1
-  maxvalue 999999999
-  minvalue 1;
-  
-create sequence seq_dictum_req_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_dictum_use_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-    
-create sequence seq_dictum_proc_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_subdictum_req_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_gendictum_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_transmdictum_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_transfdictum_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_distdictum_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_alintdictum_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_alextdictum_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
-create sequence seq_event_type_id
-  start with 1
-  increment by 1
-  maxvalue 9999999999
-  minvalue 1;
-  
--- Tabla para terceros
-create table tblTHIRDPARTIES (
-	thrd_id int DEFAULT nextval('seq_thrd_id'), --Identificador único del tercero 
-	thrd_nit varchar(60) not null unique, --NIT de la empresa
-	thrd_name varchar(100) not null, --Nombre de la empresa
-	thrd_representative varchar(60) not null, --Nombre del representante legal
-	thrd_cc varchar(50), --Cedula del representante legal
-	thrd_address varchar(100) not null, --Dirección de la empresa
-	thrd_mail varchar(40) DEFAULT 'Sin mail',
-	thrd_cel varchar(40) not null, --Número de celular
-	thrd_tel varchar(40) DEFAULT 'Sin número', --Número de teléfono
-	city_id int not null, --Ciudad
-	primary key(thrd_id)
-); --Sin llave primaria incorporada en la tabla
-
---Tabla para Departamentos
-create table tblSTATES (
-	state_id int DEFAULT nextval('seq_state_id'),
-	dane_code varchar(10) default 'sin codigo',
-	state_name varchar(20) not null, --Nombre del departamento
-	primary key(state_id)
-);
-
---Tabla para ciudades
-create table tblCITIES (
-	city_id int DEFAULT nextval('seq_city_id'),
-	dane_code varchar(10) default 'sin codigo',
-	city_name varchar(50) not null, --Nombre de la ciudad
-	state_id int not null, --El id del departamento, toda ciudad depende de un departamento
-	primary key(city_id)
-);
-
---Para los distintos usos
-create table tblUSES (
-	use_id int DEFAULT nextval('seq_use_id'),
-	use_name varchar(30) not null, --Usos: comercial, residencial, industrial, etc.
-	primary key(use_id)
-);
-
---Para los distintos procesos
-create table tblPROCESSES (
-	process_id int DEFAULT nextval('seq_process_id'),
-	process_name varchar(50) not null, --Distribución, generación, transformación, etc.
-	primary key(process_id)
-);
-
---Para los distintos subprocesos que servirán para seleccionar el Checklist
-create table tblSUBPROCESSES (
-	subproc_id int DEFAULT nextval('seq_subproc_id'),
-	subproc_name varchar(200) not null, --Nombre del subproceso o checklist
-	subproc_path varchar(80) not null, --Ruta a la lista de chequeo en html
-	process_id int not null,
-	primary key(subproc_id)
-);
-
---Para los distintos tipos de documentos exigidos
-create table tblDOCUMENTS (
-	document_id int DEFAULT nextval('seq_document_id'),
-	document_name varchar(200) not null, --Distintos documentos disponibles para seleccionar
-	document_type varchar(40) not null, --El tipo de documento como los RETIE 8.1, RETILAP, NORMAS VOLUNTARIAS, o los exigidos por RIG en la carpeta
-	primary key(document_id)
-);
-
---Para los guardar la selección de documentos de propuesta
-create table tblPROPDOCUMENTS (
-	propdocument_id int DEFAULT nextval('seq_propdocument_id'),
-	prop_id int not null, -- A que propuesta pertenece
-	document_id int not null, --Distintos documentos obligatorios para determinados procesos
-	primary key(propdocument_id)
-);
-
---Tabla para cotizaciones
-create table tblQUOTATIONS (
-	quot_id bigint DEFAULT nextval('seq_quot_id'),
-	quot_date date not null,
-	quot_name varchar(100) not null,
-	quot_scope varchar(1600) not null,
-	quot_contact varchar(50) not null,
-	quot_address varchar(50) not null,
-	quot_mail varchar(40) DEFAULT 'Sin e-mail',
-	quot_cel varchar(40) not null,
-	quot_tel varchar(40) not null,
-	quot_inspect_type varchar(40) not null, -- RETIE, RETILAP o NORMAS VOLUNTARIAS
-	thrd_id int not null, --La cotización depende de un tercero
-	city_id int not null,
-	use_id int not null, --El uso sirve para saber cuanto facturar
-	primary key (quot_id)
-);
-
---Tabla para guardar los procesos de cada cotización
-create table tblQUOTPROCESSES (
-	quotproc_id bigint DEFAULT nextval('seq_quotproc_id'),
-	quot_id bigint not null,
-	process_id int not null,
-	primary key (quotproc_id)
-);
-
---Tabla para propuestas
-create table tblPROPOSALS (
-	prop_id bigint DEFAULT nextval('seq_prop_id')*10000 + date_part('year', now()),
-	prop_date date not null,
-	prop_scope varchar(1600) not null, -- Es alcance puede cambiar entre cotizacion y propuesta
-	prop_state varchar(60) not null, --Por Aprobar, Aprobada
-	prop_payway varchar(40) not null,
-	prop_user_perc float, -- Porcentaje para el vendedor
-	prop_approval varchar(400) DEFAULT 'Sin Aprobación', -- método de aprobación
-	prop_observ varchar(400) DEFAULT 'Sin Observaciones', -- método de aprobación
-	prop_value numeric not null, -- Valor de la propuesta
-	prop_iva numeric not null, -- Valor del iva
-	prop_viatical numeric not null, -- Valor de los viáticos
-	prop_total_value numeric not null, -- Valor total
-	quot_id int not null unique, --proviene de una cotización pero se puede modificar
-	user_id int not null, -- Quién valida la propuesta
-	primary key(prop_id)
-);
-
---Para órdenes de servicio
-create table tblSERVICEORDERS (
-	so_id bigint DEFAULT  nextval('seq_so_id')*10000 + date_part('year', now()),
-	so_date date not null,
-	so_scope varchar(1600) not null, -- El alcance puede cambiar entre propuesta y os
-	so_observations varchar(200) not null,
-	so_acc_processed varchar(20) default 'Sin Procesar', -- Determina si se ha procesaro contablemente la orden de servicio
-	so_doc_processed varchar(20) default 'Sin Procesar', -- Determina si se ha procesaro la carpeta de la orden de servicio
-	so_eng_processed varchar(20) default 'Sin Procesar', -- Determina si se ha procesaro en ingeniería la orden de servicio
-        so_eng_observations varchar(200) default '', -- Observaciones de Ingeniería
-        so_adm_observations varchar(200) default '', -- Observaciones de Gerencia
-	so_inspector_perc float not null, -- Porcentaje para el inspector
-	so_assign_date date not null, -- Fecha de asignación de la inspección
-        so_bill_number varchar(100) default 'Sin Factura', -- Número de la factura
-	inspector_id int not null, --Una orden de servicio debe llevar un inspector
-	prop_id bigint not null, --La órden de servicio viene de una propuesta
-	primary key(so_id)
-);
-
---Para los guardar la selección de documentos de orden de servicio
-create table tblSODOCUMENTS (
-	so_document_id int DEFAULT nextval('seq_so_document_id'),
-	so_id int not null, -- A que orden de servicio pertenece
-	document_id int not null, --Distintos documentos obligatorios según la empresa
-	primary key(so_document_id)
-);
-
---Para movimientos contables
-create table tblMOVEMENTS (
-	mov_id bigint DEFAULT nextval('seq_mov_id'),
-	mov_type varchar(50) default 'FACTURA', -- tipo de movimiento, si es factura, pago a inspector o a comercial
-	mov_date timestamp  not null, -- fecha del movimiento
-	so_id bigint not null, -- a que os pertenece 
-	mov_documment varchar(50) default 'Sin comprobante', -- el numero de factura o comprobante
-	mov_name varchar(200) default 0, -- el nombre del cliente o del inspector o del comercial
-	mov_nit varchar(200) default 0, -- nit del tercero, inspector o comercial.
-	mov_value numeric default 0, -- el valor del movimiento
-	mov_observations varchar(400) default 'Sin observaciones', -- observaciones
-	primary key(mov_id)
-);
-
--- Para los usuarios del software y funcionarios de la empresa
-create table tblUSERS (
-	user_id int DEFAULT nextval('seq_user_id'),
-	user_name varchar(60) not null, --Funcionarios que no son inspectores
-	user_passwd varchar(40) not null, -- password
-	user_lname varchar(200) not null, --Nombre completo
-	user_charge varchar(40) not null,
-	user_level int not null,
-	user_address varchar(100) not null,
-	user_mail varchar(40) not null,
-	user_cel varchar(20) not null,
-	user_tel varchar(20) DEFAULT 'Sin número',
-	user_available varchar(50) not null,
-	user_percentage float not null,
-	user_nit varchar(200) not null unique,
-	primary key(user_id)
-);
-
---Para los inspectores
-create table tblINSPECTORS (
-	inspector_id int DEFAULT nextval('seq_inspector_id'),
-	inspector_name varchar(150) not null,
-	inspector_mp varchar(100) not null DEFAULT 'XY-000-11111',
-	inspector_address varchar(60) not null,
-	inspector_mail varchar(60) not null,
-	inspector_cel varchar(50) not null,
-	inspector_tel varchar(50) DEFAULT 'Sin número',
-	inspector_available varchar(50) not null, --
-	inspector_percentage float not null, --Porcentaje por defecto
-	inspector_nit varchar(200) not null unique,
-	primary key(inspector_id)
-);
-
---Detalle de cambios de estado de los inspectores
-create table tblINSPDETAILS (
-	insp_detail_id int DEFAULT nextval('seq_insp_detail_id'),
-	insp_detail_state varchar(50) not null,
-	insp_detail_descr varchar(200) not null,
-	inspector_id bigint not null,
-	primary key(insp_detail_id)
-);
-
---Tabla para diseñadores
-create table tblDESIGNERS (
-	designer_id int DEFAULT nextval('seq_designer_id'),
-	designer_name varchar(100) not null,
-	designer_mp varchar(50) not null,
-	designer_mail varchar(60) DEFAULT 'Sin e-mail',
-	designer_cel varchar(30) DEFAULT 'Sin número',
-	designer_nit varchar(60) default 'Sin Nit',
-	primary key(designer_id)
-);
-
---Tabla para diseñadores
-create table tblCONSTRUCTORS (
-	constructor_id int DEFAULT nextval('seq_constructor_id'),
-	constructor_name varchar(100) not null,
-	constructor_mp varchar(50) not null,
-	constructor_mail varchar(60) DEFAULT 'Sin e-mail',
-	constructor_cel varchar(30) DEFAULT 'Sin número',
-	constructor_nit varchar(60) DEFAULT 'Sin Nit',
-	primary key(constructor_id)
-);
-
---Tabla para diseñadores
-create table tblAUDITORS (
-	auditor_id int DEFAULT nextval('seq_auditor_id'),
-	auditor_name varchar(100) not null,
-	auditor_mp varchar(50) not null,
-	auditor_mail varchar(60) DEFAULT 'Sin mail',
-	auditor_cel varchar(30) DEFAULT 'Sin número',
-	auditor_nit varchar(60) DEFAULT 'Sin Nit',
-	primary key(auditor_id)
-);
-
--- Para las inspecciones como tal, puede que lleven datos modificados entonces se crean los campos necesarios
-create table tblINSPECTIONS (
-	inspection_id bigint DEFAULT nextval('seq_inspection_id')*10000 + date_part('year', now()),
-	inspection_date date not null, -- fecha en que se realizó la inspección
-	inspection_state varchar(50), --Se describe en que estado está Finalizada, No Dictaminada
-	inspection_observ varchar(200), --Observaciones a los documentos.
-	inspection_address varchar(100) DEFAULT 'Sin Dirección',
-	inspection_propietary varchar(100) DEFAULT 'Sin Propietario',
-	inspection_dictums varchar(20) DEFAULT 'Sin Dictamen', -- Indica si tiene dictamen creado.
-	city_id int DEFAULT null,
-	so_id bigint not null unique, --Proviene de una órden de servicio
-	constructor_id int DEFAULT null, -- El constructor
-	auditor_id int DEFAULT null, --El interventor
-	primary key(inspection_id)
-);
-
---Para guardar los diseñadores de una inspección
-create table tblINSPECTIONDESIGNERS (
-	inspection_designer_id int DEFAULT nextval('seq_inspection_designer_id'),
-	inspection_id int not null, -- A que inspección pertenece
-	designer_id int not null, -- Distintos diseñadores
-	primary key(inspection_designer_id)
-);
-
-
--- ----------------------------
--- La siguiente tabla usa una función para generar el código de verificación único
--- ----------------------------
-
--- Tabla para dictámenes
-create table tblDICTUMS (
-	dictum_id bigint DEFAULT nextval('seq_dictum_id'),
-	dictum_number varchar(200) not null UNIQUE, -- por ejemplo RIG-IE-10001
-	dictum_code int8 NOT NULL DEFAULT randomUniqueId(),
-	dictum_date date not null, -- fecha de expedición
-	dictum_state varchar(20) not null DEFAULT 'En Proceso', --Se describe en que estado está, Sin Procesar, En Proceso, Finalizada.
-	dictum_tech_state varchar(20), -- Si está conforme, no conforme.
-	dictum_scope varchar(1600) DEFAULT 'Sin Alcance',
-	dictum_observ varchar(200), --Observaciones con respecto a las no conformidades.
-	dictum_inst_rate varchar(20),
-	dictum_inst_voltage varchar(20),
-	dictum_inst_resist varchar(20),
-	dictum_inst_date date,
-	dictum_url varchar(300) DEFAULT 'http://', --La ruta a la carpeta donde está guardado el dictámen o la ruta al servidor.
-	process_id bigint not null, -- cada dictamen se hace por separado para cada proceso
-	inspection_id bigint not null, --Proviene de una órden de servicio
-	primary key(dictum_id)
-);
-
--- ----------------------------
--- Definition of function  "randomuniqueid"
--- ----------------------------
-
-CREATE OR REPLACE FUNCTION randomUniqueId() RETURNS bigint AS $$
-DECLARE
-    -- SET THE KEY SIZE (IN CHARACTERS)
-    idSize constant  integer := 10;
-    sizeMultiplicator constant bigint := 10 ^ idSize;
-    loopLimit  bigint := sizeMultiplicator * 4;
-    randomNumber bigint;
-    canIUseIt boolean := false;
-BEGIN
-    -- LOOP UNTIL FIND AN UNIQUE RANDOM NUMBER OR FILL THE LOOP LIMIT
-    WHILE ( not ( canIUseIt ) and ( loopLimit > 0) ) 
-    LOOP
-        -- CALCULATE A TEN DIGITS RANDOM NUMBER
-        randomNumber := CAST ( ( random() * sizeMultiplicator ) AS bigint );
-        -- VALIDATE THAT THE NUMBER WON'T START WITH 0
-        IF ( (randomNumber >= sizeMultiplicator / 10 ) and ( randomNumber < sizeMultiplicator ) ) THEN
-            -- CHECK THAN RANDOM NUMBER NOT EXISTS ON TABLE
-            -- IMPORTANT!!! CHANGE WITH TABLE AND FIELD TO SEARCH FOR A DUPLICATATION
-            PERFORM dictum_code FROM tblDICTUMS WHERE dictum_code = randomNumber;
-            IF NOT FOUND THEN
-                canIUseIt = true;
-            END IF;
-        END IF;
-        loopLimit = loopLimit - 1;
-    END LOOP;
-    -- IF LOOP ENDS WITH A UNIQUE RANDOM NUMBER RETURNS THE NUMBER CONCATENATED WITH A VERIFICATION NUMBER  ELSE RAISE AN EXCEPTION
-    IF ( canIUseIt ) THEN
-        RETURN CAST ( ( CAST ( randomNumber AS text ) || CAST (verificationNumber( CAST (randomNumber AS text ) ) AS text  ) ) AS  bigint);
-    ELSE
-        RAISE EXCEPTION 'No se puede calcular Random Unique ID en la tabla tblDICTUMS';
-    END IF;
-
-END;
-$$ LANGUAGE plpgsql;
-
--- ----------------------------
--- Definition of function  "randomuniqueid"
--- ----------------------------
-
-CREATE OR REPLACE FUNCTION verificationNumber(id text) RETURNS integer AS $$
-DECLARE
-    auxValue integer := 0;
-    verifyArray constant integer[] :=ARRAY [5,4,3,2,7,6,5,4,3,2,1];
-    verificationNumber integer := 0;
-BEGIN
-    -- ASK FOR ID LENGTH EQUAL TO 10 DIGITS. THE ALGORITHM WORKS ONLY FOR
-    IF ( LENGTH( id ) <> 10 ) THEN
-        RAISE EXCEPTION 'No se puede calcular el número de Verificación. El ID debe tener 10 dígitos';
-    ELSE
-
-        -- LOOP ON THE TEN DIGITS AND MULTIPLY WITH THE SAME POSITION ON virifyArray
-        FOR digit IN 1..10 LOOP
-            auxValue = auxValue + ( CAST(SUBSTR(id, digit, 1) AS int) * verifyArray[digit] );
-        END LOOP;
-
-        -- CALCULATE THE VERIFICATION NUMBER
-        verificationNumber = 11 - (auxValue % 11);
-
-        -- REPLACE THE TWO DIGITS  VERIFICATION NUMBER
-        IF( verificationNumber = 11 ) THEN
-            RETURN 0;
-        ELSEIF ( verificationNumber = 10 ) THEN
-            RETURN 9;
-        ELSE
-            RETURN verificationNumber;
-        END IF;
-
-    END IF;
-
-END;
-$$ LANGUAGE plpgsql;
-
--- Tabla para tipos de instalación para dictamen
-create table tblDICTUMUSES (
-	dictum_use_id bigint DEFAULT nextval('seq_dictum_use_id'),
-	dictum_id bigint not null, -- dictamen al que pertenece
-	use_id bigint not null, -- identificador del tipo de instalación o proceso
-	use_special_name varchar(50) DEFAULT '', -- nombre de instalación especial en caso que el use_id corresponda a instalaciones especiales
-	primary key(dictum_use_id)
-);
-
--- Tabla para procesos asociados de dictamen
-create table tblDICTUMPROCS (
-	dictum_proc_id bigint DEFAULT nextval('seq_dictum_proc_id'),
-	dictum_id bigint not null, -- dictamen al que pertenece
-	process_id bigint not null, -- identificador del proceso
-	primary key(dictum_proc_id)
-);
-
--- Tabla para consecutivos de dictámenes
-create table tblSUBDICTUMS (
-	subdictum_id bigint DEFAULT nextval('seq_subdictum_id'),
-	subdictum_number varchar(200) not null UNIQUE, -- por ejemplo RIG-IE-10001-1
-	subdictum_date date not null, -- fecha de expedición
-	subdictum_state varchar(20) not null DEFAULT 'Sin Procesar', --Se describe en que estado está, Sin Procesar, En Proceso, Finalizada.
-	subdictum_tech_state varchar(20) not null, --Se describe en que estado está, no conforme, conforme, etc.
-	subdictum_scope varchar(1600) DEFAULT 'Sin Alcance',
-	subdictum_observ varchar(200), --Observaciones con respecto a las no conformidades.
-	subdictum_type varchar(50),
-	subdictum_identifier varchar(50),
-	subdictum_location varchar(50),
-	subdictum_inst_rate varchar(20),
-	subdictum_inst_voltage varchar(20),
-	subdictum_inst_res varchar(20),
-	dictum_id bigint not null, --Proviene de un dictamen
-	primary key(subdictum_id)
-);
-
--- Tabla para detalles de dictamen de generación
-create table tblGENDICTUMS (
-	gendictum_id bigint DEFAULT nextval('seq_gendictum_id'),
-	gendictum_se_type varchar(50) not null, -- Tipo de subestación
-	gendictum_ses_number varchar(20), -- Número de subestaciones
-	dictum_id bigint not null, --Proviene de un dictamen
-	primary key(gendictum_id)
-);
-
--- Tabla para detalles de dictamen de generación
-create table tblTRANSMDICTUMS (
-	transmdictum_id bigint DEFAULT nextval('seq_transmdictum_id'),
-	transmdictum_line_detail varchar(300) not null, --descripción completa de la línea
-	transmdictum_conf varchar(100) not null, -- configuración de la línea.
-	transmdictum_length varchar(50) not null, -- longitud de la línea
-	transmdictum_wires_type varchar(50) not null, -- Tipo de conductores, ACSR, etc.
-	transmdictum_material varchar(100) not null, -- Material de las estructuras
-	transmdictum_structs_number varchar(50) not null, --  Número de estructuras.
-	dictum_id bigint not null, --Proviene de un dictamen
-	primary key(transmdictum_id)
-);
-
--- Tabla para detalles de dictamen de generación
-create table tblTRANSFDICTUMS (
-	transfdictum_id bigint DEFAULT nextval('seq_transfdictum_id'),
-	transfdictum_se_type varchar(100) not null, -- Encapsulada, de patio, etc
-	transfdictum_rate varchar(50) not null, -- Capacidad
-	transfdictum_transf_number varchar(20) not null, -- Cantidad de transformadores
-	dictum_id bigint not null, --Proviene de un dictamen
-	primary key(transfdictum_id)
-);
-
--- Tabla para detalles de dictamen de generación
-create table tblDISTDICTUMS (
-	distdictum_id bigint DEFAULT nextval('seq_distdictum_id'),
-	distdictum_conf varchar(200) not null, -- configuración de la línea.
-	distdictum_length varchar(50) not null, -- longitud de la línea
-	distdictum_wires_type varchar(50) not null, -- Tipo de conductores, ACSR, etc.
-	distdictum_material varchar(100) not null, -- Material de las estructuras
-	distdictum_structs_number varchar(50) not null, --  Número de estructuras.	
-	dictum_id bigint not null, --Proviene de un dictamen
-	primary key(distdictum_id)
-);
-
--- Tabla para detalles de dictamen de generación
-create table tblALINTDICTUMS (
-	alintdictum_id bigint DEFAULT nextval('seq_alintdictum_id'),
-	dictum_id bigint not null, --Proviene de un dictamen
-	primary key(alintdictum_id)
-);
-
--- Tabla para detalles de dictamen de generación
-create table tblALEXTDICTUMS (
-	alextdictum_id bigint DEFAULT nextval('seq_alextdictum_id'),
-	alextdictum_luminaries_number varchar(20)  not null, -- número de luminarias
-	alextdictum_measure_system varchar(20) not null, -- sistema de medida de energía si o no
-	alextdictum_porpuse varchar(100) not null, -- Parque, vías, etc.
-	alextdictum_length varchar(50) not null, -- 860m
-	alextdictum_area varchar(50) not null, -- 6020m^2
-	dictum_id bigint not null, --Proviene de un dictamen
-	primary key(alextdictum_id)
-);
-
--- Tabla para requerimientos
-create table tblREQUIREMENTS (
-	req_id bigint DEFAULT nextval('seq_requirement_id'),
-	req_description varchar(200) not null, -- descripción de el requerimiento
-	process_id bigint not null, -- casos en los que aplica el requerimiento, causibinario también
-	primary key(req_id)
-);
-
--- Tabla para requerimientos del dictamen
-create table tblDICTUMREQS (
-	dictum_req_id bigint DEFAULT nextval('seq_dictum_req_id'),
-	dictum_id bigint not null, -- dictamen al que pertenece
-	req_id bigint not null, -- identificador del requerimiento
-	req_meets varchar(20) not null DEFAULT '', -- si cumplió en el dictamen
-	req_no_meets varchar(20) not null DEFAULT '', -- si no cumplió en el dictamen
-	primary key(dictum_req_id)
-);
-
--- Tabla para requerimientos del consecutivos o subdictámenes
-create table tblSUBDICTUMREQS (
-	subdictum_req_id bigint DEFAULT nextval('seq_subdictum_req_id'),
-	subdictum_id bigint not null, -- subdictamen al que pertenece
-	req_id bigint not null, -- identificador del requerimiento
-	req_meets varchar(20) not null DEFAULT '', -- si cumplió o no en el dictamen
-	req_no_meets varchar(20) not null DEFAULT 'X', -- si no cumplió en el dictamen
-	primary key(subdictum_req_id)
-);
-
-create table tblRECORDS (
-	record_id bigint DEFAULT nextval('seq_record_id'),
-	record_foil varchar(20), --En que parte del archivo está guardado
-	primary key(record_id)
-);
-
---Para los guardar la selección de az's o folios de orden de servicio
-create table tblSORECORDS (
-	so_record_id int DEFAULT nextval('seq_so_record_id'),
-	so_id int not null, -- A que orden de servicio pertenece
-	record_id int not null, --Distintos folios
-	primary key(so_record_id)
-);
-
---Para los guardar los datos de tracking (envíos, recepciones, responsable) de orden de servicio
-create table tblSOTRACKING (
-	trck_id bigint DEFAULT nextval('seq_trck_id'),
-	so_id bigint unique not null, -- A que orden de servicio pertenece
-	trck_receipt_date date not null, --Fecha de recepción
-	trck_receiver_name varchar(50) not null, -- Quién recibe
-	trck_shipping_date date, --Fecha de envío
-	trck_shipper_name varchar(50), -- Quién envía
-	trck_shipping_name varchar(50), -- A quién fue entregado el envío o para quién va
-	trck_shipping_company varchar(50), -- Empresa de envíos
-	trck_guide_number varchar(50), -- número de guía
-	trck_observations varchar(200), -- que se envía (factura, dictamen, carpeta) u observaciones en general
-	city_id int default 1121, -- Ciudad de envío
-	primary key(trck_id)
-);
-
---Diferentes tipos de evento
-create table tblEVENTTYPE (
-	event_type_id bigint DEFAULT nextval('seq_event_type_id'),
-	event_type varchar(100) not null, -- Quién recibe
-	primary key(event_type_id)
-);
-
---Eventos
-create table tblEVENTS (
-	log_date_time timestamp not null,
-	log_user_name varchar(100) not null,
-	log_detail varchar(200) not null,
-	quot_id int DEFAULT 0,
-	prop_id int DEFAULT 0,
-	so_id int DEFAULT 0,
-	inspection_id int DEFAULT 0,
-	dictum_id int DEFAULT 0,
-	subdictum_id int DEFAULT 0,
-	event_type_id int not null
-);
-
-
---Creación de las relaciones entre tablas, o referencias
-alter table tblCITIES
-add constraint fk_states foreign key (state_id) references tblSTATES; --fk_state (foreign key state) nombre de la relación
-
-alter table tblTHIRDPARTIES
-add constraint fk_city foreign key (city_id) references tblCITIES;
-
-alter table tblINSPDETAILS
-add constraint fk_inspector foreign key (inspector_id) references tblINSPECTORS;
-
-alter table tblSUBPROCESSES
-add constraint fk_process foreign key (process_id) references tblPROCESSES;
-
-alter table tblQUOTATIONS
-add constraint fk_thirdpartie foreign key (thrd_id) references tblTHIRDPARTIES ON DELETE CASCADE ON UPDATE CASCADE,
-add constraint fk_city foreign key (city_id) references tblCITIES,
-add constraint fk_use foreign key (use_id) references tblUSES;
-
-alter table tblQUOTPROCESSES
-add constraint fk_quotation foreign key (quot_id) references tblQUOTATIONS ON DELETE CASCADE;
-
-alter table tblPROPOSALS
-add constraint fk_quotation foreign key (quot_id) references tblQUOTATIONS ON DELETE CASCADE,
-add constraint fk_user foreign key (user_id) references tblUSERS;
-
-alter table tblPROPDOCUMENTS
-add constraint fk_proposal foreign key (prop_id) references tblPROPOSALS ON DELETE CASCADE;
-
-alter table tblSERVICEORDERS
-add constraint fk_proposal foreign key (prop_id) references tblPROPOSALS ON DELETE CASCADE,
-add constraint fk_inspector foreign key (inspector_id) references tblINSPECTORS;
-
-alter table tblMOVEMENTS
-add constraint fk_serviceorder foreign key (so_id) references tblSERVICEORDERS ON DELETE CASCADE;
-
-alter table tblSODOCUMENTS
-add constraint fk_serviceorder foreign key (so_id) references tblSERVICEORDERS ON DELETE CASCADE;
-
-alter table tblSORECORDS
-add constraint fk_serviceorder foreign key (so_id) references tblSERVICEORDERS ON DELETE CASCADE,
-add constraint fk_record foreign key (record_id) references tblRECORDS ON DELETE CASCADE;
-
-alter table tblSOTRACKING
-add constraint fk_serviceorder foreign key (so_id) references tblSERVICEORDERS ON DELETE CASCADE;
-
-alter table tblINSPECTIONS
-add constraint fk_so foreign key (so_id) references tblSERVICEORDERS,
-add constraint fk_city foreign key (city_id) references tblCITIES,
-add constraint fk_constructor foreign key (constructor_id) references tblCONSTRUCTORS,
-add constraint fk_auditor foreign key (auditor_id) references tblAUDITORS;
-
-alter table tblINSPECTIONDESIGNERS
-add constraint fk_inspection foreign key (inspection_id) references tblINSPECTIONS ON DELETE CASCADE,
-add constraint fk_designer foreign key (designer_id) references tblDESIGNERS;
-
-alter table tblDICTUMS
-add constraint fk_inspection foreign key (inspection_id) references tblINSPECTIONS ON DELETE CASCADE;
-
-alter table tblSUBDICTUMS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblDICTUMREQS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblDICTUMUSES
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE,
-add constraint fk_use foreign key (use_id) references tblUSES;
-
-alter table tblDICTUMPROCS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE,
-add constraint fk_process foreign key (process_id) references tblPROCESSES;
-
-alter table tblSUBDICTUMREQS
-add constraint fk_subdictum foreign key (subdictum_id) references tblSUBDICTUMS ON DELETE CASCADE;
-
-alter table tblGENDICTUMS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblTRANSMDICTUMS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblTRANSFDICTUMS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblDISTDICTUMS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblALINTDICTUMS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblALEXTDICTUMS
-add constraint fk_dictum foreign key (dictum_id) references tblDICTUMS ON DELETE CASCADE;
-
-alter table tblEVENTS
-add constraint fk_event_type foreign key (event_type_id) references tblEVENTTYPE ON DELETE CASCADE;
-
---Creación de algunos índices para acelerar búsquedas
-create index idx_thrd_cc on tblTHIRDPARTIES (thrd_cc);
-create index idx_thrd_name on tblTHIRDPARTIES (thrd_name ASC);
-create index idx_thrd_representative on tblTHIRDPARTIES (thrd_representative ASC);
-create index idx_so_date on tblSERVICEORDERS (so_date);
-create index idx_quot_name on tblQUOTATIONS (quot_name);
-create index idx_dictum_number on tblDICTUMS (dictum_number);
-create index idx_subdictum_number on tblSUBDICTUMS (subdictum_number);
-
 --INSERCIÓN DE ALGUNOS DATOS
 -- Inserción de los departamentos
 INSERT INTO tblstates VALUES (1, '05', 'ANTIOQUIA');
@@ -2232,13 +1270,6 @@ insert into tblINSPECTORS (inspector_name, inspector_address, inspector_mail, in
 insert into tblINSPECTORS (inspector_name, inspector_address, inspector_mail, inspector_cel, inspector_tel, inspector_available, inspector_percentage, inspector_nit) 
 	    values ('Simon Peña Mendoza', 'Cordoba', 'none', 'none', 'none', 'Disponible', 0.25, '222');		    
 	    
-insert into tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_cc, thrd_address, thrd_mail, thrd_cel, thrd_tel, city_id) 
-	    values('111111','Constructora Mejía S.A','Aurelio Cheverony', '1234578', 'Cra 7ª Nº 3-21', 'aurelito@gmail.com', '3209874532', '8765432', 1);
-insert into tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_cc, thrd_address, thrd_mail, thrd_cel, thrd_tel, city_id)
-            values('222222','Ingelectricos del Norte','Máximus Décimus Medirius', '9123448', 'Av 34 Cll 24', 'marinillo@gmail.com', '3087654234', '2578987', 2);
-insert into tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_cc, thrd_address, thrd_mail, thrd_cel, thrd_tel, city_id)
-            values('333333','Ingeniería Robitech','WallE Valencia', '12345678', 'Transv 80 Cra 25', 'gerencia@ingrobitech.com', '3004569887', '4563421', 3);
-
 insert into tblUSES (use_name) values ('Residencial');
 insert into tblUSES (use_name) values ('Comercial');
 insert into tblUSES (use_name) values ('Industrial');
@@ -2307,218 +1338,225 @@ insert into tblDOCUMENTS (document_name, document_type) values ('Acta de inspecc
 insert into tblDOCUMENTS (document_name, document_type) values ('Declaración de cumplimento del reglamento técnico de instalaciones eléctricas','RIG');
 insert into tblDOCUMENTS (document_name, document_type) values ('Fotocopia de la matricula profesional del constructor, diseñador e Interventor','RIG');
 insert into tblDOCUMENTS (document_name, document_type) values ('Listado de Productos con certificado Retie','RIG');
-insert into tblDOCUMENTS (document_name, document_type) values ('Certificados de Productos o constancia de la verificación ? Retie','RIG');
+insert into tblDOCUMENTS (document_name, document_type) values ('Certificados de Productos o constancia de la verificación Retie','RIG');
 insert into tblDOCUMENTS (document_name, document_type) values ('Listas de Verificación','RIG');
 insert into tblDOCUMENTS (document_name, document_type) values ('Predictamen de Instalaciones eléctricas','RIG');
 insert into tblDOCUMENTS (document_name, document_type) values ('Diagrama unifilar','RIG');
 insert into tblDOCUMENTS (document_name, document_type) values ('Planos y/o esquemas eléctricos','RIG');
 insert into tblDOCUMENTS (document_name, document_type) values ('Análisis y memorias de calculo','RIG');
 
-INSERT INTO tblrequirements VALUES (1, 'Independencia constructiva de las edificaciones', 1);
-INSERT INTO tblrequirements VALUES (2, 'Matriales acordes con las condiciones ambientales', 1);
-INSERT INTO tblrequirements VALUES (3, 'Soportabilida al fuego de materiales', 1);
-INSERT INTO tblrequirements VALUES (4, 'Disposición de mimicos', 1);
-INSERT INTO tblrequirements VALUES (5, 'Maniobrabilidad, señalización y sistema de alarma sonoro de puente gruas', 1);
-INSERT INTO tblrequirements VALUES (6, 'Instalación de sistema de control automatico y manual para compuertas de captación de la central hidraulica', 1);
-INSERT INTO tblrequirements VALUES (7, 'Señalización Aeronautica', 1);
-INSERT INTO tblrequirements VALUES (8, 'Restricciones en cuarto de bateria', 1);
-INSERT INTO tblrequirements VALUES (9, 'Sistemas de protección contra incendios', 1);
-INSERT INTO tblrequirements VALUES (10, 'Conductores eléctricos', 1);
-INSERT INTO tblrequirements VALUES (11, 'Niveles de iluminancia', 1);
-INSERT INTO tblrequirements VALUES (12, 'Sistemas de alumbrado de emergencia', 1);
-INSERT INTO tblrequirements VALUES (13, 'Memorias de calculo', 1);
-INSERT INTO tblrequirements VALUES (14, 'Disositivos deseccionaiento y mando', 1);
-INSERT INTO tblrequirements VALUES (15, 'Avisos y señales de seguridad', 1);
-INSERT INTO tblrequirements VALUES (16, 'Distancias de seguridad', 1);
-INSERT INTO tblrequirements VALUES (17, 'Ejecución de las conexiones', 1);
-INSERT INTO tblrequirements VALUES (18, 'Barreras de Acceso', 1);
-INSERT INTO tblrequirements VALUES (19, 'Campos electromagneticos en areas de trabajo permanente', 1);
-INSERT INTO tblrequirements VALUES (20, 'Continuidad delos conductores de tierra y conexiones equipotenciales', 1);
-INSERT INTO tblrequirements VALUES (21, 'Planos, esquemas y diagramas', 1);
-INSERT INTO tblrequirements VALUES (22, 'Funconamieto del corte automatico de la alimentación', 1);
-INSERT INTO tblrequirements VALUES (23, 'Encerramientos de equipos (mallas, cuartos y bóvedas)', 1);
-INSERT INTO tblrequirements VALUES (24, 'Protección contra rayos', 1);
-INSERT INTO tblrequirements VALUES (25, 'Protección contra arcos internos', 1);
-INSERT INTO tblrequirements VALUES (26, 'Resistencia de puesta a tierra _RSPT', 1);
-INSERT INTO tblrequirements VALUES (27, 'Revisones de certificaciones de prducto', 1);
-INSERT INTO tblrequirements VALUES (28, 'Seleccón de dispositivos de protección contra sobrecorrientes', 1);
-INSERT INTO tblrequirements VALUES (29, 'Seleccón de dispositivos de protección contra sobretensiones', 1);
-INSERT INTO tblrequirements VALUES (30, 'Tiepo de respuesta de protecciones para despeje de fallas', 1);
-INSERT INTO tblrequirements VALUES (31, 'Ventilación', 1);
-INSERT INTO tblrequirements VALUES (32, 'Tensiones de paso, cntacto y transferidas', 1);
-INSERT INTO tblrequirements VALUES (33, 'Verificación detensiones de paso, contacto y transferidas', 1);
-INSERT INTO tblrequirements VALUES (34, 'Aisladores', 2);
-INSERT INTO tblrequirements VALUES (35, 'Aislamiento', 2);
-INSERT INTO tblrequirements VALUES (36, 'Avisos y Señales de seguridad', 2);
-INSERT INTO tblrequirements VALUES (37, 'Campos electromagnéticos', 2);
-INSERT INTO tblrequirements VALUES (38, 'Condiciones de diseño de estructuras y herrajes', 2);
-INSERT INTO tblrequirements VALUES (39, 'Conductores', 2);
-INSERT INTO tblrequirements VALUES (40, 'Dispositivos de seccionamiento y mando', 2);
-INSERT INTO tblrequirements VALUES (41, 'Distancias de seguridad', 2);
-INSERT INTO tblrequirements VALUES (42, 'Ejecución de las conexiones', 2);
-INSERT INTO tblrequirements VALUES (43, 'Ensayos funcionales', 2);
-INSERT INTO tblrequirements VALUES (44, 'Estructuras acorde con los requerimientos mecánicos', 2);
-INSERT INTO tblrequirements VALUES (45, 'Franja de servidumbre', 2);
-INSERT INTO tblrequirements VALUES (46, 'Funcionamiento del corte automático de la alimentación', 2);
-INSERT INTO tblrequirements VALUES (47, 'Materiales acordes con las condiciones ambientales', 2);
-INSERT INTO tblrequirements VALUES (48, 'Memorias de cálculo', 2);
-INSERT INTO tblrequirements VALUES (49, 'Planos, esquemas y diagramas', 2);
-INSERT INTO tblrequirements VALUES (50, 'Protección contra la corrosión', 2);
-INSERT INTO tblrequirements VALUES (51, 'Resistencia de puesta a tierra _RSPT', 2);
-INSERT INTO tblrequirements VALUES (52, 'Revisión de certificaciones de productos', 2);
-INSERT INTO tblrequirements VALUES (53, 'Selección de conductores', 2);
-INSERT INTO tblrequirements VALUES (54, 'Selección de dispositivos de protección contra sobrecorrientes', 2);
-INSERT INTO tblrequirements VALUES (55, 'Selección de dispositivos de protección contra sobretensiones', 2);
-INSERT INTO tblrequirements VALUES (56, 'Señales de aeronavegación', 2);
-INSERT INTO tblrequirements VALUES (57, 'Tensiones de paso y de contacto', 2);
-INSERT INTO tblrequirements VALUES (58, 'Verificación de Tensiones de paso, contacto y transferidas', 2);
-INSERT INTO tblrequirements VALUES (59, 'Zona de servidumbre', 2);
-INSERT INTO tblrequirements VALUES (60, 'Accesibilidad a todos los dispositivos de protección ', 3);
-INSERT INTO tblrequirements VALUES (61, 'Avisos y señales de seguridad', 3);
-INSERT INTO tblrequirements VALUES (62, 'Barreras de acceso ', 3);
-INSERT INTO tblrequirements VALUES (63, 'Campos electromagnéticos en áreas de trabajo permanente ', 3);
-INSERT INTO tblrequirements VALUES (64, 'Continuidad de los conductores de tierra y conexiones equipotenciales ', 3);
-INSERT INTO tblrequirements VALUES (65, 'Corriente en el sistema puesta a tierra.', 3);
-INSERT INTO tblrequirements VALUES (66, 'Dispositivo de seccionamiento y mando. ', 3);
-INSERT INTO tblrequirements VALUES (67, 'Distancias de seguridad ', 3);
-INSERT INTO tblrequirements VALUES (68, 'Ejecución de las conexiones.', 3);
-INSERT INTO tblrequirements VALUES (69, 'Encerramientos de equipos (mallas, cuartos, bóvedas) ', 3);
-INSERT INTO tblrequirements VALUES (70, 'Enclavamientos ', 3);
-INSERT INTO tblrequirements VALUES (71, 'Ensayos dieléctricos ', 3);
-INSERT INTO tblrequirements VALUES (72, 'Equipotencialidad ', 3);
-INSERT INTO tblrequirements VALUES (73, 'Estructuras y herrajes', 3);
-INSERT INTO tblrequirements VALUES (74, 'Identificación de circuitos, conductores de neutro y de tierras. ', 3);
-INSERT INTO tblrequirements VALUES (75, 'Materiales acordes con las condiciones ambientales ', 3);
-INSERT INTO tblrequirements VALUES (76, 'Memorias de cálculo ', 3);
-INSERT INTO tblrequirements VALUES (77, 'Mímicos ', 3);
-INSERT INTO tblrequirements VALUES (78, 'Montaje ', 3);
-INSERT INTO tblrequirements VALUES (79, 'Planos, esquemas y diagramas ', 3);
-INSERT INTO tblrequirements VALUES (80, 'Protección contra arcos internos ', 3);
-INSERT INTO tblrequirements VALUES (81, 'Protección contra electrocución por contacto directo. ', 3);
-INSERT INTO tblrequirements VALUES (82, 'Protección contra electrocución por contacto indirecto. ', 3);
-INSERT INTO tblrequirements VALUES (83, 'Protección contra rayos ', 3);
-INSERT INTO tblrequirements VALUES (84, 'Resistencia de puesta a tierra. _RSPT', 3);
-INSERT INTO tblrequirements VALUES (85, 'Resistencia de aislamiento. ', 3);
-INSERT INTO tblrequirements VALUES (86, 'Revisiones de certificaciones de producto.', 3);
-INSERT INTO tblrequirements VALUES (87, 'Selección de conductores ', 3);
-INSERT INTO tblrequirements VALUES (88, 'Selección de dispositivos de protección contra sobrecorrientes. ', 3);
-INSERT INTO tblrequirements VALUES (89, 'Selección de dispositivos de protección contra sobretensiones. ', 3);
-INSERT INTO tblrequirements VALUES (90, 'Sistema contra incendio ', 3);
-INSERT INTO tblrequirements VALUES (91, 'Soportabilidad al fuego de materiales ', 3);
-INSERT INTO tblrequirements VALUES (92, 'Tensión de contacto y transferida ', 3);
-INSERT INTO tblrequirements VALUES (93, 'Tensión de paso. ', 3);
-INSERT INTO tblrequirements VALUES (94, 'Tiempo de respuesta de protecciones para despeje de fallas. ', 3);
-INSERT INTO tblrequirements VALUES (95, 'Ventilación ', 3);
-INSERT INTO tblrequirements VALUES (96, 'Verificación de tensiones de paso, contacto y transferidas', 3);
-INSERT INTO tblrequirements VALUES (97, 'Accesibilidad a todos los dispositivos de protección ', 4);
-INSERT INTO tblrequirements VALUES (98, 'Apoyos o estructuras ', 4);
-INSERT INTO tblrequirements VALUES (99, 'Avisos y señales de seguridad ', 4);
-INSERT INTO tblrequirements VALUES (100, 'Cámaras y canalizaciones adecuadas ', 4);
-INSERT INTO tblrequirements VALUES (101, 'Dispositivos de seccionamiento y mando ', 4);
-INSERT INTO tblrequirements VALUES (102, 'Distancias de seguridad ', 4);
-INSERT INTO tblrequirements VALUES (103, 'Ejecución de las conexiones.', 4);
-INSERT INTO tblrequirements VALUES (104, 'Funcionamiento del corte automático de la alimentación ', 4);
-INSERT INTO tblrequirements VALUES (105, 'Herrajes ', 4);
-INSERT INTO tblrequirements VALUES (106, 'Identificación de circuitos', 4);
-INSERT INTO tblrequirements VALUES (107, 'Materiales acordes con las condiciones ambientales ', 4);
-INSERT INTO tblrequirements VALUES (108, 'Memorias de cálculo ', 4);
-INSERT INTO tblrequirements VALUES (109, 'Planos, esquemas y diagramas ', 4);
-INSERT INTO tblrequirements VALUES (110, 'Protección contra la corrosión ', 4);
-INSERT INTO tblrequirements VALUES (111, 'Resistencia de puesta a tierra. RSPT', 4);
-INSERT INTO tblrequirements VALUES (112, 'Resistencia de aislamiento. ', 4);
-INSERT INTO tblrequirements VALUES (113, 'Revisión de certificaciones de productos ', 4);
-INSERT INTO tblrequirements VALUES (114, 'Selección de conductores ', 4);
-INSERT INTO tblrequirements VALUES (115, 'Selección de dispositivos de protección contra sobrecorrientes. ', 4);
-INSERT INTO tblrequirements VALUES (116, 'Selección de dispositivos de protección contra sobretensiones. ', 4);
-INSERT INTO tblrequirements VALUES (117, 'Tensiones de paso, contacto y transferidas ', 4);
-INSERT INTO tblrequirements VALUES (118, 'Valores de Campo Electromagnéticos. ', 4);
-INSERT INTO tblrequirements VALUES (119, 'Accesibilidad a todos los dispositivos de protección ', 5);
-INSERT INTO tblrequirements VALUES (120, 'Bomba contra incendio ', 5);
-INSERT INTO tblrequirements VALUES (121, 'Continuidad de los conductores de tierra y conexiones equipotenciales ', 5);
-INSERT INTO tblrequirements VALUES (122, 'Corrientes en el sistema de puesta a tierra ', 5);
-INSERT INTO tblrequirements VALUES (123, 'Distancias de seguridad ', 5);
-INSERT INTO tblrequirements VALUES (124, 'Ejecución de las conexiones ', 5);
-INSERT INTO tblrequirements VALUES (125, 'Ensayos funcionales ', 5);
-INSERT INTO tblrequirements VALUES (126, 'Existencia de planos, esquema, aviso y señales ', 5);
-INSERT INTO tblrequirements VALUES (127, 'Funcionamiento del corte automático de la alimentación ', 5);
-INSERT INTO tblrequirements VALUES (128, 'Identificación de canalizaciones ', 5);
-INSERT INTO tblrequirements VALUES (129, 'Identificación de circuitos ', 5);
-INSERT INTO tblrequirements VALUES (130, 'Identificación de conductores de fase, neutro y tierras ', 5);
-INSERT INTO tblrequirements VALUES (131, 'Materiales acordes con las condiciones ambientales ', 5);
-INSERT INTO tblrequirements VALUES (132, 'Memorias de cálculo ', 5);
-INSERT INTO tblrequirements VALUES (133, 'Niveles de iluminación  ', 5);
-INSERT INTO tblrequirements VALUES (134, 'Protección contra arcos internos ', 5);
-INSERT INTO tblrequirements VALUES (135, 'Protección contra electrocución por contacto directo ', 5);
-INSERT INTO tblrequirements VALUES (136, 'Protección contra electrocución por contacto indirecto ', 5);
-INSERT INTO tblrequirements VALUES (137, 'Resistencia de aislamiento ', 5);
-INSERT INTO tblrequirements VALUES (138, 'Resistencia de puesta a tierra _RSPT', 5);
-INSERT INTO tblrequirements VALUES (139, 'Revisiones de certificaciones de producto ', 5);
-INSERT INTO tblrequirements VALUES (140, 'Selección de conductores ', 5);
-INSERT INTO tblrequirements VALUES (141, 'Selección de dispositivos de protección contra sobrecorrientes ', 5);
-INSERT INTO tblrequirements VALUES (142, 'Selección de dispositivos de protección contra sobretensiones ', 5);
-INSERT INTO tblrequirements VALUES (143, 'Sistema de emergencia ', 5);
-INSERT INTO tblrequirements VALUES (144, 'Sistema de protección contra rayos ', 5);
-INSERT INTO tblrequirements VALUES (145, 'Valores de campos Electromagnéticos ', 5);
-INSERT INTO tblrequirements VALUES (146, 'Memorias de cálculo', 6);
-INSERT INTO tblrequirements VALUES (147, 'Determinación de clases de iluminación', 6);
-INSERT INTO tblrequirements VALUES (148, 'Selección de las fuentes luminosas (IRC, vida útil) y compatibilidad con luminarias y ambiente de instalación (IP, IK, FHS)', 6);
-INSERT INTO tblrequirements VALUES (149, 'Información fotométrica de las luminarias utilizadas certificada (Matriz de intensidades, Curvas o Coeficientes de Utilización).', 6);
-INSERT INTO tblrequirements VALUES (150, 'Validación de software de diseño', 6);
-INSERT INTO tblrequirements VALUES (151, 'Cálculo manual ( alcance, parámetros incluidos y supuestos realizados )', 6);
-INSERT INTO tblrequirements VALUES (152, 'Cumplimiento de los parámetros de diseño establecidos en el RETILAP', 6);
-INSERT INTO tblrequirements VALUES (153, 'Resultados del diseño - Factor de uniformidad longitudinal UL', 6);
-INSERT INTO tblrequirements VALUES (154, 'Resultados del diseño - Relación de alrededores (SR)', 6);
-INSERT INTO tblrequirements VALUES (155, 'Resultados del diseño - Iluminancia promedio mínima mantenida (luxes)', 6);
-INSERT INTO tblrequirements VALUES (156, 'Resultados del diseño - Coeficiente de uniformidad de iluminancias', 6);
-INSERT INTO tblrequirements VALUES (157, 'Resultados del diseño - Iluminancia horizontal promedio (luxes)', 6);
-INSERT INTO tblrequirements VALUES (158, 'Resultados del diseño - Luminancia promedio (cd/m2)', 6);
-INSERT INTO tblrequirements VALUES (159, 'Resultados del diseño - Factor de uniformidad general Uo', 6);
-INSERT INTO tblrequirements VALUES (160, 'Resultados del diseño - Incremento de umbral TI (%)', 6);
-INSERT INTO tblrequirements VALUES (161, 'Determinación del factor de mantenimiento de la instalación de alumbrado', 6);
-INSERT INTO tblrequirements VALUES (162, 'Esquema de mantenimiento disponible al operador o propietario', 6);
-INSERT INTO tblrequirements VALUES (163, 'Planos del proyecto de alumbrado aprobados por responsable de la prestación del servicio de alumbrado', 6);
-INSERT INTO tblrequirements VALUES (164, 'Accesibilidad a todos los dispositivos de control de luminarias', 6);
-INSERT INTO tblrequirements VALUES (165, 'Mediciones fotométricas sistema de Alumbrado (a las 100 horas de funcionamiento) - Coeficiente de uniformidad de iluminancias', 6);
-INSERT INTO tblrequirements VALUES (166, 'Mediciones fotométricas sistema de Alumbrado (a las 100 horas de funcionamiento) - Iluminancia promedio (luxes)', 6);
-INSERT INTO tblrequirements VALUES (167, 'Control de iluminación de exteriores (Incluye avisos)', 6);
-INSERT INTO tblrequirements VALUES (168, 'Cumplimiento de los valores ofrecidos en el diseño', 6);
-INSERT INTO tblrequirements VALUES (169, 'Cumplimiento de Valores de Densidad de Potencia de la instalación (DPEA)', 6);
-INSERT INTO tblrequirements VALUES (170, 'Sistema de control automático (fotocontroles) de alumbrado Público (Ensayos funcionales)', 6);
-INSERT INTO tblrequirements VALUES (171, 'Puesta a tierra de carcasas de luminarias', 6);
-INSERT INTO tblrequirements VALUES (172, 'Revisión de certificados de conformidad de productos de iluminación', 6);
-INSERT INTO tblrequirements VALUES (173, 'Certificación de instalaciones eléctricas con RETIE', 6);
-INSERT INTO tblrequirements VALUES (174, 'Memorias de cálculo', 7);
-INSERT INTO tblrequirements VALUES (175, 'Estudio y aplicación del Índice de Contribución de Luz Diurna (CLD)', 7);
-INSERT INTO tblrequirements VALUES (176, 'Selección de las fuentes luminosas (IRC, vida útil) y compatibilidad con luminarias', 7);
-INSERT INTO tblrequirements VALUES (177, 'Información fotométrica de las luminarias utilizadas certificada (Matriz de intensidades, Curvas o Coeficientes de Utilización)', 7);
-INSERT INTO tblrequirements VALUES (178, 'Validación de software de diseño', 7);
-INSERT INTO tblrequirements VALUES (179, 'Cálculo manual ( alcance, parámetros incluidos y supuestos realizados )', 7);
-INSERT INTO tblrequirements VALUES (180, 'Cumplimiento de los parámetros de diseño establecidos en el RETILAP', 7);
-INSERT INTO tblrequirements VALUES (181, 'Iluminancia horizontal promedio (luxes) resultado de diseño', 7);
-INSERT INTO tblrequirements VALUES (182, 'Coeficiente de uniformidad de iluminancias resultado de diseño', 7);
-INSERT INTO tblrequirements VALUES (183, 'Índice de deslumbramiento unificado (UGR) resultado de diseño', 7);
-INSERT INTO tblrequirements VALUES (184, 'Factor de mantenimiento de la instalación de alumbrado', 7);
-INSERT INTO tblrequirements VALUES (185, 'Esquema de mantenimiento disponible al operador o propietario', 7);
-INSERT INTO tblrequirements VALUES (186, 'Accesibilidad a todos los dispositivos de control de luminarias', 7);
-INSERT INTO tblrequirements VALUES (187, 'Mediciones fotométricas del sistema de iluminación general - Coeficiente de uniformidad de iluminancias', 7);
-INSERT INTO tblrequirements VALUES (188, 'Mediciones fotométricas del sistema de iluminación general - Iluminancia horizontal promedio (Luxes)', 7);
-INSERT INTO tblrequirements VALUES (189, 'Mediciones fotométricas en los puestos de trabajo - Coeficiente de uniformidad de iluminancias', 7);
-INSERT INTO tblrequirements VALUES (190, 'Mediciones fotométricas en los puestos de trabajo - Iluminancia promedio (Luxes)', 7);
-INSERT INTO tblrequirements VALUES (191, 'Cumplimiento de los valores ofrecidos en el diseño', 7);
-INSERT INTO tblrequirements VALUES (192, 'Cumplimiento de Valores de eficiencia energética de la instalación (VEEI)', 7);
-INSERT INTO tblrequirements VALUES (193, 'Sistema de alumbrado de emergencia', 7);
-INSERT INTO tblrequirements VALUES (194, 'Puesta a tierra de carcasas de luminarias', 7);
-INSERT INTO tblrequirements VALUES (195, 'Revisión de certificados de conformidad de productos de iluminación', 7);
-INSERT INTO tblrequirements VALUES (196, 'Certificación de instalaciones eléctricas con RETIE', 7);
+INSERT INTO tblREQUIREMENTS VALUES (1, 'Independencia constructiva de las edificaciones', 1);
+INSERT INTO tblREQUIREMENTS VALUES (2, 'Matriales acordes con las condiciones ambientales', 1);
+INSERT INTO tblREQUIREMENTS VALUES (3, 'Soportabilida al fuego de materiales', 1);
+INSERT INTO tblREQUIREMENTS VALUES (4, 'Disposición de mimicos', 1);
+INSERT INTO tblREQUIREMENTS VALUES (5, 'Maniobrabilidad, señalización y sistema de alarma sonoro de puente gruas', 1);
+INSERT INTO tblREQUIREMENTS VALUES (6, 'Instalación de sistema de control automatico y manual para compuertas de captación de la central hidraulica', 1);
+INSERT INTO tblREQUIREMENTS VALUES (7, 'Señalización Aeronautica', 1);
+INSERT INTO tblREQUIREMENTS VALUES (8, 'Restricciones en cuarto de bateria', 1);
+INSERT INTO tblREQUIREMENTS VALUES (9, 'Sistemas de protección contra incendios', 1);
+INSERT INTO tblREQUIREMENTS VALUES (10, 'Conductores eléctricos', 1);
+INSERT INTO tblREQUIREMENTS VALUES (11, 'Niveles de iluminancia', 1);
+INSERT INTO tblREQUIREMENTS VALUES (12, 'Sistemas de alumbrado de emergencia', 1);
+INSERT INTO tblREQUIREMENTS VALUES (13, 'Memorias de calculo', 1);
+INSERT INTO tblREQUIREMENTS VALUES (14, 'Disositivos deseccionaiento y mando', 1);
+INSERT INTO tblREQUIREMENTS VALUES (15, 'Avisos y señales de seguridad', 1);
+INSERT INTO tblREQUIREMENTS VALUES (16, 'Distancias de seguridad', 1);
+INSERT INTO tblREQUIREMENTS VALUES (17, 'Ejecución de las conexiones', 1);
+INSERT INTO tblREQUIREMENTS VALUES (18, 'Barreras de Acceso', 1);
+INSERT INTO tblREQUIREMENTS VALUES (19, 'Campos electromagneticos en areas de trabajo permanente', 1);
+INSERT INTO tblREQUIREMENTS VALUES (20, 'Continuidad delos conductores de tierra y conexiones equipotenciales', 1);
+INSERT INTO tblREQUIREMENTS VALUES (21, 'Planos, esquemas y diagramas', 1);
+INSERT INTO tblREQUIREMENTS VALUES (22, 'Funconamieto del corte automatico de la alimentación', 1);
+INSERT INTO tblREQUIREMENTS VALUES (23, 'Encerramientos de equipos (mallas, cuartos y bóvedas)', 1);
+INSERT INTO tblREQUIREMENTS VALUES (24, 'Protección contra rayos', 1);
+INSERT INTO tblREQUIREMENTS VALUES (25, 'Protección contra arcos internos', 1);
+INSERT INTO tblREQUIREMENTS VALUES (26, 'Resistencia de puesta a tierra _RSPT', 1);
+INSERT INTO tblREQUIREMENTS VALUES (27, 'Revisones de certificaciones de prducto', 1);
+INSERT INTO tblREQUIREMENTS VALUES (28, 'Seleccón de dispositivos de protección contra sobrecorrientes', 1);
+INSERT INTO tblREQUIREMENTS VALUES (29, 'Seleccón de dispositivos de protección contra sobretensiones', 1);
+INSERT INTO tblREQUIREMENTS VALUES (30, 'Tiepo de respuesta de protecciones para despeje de fallas', 1);
+INSERT INTO tblREQUIREMENTS VALUES (31, 'Ventilación', 1);
+INSERT INTO tblREQUIREMENTS VALUES (32, 'Tensiones de paso, cntacto y transferidas', 1);
+INSERT INTO tblREQUIREMENTS VALUES (33, 'Verificación detensiones de paso, contacto y transferidas', 1);
+INSERT INTO tblREQUIREMENTS VALUES (34, 'Aisladores', 2);
+INSERT INTO tblREQUIREMENTS VALUES (35, 'Aislamiento', 2);
+INSERT INTO tblREQUIREMENTS VALUES (36, 'Avisos y Señales de seguridad', 2);
+INSERT INTO tblREQUIREMENTS VALUES (37, 'Campos electromagnéticos', 2);
+INSERT INTO tblREQUIREMENTS VALUES (38, 'Condiciones de diseño de estructuras y herrajes', 2);
+INSERT INTO tblREQUIREMENTS VALUES (39, 'Conductores', 2);
+INSERT INTO tblREQUIREMENTS VALUES (40, 'Dispositivos de seccionamiento y mando', 2);
+INSERT INTO tblREQUIREMENTS VALUES (41, 'Distancias de seguridad', 2);
+INSERT INTO tblREQUIREMENTS VALUES (42, 'Ejecución de las conexiones', 2);
+INSERT INTO tblREQUIREMENTS VALUES (43, 'Ensayos funcionales', 2);
+INSERT INTO tblREQUIREMENTS VALUES (44, 'Estructuras acorde con los requerimientos mecánicos', 2);
+INSERT INTO tblREQUIREMENTS VALUES (45, 'Franja de servidumbre', 2);
+INSERT INTO tblREQUIREMENTS VALUES (46, 'Funcionamiento del corte automático de la alimentación', 2);
+INSERT INTO tblREQUIREMENTS VALUES (47, 'Materiales acordes con las condiciones ambientales', 2);
+INSERT INTO tblREQUIREMENTS VALUES (48, 'Memorias de cálculo', 2);
+INSERT INTO tblREQUIREMENTS VALUES (49, 'Planos, esquemas y diagramas', 2);
+INSERT INTO tblREQUIREMENTS VALUES (50, 'Protección contra la corrosión', 2);
+INSERT INTO tblREQUIREMENTS VALUES (51, 'Resistencia de puesta a tierra _RSPT', 2);
+INSERT INTO tblREQUIREMENTS VALUES (52, 'Revisión de certificaciones de productos', 2);
+INSERT INTO tblREQUIREMENTS VALUES (53, 'Selección de conductores', 2);
+INSERT INTO tblREQUIREMENTS VALUES (54, 'Selección de dispositivos de protección contra sobrecorrientes', 2);
+INSERT INTO tblREQUIREMENTS VALUES (55, 'Selección de dispositivos de protección contra sobretensiones', 2);
+INSERT INTO tblREQUIREMENTS VALUES (56, 'Señales de aeronavegación', 2);
+INSERT INTO tblREQUIREMENTS VALUES (57, 'Tensiones de paso y de contacto', 2);
+INSERT INTO tblREQUIREMENTS VALUES (58, 'Verificación de Tensiones de paso, contacto y transferidas', 2);
+INSERT INTO tblREQUIREMENTS VALUES (59, 'Zona de servidumbre', 2);
+INSERT INTO tblREQUIREMENTS VALUES (60, 'Accesibilidad a todos los dispositivos de protección ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (61, 'Avisos y señales de seguridad', 3);
+INSERT INTO tblREQUIREMENTS VALUES (62, 'Barreras de acceso ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (63, 'Campos electromagnéticos en áreas de trabajo permanente ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (64, 'Continuidad de los conductores de tierra y conexiones equipotenciales ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (65, 'Corriente en el sistema puesta a tierra.', 3);
+INSERT INTO tblREQUIREMENTS VALUES (66, 'Dispositivo de seccionamiento y mando. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (67, 'Distancias de seguridad ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (68, 'Ejecución de las conexiones.', 3);
+INSERT INTO tblREQUIREMENTS VALUES (69, 'Encerramientos de equipos (mallas, cuartos, bóvedas) ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (70, 'Enclavamientos ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (71, 'Ensayos dieléctricos ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (72, 'Equipotencialidad ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (73, 'Estructuras y herrajes', 3);
+INSERT INTO tblREQUIREMENTS VALUES (74, 'Identificación de circuitos, conductores de neutro y de tierras. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (75, 'Materiales acordes con las condiciones ambientales ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (76, 'Memorias de cálculo ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (77, 'Mímicos ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (78, 'Montaje ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (79, 'Planos, esquemas y diagramas ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (80, 'Protección contra arcos internos ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (81, 'Protección contra electrocución por contacto directo. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (82, 'Protección contra electrocución por contacto indirecto. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (83, 'Protección contra rayos ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (84, 'Resistencia de puesta a tierra. _RSPT', 3);
+INSERT INTO tblREQUIREMENTS VALUES (85, 'Resistencia de aislamiento. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (86, 'Revisiones de certificaciones de producto.', 3);
+INSERT INTO tblREQUIREMENTS VALUES (87, 'Selección de conductores ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (88, 'Selección de dispositivos de protección contra sobrecorrientes. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (89, 'Selección de dispositivos de protección contra sobretensiones. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (90, 'Sistema contra incendio ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (91, 'Soportabilidad al fuego de materiales ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (92, 'Tensión de contacto y transferida ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (93, 'Tensión de paso. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (94, 'Tiempo de respuesta de protecciones para despeje de fallas. ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (95, 'Ventilación ', 3);
+INSERT INTO tblREQUIREMENTS VALUES (96, 'Verificación de tensiones de paso, contacto y transferidas', 3);
+INSERT INTO tblREQUIREMENTS VALUES (97, 'Accesibilidad a todos los dispositivos de protección ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (98, 'Apoyos o estructuras ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (99, 'Avisos y señales de seguridad ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (100, 'Cámaras y canalizaciones adecuadas ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (101, 'Dispositivos de seccionamiento y mando ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (102, 'Distancias de seguridad ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (103, 'Ejecución de las conexiones.', 4);
+INSERT INTO tblREQUIREMENTS VALUES (104, 'Funcionamiento del corte automático de la alimentación ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (105, 'Herrajes ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (106, 'Identificación de circuitos', 4);
+INSERT INTO tblREQUIREMENTS VALUES (107, 'Materiales acordes con las condiciones ambientales ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (108, 'Memorias de cálculo ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (109, 'Planos, esquemas y diagramas ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (110, 'Protección contra la corrosión ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (111, 'Resistencia de puesta a tierra. RSPT', 4);
+INSERT INTO tblREQUIREMENTS VALUES (112, 'Resistencia de aislamiento. ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (113, 'Revisión de certificaciones de productos ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (114, 'Selección de conductores ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (115, 'Selección de dispositivos de protección contra sobrecorrientes. ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (116, 'Selección de dispositivos de protección contra sobretensiones. ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (117, 'Tensiones de paso, contacto y transferidas ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (118, 'Valores de Campo Electromagnéticos. ', 4);
+INSERT INTO tblREQUIREMENTS VALUES (119, 'Accesibilidad a todos los dispositivos de protección ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (120, 'Bomba contra incendio ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (121, 'Continuidad de los conductores de tierra y conexiones equipotenciales ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (122, 'Corrientes en el sistema de puesta a tierra ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (123, 'Distancias de seguridad ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (124, 'Ejecución de las conexiones ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (125, 'Ensayos funcionales ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (126, 'Existencia de planos, esquema, aviso y señales ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (127, 'Funcionamiento del corte automático de la alimentación ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (128, 'Identificación de canalizaciones ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (129, 'Identificación de circuitos ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (130, 'Identificación de conductores de fase, neutro y tierras ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (131, 'Materiales acordes con las condiciones ambientales ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (132, 'Memorias de cálculo ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (133, 'Niveles de iluminación  ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (134, 'Protección contra arcos internos ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (135, 'Protección contra electrocución por contacto directo ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (136, 'Protección contra electrocución por contacto indirecto ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (137, 'Resistencia de aislamiento ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (138, 'Resistencia de puesta a tierra _RSPT', 5);
+INSERT INTO tblREQUIREMENTS VALUES (139, 'Revisiones de certificaciones de producto ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (140, 'Selección de conductores ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (141, 'Selección de dispositivos de protección contra sobrecorrientes ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (142, 'Selección de dispositivos de protección contra sobretensiones ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (143, 'Sistema de emergencia ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (144, 'Sistema de protección contra rayos ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (145, 'Valores de campos Electromagnéticos ', 5);
+INSERT INTO tblREQUIREMENTS VALUES (146, 'Memorias de cálculo', 6);
+INSERT INTO tblREQUIREMENTS VALUES (147, 'Determinación de clases de iluminación', 6);
+INSERT INTO tblREQUIREMENTS VALUES (148, 'Selección de las fuentes luminosas (IRC, vida útil) y compatibilidad con luminarias y ambiente de instalación (IP, IK, FHS)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (149, 'Información fotométrica de las luminarias utilizadas certificada (Matriz de intensidades, Curvas o Coeficientes de Utilización).', 6);
+INSERT INTO tblREQUIREMENTS VALUES (150, 'Validación de software de diseño', 6);
+INSERT INTO tblREQUIREMENTS VALUES (151, 'Cálculo manual ( alcance, parámetros incluidos y supuestos realizados )', 6);
+INSERT INTO tblREQUIREMENTS VALUES (152, 'Cumplimiento de los parámetros de diseño establecidos en el RETILAP', 6);
+INSERT INTO tblREQUIREMENTS VALUES (153, 'Resultados del diseño - Factor de uniformidad longitudinal UL', 6);
+INSERT INTO tblREQUIREMENTS VALUES (154, 'Resultados del diseño - Relación de alrededores (SR)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (155, 'Resultados del diseño - Iluminancia promedio mínima mantenida (luxes)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (156, 'Resultados del diseño - Coeficiente de uniformidad de iluminancias', 6);
+INSERT INTO tblREQUIREMENTS VALUES (157, 'Resultados del diseño - Iluminancia horizontal promedio (luxes)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (158, 'Resultados del diseño - Luminancia promedio (cd/m2)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (159, 'Resultados del diseño - Factor de uniformidad general Uo', 6);
+INSERT INTO tblREQUIREMENTS VALUES (160, 'Resultados del diseño - Incremento de umbral TI (%)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (161, 'Determinación del factor de mantenimiento de la instalación de alumbrado', 6);
+INSERT INTO tblREQUIREMENTS VALUES (162, 'Esquema de mantenimiento disponible al operador o propietario', 6);
+INSERT INTO tblREQUIREMENTS VALUES (163, 'Planos del proyecto de alumbrado aprobados por responsable de la prestación del servicio de alumbrado', 6);
+INSERT INTO tblREQUIREMENTS VALUES (164, 'Accesibilidad a todos los dispositivos de control de luminarias', 6);
+INSERT INTO tblREQUIREMENTS VALUES (165, 'Mediciones fotométricas sistema de Alumbrado (a las 100 horas de funcionamiento) - Coeficiente de uniformidad de iluminancias', 6);
+INSERT INTO tblREQUIREMENTS VALUES (166, 'Mediciones fotométricas sistema de Alumbrado (a las 100 horas de funcionamiento) - Iluminancia promedio (luxes)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (167, 'Control de iluminación de exteriores (Incluye avisos)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (168, 'Cumplimiento de los valores ofrecidos en el diseño', 6);
+INSERT INTO tblREQUIREMENTS VALUES (169, 'Cumplimiento de Valores de Densidad de Potencia de la instalación (DPEA)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (170, 'Sistema de control automático (fotocontroles) de alumbrado Público (Ensayos funcionales)', 6);
+INSERT INTO tblREQUIREMENTS VALUES (171, 'Puesta a tierra de carcasas de luminarias', 6);
+INSERT INTO tblREQUIREMENTS VALUES (172, 'Revisión de certificados de conformidad de productos de iluminación', 6);
+INSERT INTO tblREQUIREMENTS VALUES (173, 'Certificación de instalaciones eléctricas con RETIE', 6);
+INSERT INTO tblREQUIREMENTS VALUES (174, 'Memorias de cálculo', 7);
+INSERT INTO tblREQUIREMENTS VALUES (175, 'Estudio y aplicación del Índice de Contribución de Luz Diurna (CLD)', 7);
+INSERT INTO tblREQUIREMENTS VALUES (176, 'Selección de las fuentes luminosas (IRC, vida útil) y compatibilidad con luminarias', 7);
+INSERT INTO tblREQUIREMENTS VALUES (177, 'Información fotométrica de las luminarias utilizadas certificada (Matriz de intensidades, Curvas o Coeficientes de Utilización)', 7);
+INSERT INTO tblREQUIREMENTS VALUES (178, 'Validación de software de diseño', 7);
+INSERT INTO tblREQUIREMENTS VALUES (179, 'Cálculo manual ( alcance, parámetros incluidos y supuestos realizados )', 7);
+INSERT INTO tblREQUIREMENTS VALUES (180, 'Cumplimiento de los parámetros de diseño establecidos en el RETILAP', 7);
+INSERT INTO tblREQUIREMENTS VALUES (181, 'Iluminancia horizontal promedio (luxes) resultado de diseño', 7);
+INSERT INTO tblREQUIREMENTS VALUES (182, 'Coeficiente de uniformidad de iluminancias resultado de diseño', 7);
+INSERT INTO tblREQUIREMENTS VALUES (183, 'Índice de deslumbramiento unificado (UGR) resultado de diseño', 7);
+INSERT INTO tblREQUIREMENTS VALUES (184, 'Factor de mantenimiento de la instalación de alumbrado', 7);
+INSERT INTO tblREQUIREMENTS VALUES (185, 'Esquema de mantenimiento disponible al operador o propietario', 7);
+INSERT INTO tblREQUIREMENTS VALUES (186, 'Accesibilidad a todos los dispositivos de control de luminarias', 7);
+INSERT INTO tblREQUIREMENTS VALUES (187, 'Mediciones fotométricas del sistema de iluminación general - Coeficiente de uniformidad de iluminancias', 7);
+INSERT INTO tblREQUIREMENTS VALUES (188, 'Mediciones fotométricas del sistema de iluminación general - Iluminancia horizontal promedio (Luxes)', 7);
+INSERT INTO tblREQUIREMENTS VALUES (189, 'Mediciones fotométricas en los puestos de trabajo - Coeficiente de uniformidad de iluminancias', 7);
+INSERT INTO tblREQUIREMENTS VALUES (190, 'Mediciones fotométricas en los puestos de trabajo - Iluminancia promedio (Luxes)', 7);
+INSERT INTO tblREQUIREMENTS VALUES (191, 'Cumplimiento de los valores ofrecidos en el diseño', 7);
+INSERT INTO tblREQUIREMENTS VALUES (192, 'Cumplimiento de Valores de eficiencia energética de la instalación (VEEI)', 7);
+INSERT INTO tblREQUIREMENTS VALUES (193, 'Sistema de alumbrado de emergencia', 7);
+INSERT INTO tblREQUIREMENTS VALUES (194, 'Puesta a tierra de carcasas de luminarias', 7);
+INSERT INTO tblREQUIREMENTS VALUES (195, 'Revisión de certificados de conformidad de productos de iluminación', 7);
+INSERT INTO tblREQUIREMENTS VALUES (196, 'Certificación de instalaciones eléctricas con RETIE', 7);
 
-insert into tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, quot_mail, quot_cel, quot_tel, quot_inspect_type, thrd_id, city_id, use_id) 
-	    values ('2012-05-15', 'Edificio las Camelias', 'Acometida e instalaciones interiores', 'Jacinto Tocaima','Av 15, Transv 80','lilola@hotmail.com','3134324566','8632345','RETIE',1,1,1);
-insert into tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, quot_mail, quot_cel, quot_tel, quot_inspect_type, thrd_id, city_id, use_id) 
-	    values ('2012-05-20', 'Centro Comercial La Aurora', 'Subestación tipo poste y Tablero general', 'Lazaro Buenavida','Cra 7ª Nº33-12','truchocarucho@gmail.com','','5602345','RETIE',2,50,2);
-insert into tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, quot_mail, quot_cel, quot_tel, quot_inspect_type, thrd_id, city_id, use_id) 
-	    values ('2012-05-21', 'Acerías Ternium', 'Caldera con Cogeneración', 'Rogelio Pataquiva','Kilómetro 15 autopista del café','ingenieria@ternium.com','3004256060','2603456','RETIE',3,100,3);
-insert into tblQUOTATIONS (quot_date, quot_name, quot_scope, quot_contact, quot_address, quot_mail, quot_cel, quot_tel, quot_inspect_type, thrd_id, city_id, use_id) 
-	    values ('2012-08-22', 'Cicolsa', 'Transformador de Potencia', 'Rodrigo Lara Bonilla','Kilómetro 1 vía bogotá','comercial@cicolsa.com','3104256060','8743456','RETIE',3,2,2);
+insert into tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, city_id) 
+	    values('111111','Constructora Mejía S.A','Aurelio Cheverony', 'Cra 7ª Nº 3-21', 'aurelito@gmail.com', '3209874532', '8765432', 1);
+insert into tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, city_id)
+            values('222222','Ingelectricos del Norte','Marino Gomez', 'Av 34 Cll 24', 'marinillo@gmail.com', '3087654234', '2578987', 126);
+insert into tblTHIRDPARTIES (thrd_nit, thrd_name, thrd_representative, thrd_address, thrd_mail, thrd_cel, thrd_tel, city_id)
+            values('333333','Ingeniería Robitech','Alfonso Medina', 'Transv 80 Cra 25', 'gerencia@ingrobitech.com', '3004569887', '4563421', 350);
+
+insert into tblQUOTATIONS (quot_date, quot_name, quot_address, city_id, quot_contact, quot_cel, quot_mail, quot_inspect_type, use_id, quot_voltage_level, quot_capacity, quot_phases, quot_project_area, quot_area_type, quot_network_type, quot_network_long, quot_boxes, quot_scope, thrd_id) 
+	    values ('2012-05-15', 'Edificio las Camelias', 'Av 15, Transv 80', 1, 'Jacinto Tocaima', '3134324566', 'lilola@hotmail.com', 'RETIE', 1, 1, 150, 3, 2500, 1, 2, 450, 20, 'Acometida e instalaciones interiores', 1);
+insert into tblQUOTATIONS (quot_date, quot_name, quot_address, city_id, quot_contact, quot_cel, quot_mail, quot_inspect_type, use_id, quot_voltage_level, quot_capacity, quot_phases, quot_project_area, quot_area_type, quot_network_type, quot_network_long, quot_boxes, quot_scope, thrd_id) 
+	    values ('2012-05-20', 'Centro Comercial La Aurora', 'Cra 7ª Nº33-12', 4, 'Lazaro Buenavida', '5602345', 'truchocarucho@gmail.com', 'RETIE', 2, 1, 75, 3, 13500, 1, 1, 600, 35, 'Acometida aérea, subestación tipo poste y Tablero general', 2);
+insert into tblQUOTATIONS (quot_date, quot_name, quot_address, city_id, quot_contact, quot_cel, quot_mail, quot_inspect_type, use_id, quot_voltage_level, quot_capacity, quot_phases, quot_project_area, quot_area_type, quot_network_type, quot_network_long, quot_boxes, quot_scope, thrd_id) 
+	    values ('2012-06-21', 'Acerías Ternium', 'Kilómetro 15 autopista del café', 200, 'Rogelio Pataquiva', '3004256060', 'ingenieria@ternium.com', 'RETIE', 3, 2, 1500, 3, 6500, 3, 3, 350, 60, 'Caldera con Cogeneración', 3);
+insert into tblQUOTATIONS (quot_date, quot_name, quot_address, city_id, quot_contact, quot_cel, quot_mail, quot_inspect_type, use_id, quot_voltage_level, quot_capacity, quot_phases, quot_project_area, quot_area_type, quot_network_type, quot_network_long, quot_boxes, quot_scope, thrd_id) 
+	    values ('2012-06-22', 'Acerías Ternium', 'Kilómetro 15 autopista del café', 500, 'Hernando Martelo', '3204526987', 'proyectos@ternium.com', 'RETIE', 3, 2, 1000, 3, 250, 3, 2, 50, 10, 'Horno de arco eléctrico', 3);
 	    
 insert into tblQUOTPROCESSES (quot_id, process_id) values (1,4);
 insert into tblQUOTPROCESSES (quot_id, process_id) values (2,2);
@@ -2527,35 +1565,35 @@ insert into tblQUOTPROCESSES (quot_id, process_id) values (2,4);
 insert into tblQUOTPROCESSES (quot_id, process_id) values (3,1);
 insert into tblQUOTPROCESSES (quot_id, process_id) values (4,3);
 	
-insert into tblPROPOSALS (prop_date, prop_scope, prop_value, prop_iva, prop_viatical, prop_total_value, prop_payway, prop_state, prop_user_perc, quot_id, user_id) 
-	    values ('2012-05-16', 'Acometida e instalaciones interiores', 300000, 48000, 60000, 408000, '50% - 50%', 'Aprobada', 0.15, 1, 2);
-insert into tblPROPOSALS (prop_date, prop_scope, prop_value, prop_iva, prop_viatical, prop_total_value, prop_payway, prop_state, prop_user_perc, quot_id, user_id) 
-	    values ('2012-05-21', 'Subestación tipo poste y Tablero general', 1200000, 192000, 50000, 1442000, '100%', 'Aprobada', 0.2, 2, 3);
-insert into tblPROPOSALS (prop_date, prop_scope, prop_value, prop_iva, prop_viatical, prop_total_value, prop_payway, prop_state,  prop_user_perc, quot_id, user_id) 
-	    values ('2012-05-23','Caldera con Cogeneración', 3000000, 480000, 600000, 4080000, 'A Convenir', 'Aprobada', 0.25, 3, 2);
+insert into tblPROPOSALS (prop_date, prop_scope, prop_value, prop_iva, prop_viatical, prop_total_value, user_id, prop_user_perc, prop_payway, prop_approval, prop_observ, quot_id) 
+	    values ('2012-05-16', 'Acometida e instalaciones interiores', 300000, 48000, 60000, 408000, 2, 0.15, '50% - 50%', 'Aprobada', 'Sin observaciones', 1);
+insert into tblPROPOSALS (prop_date, prop_scope, prop_value, prop_iva, prop_viatical, prop_total_value, user_id, prop_user_perc, prop_payway, prop_approval, prop_observ, quot_id) 
+	    values ('2012-05-21', 'Subestación tipo poste y Tablero general', 1200000, 192000, 50000, 1442000, 3, 0.2, '100%', 'Aprobada', 'Acordar estadía', 2);
+insert into tblPROPOSALS (prop_date, prop_scope, prop_value, prop_iva, prop_viatical, prop_total_value, user_id, prop_user_perc, prop_payway, prop_approval, prop_observ, quot_id) 
+	    values ('2012-05-23','Caldera con Cogeneración', 3000000, 480000, 600000, 4080000, 4, 0.25, 'A Convenir', 'Aprobada', 'Solicitar EPP adicionales', 3);
 	    
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (10000 + date_part('year', now()), 1);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (10000 + date_part('year', now()), 2);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (10000 + date_part('year', now()), 3);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (10000 + date_part('year', now()), 4);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (10000 + date_part('year', now()), 16);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (1, 1);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (1, 2);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (1, 3);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (1, 4);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (1, 16);
 
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (20000 + date_part('year', now()), 5);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (20000 + date_part('year', now()), 7);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (20000 + date_part('year', now()), 8);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (20000 + date_part('year', now()), 9);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (20000 + date_part('year', now()), 10);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (20000 + date_part('year', now()), 11);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (20000 + date_part('year', now()), 12);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (2, 5);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (2, 7);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (2, 8);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (2, 9);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (2, 10);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (2, 11);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (2, 12);
 
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 1);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 2);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 5);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 8);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 10);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 12);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 14);
-insert into tblPROPDOCUMENTS (prop_id, document_id) values (30000 + date_part('year', now()), 15);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 1);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 2);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 5);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 8);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 10);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 12);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 14);
+insert into tblPROPDOCUMENTS (prop_id, document_id) values (3, 15);
 	    	    
 insert into tblRECORDS (record_foil) values ('Sin Archivar');
 insert into tblRECORDS (record_foil) values ('AZ100');
@@ -2563,58 +1601,58 @@ insert into tblRECORDS (record_foil) values ('AZ101');
 insert into tblRECORDS (record_foil) values ('AZ202');
 
 insert into tblSERVICEORDERS (so_date, so_scope, so_observations, so_acc_processed, so_doc_processed, so_eng_processed, so_inspector_perc, so_assign_date, inspector_id, prop_id) 
-values ('2012-05-18', 'Acometida e instalaciones interiores', 'No se observan anomalías', 'Sin Procesar', 'Revisada', 'Sin Procesar', 0.25, '2012-11-18', 7, 10000 + date_part('year', now()));
+values ('2012-05-18', 'Acometida e instalaciones interiores', 'No se observan anomalías', 'Sin Procesar', 'Revisada', 'Sin Procesar', 0.25, '2012-11-18', 7, 1);
 insert into tblSERVICEORDERS (so_date, so_scope, so_observations, so_acc_processed, so_doc_processed, so_eng_processed, so_inspector_perc, so_assign_date, inspector_id, prop_id) 
-values ('2012-06-22', 'Subestación tipo poste y Tablero general', 'No se observan anomalías', 'Sin Procesar', 'Sin Procesar', 'Sin Procesar', 0.23, '2012-11-20', 12,  20000 + date_part('year', now()));
+values ('2012-06-22', 'Subestación tipo poste y Tablero general', 'No se observan anomalías', 'Sin Procesar', 'Sin Procesar', 'Sin Procesar', 0.23, '2012-11-20', 12,  2);
 insert into tblSERVICEORDERS (so_date, so_scope, so_observations, so_acc_processed, so_doc_processed, so_eng_processed, so_inspector_perc, so_assign_date, inspector_id, prop_id) 
-values ('2012-07-26', 'Caldera con Cogeneración', 'No se observan anomalías', 'Sin Procesar', 'Sin Procesar', 'Sin Procesar', 0.20, '2012-12-19', 3, 30000 + date_part('year', now()));
+values ('2012-07-26', 'Caldera con Cogeneración', 'No se observan anomalías', 'Sin Procesar', 'Sin Procesar', 'Sin Procesar', 0.20, '2012-12-19', 3, 3);
 
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 23);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 24);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 25);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 26);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 27);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 28);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 29);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 30);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 31);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 32);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 33);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 34);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 35);
-insert into tblSODOCUMENTS (so_id, document_id) values (10000 + date_part('year', now()), 36);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 23);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 24);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 25);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 26);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 27);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 28);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 29);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 30);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 31);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 32);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 33);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 34);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 35);
+insert into tblSODOCUMENTS (so_id, document_id) values (1, 36);
 
-insert into tblSODOCUMENTS (so_id, document_id) values (20000 + date_part('year', now()), 23);
-insert into tblSODOCUMENTS (so_id, document_id) values (20000 + date_part('year', now()), 24);
-insert into tblSODOCUMENTS (so_id, document_id) values (20000 + date_part('year', now()), 25);
-insert into tblSODOCUMENTS (so_id, document_id) values (20000 + date_part('year', now()), 28);
-insert into tblSODOCUMENTS (so_id, document_id) values (20000 + date_part('year', now()), 30);
-insert into tblSODOCUMENTS (so_id, document_id) values (20000 + date_part('year', now()), 31);
+insert into tblSODOCUMENTS (so_id, document_id) values (2, 23);
+insert into tblSODOCUMENTS (so_id, document_id) values (2, 24);
+insert into tblSODOCUMENTS (so_id, document_id) values (2, 25);
+insert into tblSODOCUMENTS (so_id, document_id) values (2, 28);
+insert into tblSODOCUMENTS (so_id, document_id) values (2, 30);
+insert into tblSODOCUMENTS (so_id, document_id) values (2, 31);
 
-insert into tblSODOCUMENTS (so_id, document_id) values (30000 + date_part('year', now()), 23);
-insert into tblSODOCUMENTS (so_id, document_id) values (30000 + date_part('year', now()), 24);
-insert into tblSODOCUMENTS (so_id, document_id) values (30000 + date_part('year', now()), 26);
-insert into tblSODOCUMENTS (so_id, document_id) values (30000 + date_part('year', now()), 29);
-insert into tblSODOCUMENTS (so_id, document_id) values (30000 + date_part('year', now()), 30);
-insert into tblSODOCUMENTS (so_id, document_id) values (30000 + date_part('year', now()), 32);
+insert into tblSODOCUMENTS (so_id, document_id) values (3, 23);
+insert into tblSODOCUMENTS (so_id, document_id) values (3, 24);
+insert into tblSODOCUMENTS (so_id, document_id) values (3, 26);
+insert into tblSODOCUMENTS (so_id, document_id) values (3, 29);
+insert into tblSODOCUMENTS (so_id, document_id) values (3, 30);
+insert into tblSODOCUMENTS (so_id, document_id) values (3, 32);
 
-insert into tblSORECORDS (so_id, record_id) values (10000 + date_part('year', now()), 2);
-insert into tblSORECORDS (so_id, record_id) values (10000 + date_part('year', now()), 3);
-insert into tblSORECORDS (so_id, record_id) values (20000 + date_part('year', now()), 2);
-insert into tblSORECORDS (so_id, record_id) values (30000 + date_part('year', now()), 2);
-insert into tblSORECORDS (so_id, record_id) values (30000 + date_part('year', now()), 3);
-insert into tblSORECORDS (so_id, record_id) values (30000 + date_part('year', now()), 4);
+insert into tblSORECORDS (so_id, record_id) values (1, 2);
+insert into tblSORECORDS (so_id, record_id) values (1, 3);
+insert into tblSORECORDS (so_id, record_id) values (2, 2);
+insert into tblSORECORDS (so_id, record_id) values (3, 2);
+insert into tblSORECORDS (so_id, record_id) values (3, 3);
+insert into tblSORECORDS (so_id, record_id) values (3, 4);
 
 insert into tblSOTRACKING (trck_receipt_date, trck_receiver_name, trck_shipping_date, trck_shipper_name, trck_shipping_name, 
 			  trck_shipping_company, trck_guide_number, trck_observations, city_id, so_id)
-values ('2012-07-26', 'Angelica Cristina Sierra', '2012-08-21', 'Leonardo Moreno', 'Envío Nacional', 'Envía', '111522525-3', 'Se envía Factura', 80, 10000 + date_part('year', now()));
+values ('2012-07-26', 'Angelica Cristina Sierra', '2012-08-21', 'Leonardo Moreno', 'Envío Nacional', 'Envía', '111522525-3', 'Se envía Factura', 80, 1);
   
 insert into tblMOVEMENTS (mov_date, mov_type, so_id, mov_value, mov_name, mov_nit, mov_documment, mov_observations)
-values ('2012-07-26T21:59:39', 'FACTURA', 10000 + date_part('year', now()), 50000, 'Constructora Mejía S.A', '111111', 'FC0000001', 'Pago de factura');
+values ('2012-07-26T21:59:39', 'FACTURA', 1, 50000, 'Constructora Mejía S.A', '111111', 'FC0000001', 'Pago de factura');
 insert into tblMOVEMENTS (mov_date, mov_type, so_id, mov_value, mov_name, mov_nit, mov_documment, mov_observations)
-values ('2012-07-26T20:29:31', 'PAGO INSPECTOR', 10000 + date_part('year', now()), 20000, 'Alex Dario Lasso Hidalgo', '91815338', 'RC0000001', 'Pago de inspector');
+values ('2012-07-26T20:29:31', 'PAGO INSPECTOR', 1, 20000, 'Alex Dario Lasso Hidalgo', '91815338', 'RC0000001', 'Pago de inspector');
 insert into tblMOVEMENTS (mov_date, mov_type, so_id, mov_value, mov_name, mov_nit, mov_documment, mov_observations)
-values ('2012-07-26T18:09:22', 'PAGO COMERCIAL', 10000 + date_part('year', now()), 30000, 'Leonardo Moreno', '21815238', 'RC0000001', 'Pago de comercial');
+values ('2012-07-26T18:09:22', 'PAGO COMERCIAL', 1, 30000, 'Leonardo Moreno', '21815238', 'RC0000001', 'Pago de comercial');
 
 insert into tblDESIGNERS(designer_name, designer_mp, designer_mail, designer_cel) 
 	    values ('No Aplica', 'No Aplica', '', '');
