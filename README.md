@@ -1,4 +1,4 @@
-BlockCheck RETIE es un proyecto privado de software para la gestión de organismos de inspección RETIE.
+BlockCheck RETIE es un proyecto de software para la gestión de organismos de inspección RETIE.
 
 Este desarrollo está hecho con el Framework Qt5, usando la licencia LGPL v3. Puede encontrar una copia de la licencia en: http://www.gnu.org/licenses/lgpl.html
 
